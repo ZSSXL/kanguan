@@ -1,8 +1,11 @@
-package com.zss.kanguan;
+package com.kanguan;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author ZSS
+ */
 @SpringBootApplication
 public class KanguanApplication {
 
