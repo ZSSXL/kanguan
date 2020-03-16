@@ -4,5 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kanguan.entity.po.Subscription">
+    <resultMap id="BaseResultMap" type="com.kanguan.entity.po.Subscription">
+        <id property="subId" column="sub_id"/>
+        <result property="name" column="name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        sub_id, name, create_time, update_time
+    </sql>
 
 </mapper>

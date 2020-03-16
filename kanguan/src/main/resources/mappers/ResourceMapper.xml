@@ -4,5 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kanguan.entity.po.Resource">
+    <resultMap id="BaseResultMap" type="com.kanguan.entity.po.Resource">
+        <id property="resourceId" column="resource_id"/>
+        <result property="bigness" column="bigness"/>
+        <result property="name" column="name"/>
+        <result property="downloadLink" column="download_link"/>
+        <result property="episode" column="episode"/>
+        <result property="format" column="format"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        resource_id, bigness, name, download_link, episode, format, create_time, update_time
+    </sql>
 
 </mapper>

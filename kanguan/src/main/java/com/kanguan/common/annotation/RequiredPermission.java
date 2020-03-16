@@ -1,0 +1,17 @@
+package com.kanguan.common.annotation;
+
+import java.lang.annotation.*;
+
+/**
+ * @author ZSS
+ * @date 2020/3/16 20:20
+ * @description 自定义注解 身份校验
+ */
+@Documented
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.TYPE})
+public @interface RequiredPermission {
+
+    String value() default "user";
+}

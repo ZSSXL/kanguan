@@ -7,7 +7,7 @@ import redis.clients.jedis.Jedis;
 
 /**
  * @author ZSS
- * @date 2019/9/11 21:24
+ * @date 2020/03/16 17:25
  * @description redis 连接池工具
  */
 @Slf4j

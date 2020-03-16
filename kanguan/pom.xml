@@ -22,6 +22,7 @@
         <joda.version>2.9.9</joda.version>
         <java-jwt.version>3.8.0</java-jwt.version>
         <jedis-client.version>3.1.0</jedis-client.version>
+        <aspectj.version>1.9.4</aspectj.version>
     </properties>
 
     <dependencies>
@@ -82,6 +83,13 @@
             <version>${java-jwt.version}</version>
         </dependency>
         <!-- 工具 end -->
+
+        <!-- aspectj -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
 
 
         <dependency>

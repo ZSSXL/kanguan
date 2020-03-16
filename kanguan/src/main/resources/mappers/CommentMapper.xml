@@ -4,5 +4,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kanguan.entity.po.Comment">
+    <resultMap id="BaseResultMap" type="com.kanguan.entity.po.Comment">
+        <id property="commentId" column="comment_id"/>
+        <result property="commentator" column="commentator"/>
+        <result property="content" column="content"/>
+        <result property="object" column="object"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        comment_id, commentator, content, object, create_time, update_time
+    </sql>
 
 </mapper>

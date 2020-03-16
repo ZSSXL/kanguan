@@ -59,7 +59,7 @@ public class Resource extends Model<Resource> implements Serializable {
     /**
      * 更新时间
      */
-    private String update;
+    private String updateTime;
 
     @Override
     protected Serializable pkVal() {

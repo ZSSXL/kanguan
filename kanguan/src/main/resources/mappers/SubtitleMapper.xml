@@ -4,5 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kanguan.entity.po.Subtitle">
+    <resultMap id="BaseResultMap" type="com.kanguan.entity.po.Subtitle">
+        <id property="subtitleId" column="subtitle_id"/>
+        <result property="name" column="name"/>
+        <result property="episode" column="episode"/>
+        <result property="format" column="format"/>
+        <result property="download" column="download"/>
+        <result property="language" column="language"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        subtitle_id, name, episode, format, download, language, create_time, update_time
+    </sql>
 
 </mapper>
