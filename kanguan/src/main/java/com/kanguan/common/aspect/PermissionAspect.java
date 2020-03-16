@@ -37,23 +37,13 @@ public class PermissionAspect {
 
     @Around(value = "@annotation(com.kanguan.common.annotation.RequiredPermission)")
     public Object aroundPermission(ProceedingJoinPoint joinPoint) throws Throwable {
-        // 获取注解中的参数
-        MethodSignature ms = (MethodSignature) joinPoint.getSignature();
-        RequiredPermission annotation = ms.getMethod().getAnnotation(RequiredPermission.class);
-        String permission = annotation.value();
-
         // 获取RequestHeader
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (sra != null){
+        if (sra != null) {
             HttpServletRequest request = sra.getRequest();
             String token = request.getHeader("token");
-            if (tokenUtil.isValid(token)){
-                String role = tokenUtil.getClaim(token, "role").asString();
-                if (StringUtils.equals(permission, role)) {
-                    return joinPoint.proceed();
-                } else {
-                    return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), "权限错误");
-                }
+            if (tokenUtil.isValid(token)) {
+                return joinPoint.proceed();
             } else {
                 return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "Token已过期，请重新登录");
             }
