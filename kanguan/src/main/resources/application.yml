@@ -5,9 +5,19 @@ spring:
     username: c##kanguan
     password: kanguan_Kk6neiid
 
+  mail:
+    password: gieqkfjqvfkyieji
+    host: smtp.qq.com
+    username: 1271130458@qq.com
+    properties.mail.smtp.ssl.enable: true
+
+
 mybatis-plus:
   global-config:
     db-config:
-      # 全局默认主键类型
       id-type: input
   mapper-locations: classpath:mappers/*Mapper.xml
+
+
+server:
+  port: 8080

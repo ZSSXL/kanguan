@@ -37,4 +37,10 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountMapper.selectOne(wrapper);
         return account != null;
     }
+
+    @Override
+    public Boolean createAccount(Account account) {
+        int insert = accountMapper.insert(account);
+        return insert == 1;
+    }
 }

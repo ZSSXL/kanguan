@@ -4,6 +4,7 @@ import com.kanguan.common.ResponseCode;
 import com.kanguan.common.ServerResponse;
 import com.kanguan.entity.vo.LoginVo;
 import com.kanguan.service.AccountService;
+import com.kanguan.util.EmailUtil;
 import com.kanguan.util.EncryptionUtil;
 import com.kanguan.util.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +47,7 @@ public class AccountController {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.PARAMETER_ERROR.getCode(), ResponseCode.PARAMETER_ERROR.getDesc());
         } else {
             // 判断输入的account是用户名还是email
-            if(isEmail(loginVo.getAccount())){
+            if(EmailUtil.isEmail(loginVo.getAccount())){
                 Boolean emailResult = accountService.loginByEmail(loginVo.getAccount(), EncryptionUtil.encrypt(loginVo.getPassword()));
                 if(emailResult){
                     // 完成token
@@ -65,22 +66,4 @@ public class AccountController {
         }
     }
 
-
-    // =================================== 内部私有方法 =============================== //
-
-    /**
-     * 判断字符串是否为邮箱
-     *
-     * @param str 字符串
-     * @return Boolean
-     */
-    private static Boolean isEmail(String str) {
-        boolean isEmail = false;
-        String expr = "^([a-zA-Z0-9_\\-.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})$";
-
-        if (str.matches(expr)) {
-            isEmail = true;
-        }
-        return isEmail;
-    }
 }

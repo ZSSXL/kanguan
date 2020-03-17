@@ -17,8 +17,4 @@
         account_id, username, password, email, create_time, update_time
     </sql>
 
-    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select * from kg_account where account_id = #{accountId}
-    </select>
-
 </mapper>

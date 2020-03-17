@@ -1,5 +1,7 @@
 package com.kanguan.service;
 
+import com.kanguan.entity.po.Account;
+
 /**
  * @author ZSS
  * @date 2020/3/16 20:46
@@ -24,4 +26,12 @@ public interface AccountService {
      * @return Boolean
      */
     Boolean loginByEmail(String email, String password);
+
+    /**
+     * 创建账户
+     *
+     * @param account 账户实体
+     * @return Boolean
+     */
+    Boolean createAccount(Account account);
 }

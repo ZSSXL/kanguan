@@ -15,21 +15,21 @@ import redis.clients.jedis.Jedis;
 public class RedisPoolUtil {
 
     /**
-     * set
+     * 设置redis, 并设置过期时间
      *
      * @param key   键
      * @param value 值
      * @return String
      */
-    public static String set(String key, String value) {
+    public static String setAndExpire(String key, String value) {
         Jedis jedis = null;
         String result;
-
         try {
+            int seconds = 60 * 3;
             jedis = RedisPool.getJedis();
-            result = jedis.set(key, value);
+            result = jedis.setex(key, seconds, value);
         } catch (Exception e) {
-            log.error("set key:{} value:{} error", key, value, e);
+            log.error("set key and expire:{} value:{} error", key, value, e);
             assert jedis != null;
             RedisPool.returnResource(jedis);
             return null;
@@ -85,25 +85,4 @@ public class RedisPoolUtil {
         return result;
     }
 
-    /**
-     * 自加一
-     *
-     * @param key key
-     * @return Long
-     */
-    public static Long incr(String key) {
-        Jedis jedis = null;
-        Long result = null;
-        try {
-            jedis = RedisPool.getJedis();
-            result = jedis.incr(key);
-        } catch (Exception e) {
-            log.error("incr key : {} error", key, e);
-            assert jedis != null;
-            RedisPool.returnResource(jedis);
-            return result;
-        }
-        RedisPool.returnResource(jedis);
-        return result;
-    }
 }

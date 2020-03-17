@@ -2,6 +2,7 @@ package com.kanguan.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.kanguan.entity.po.Comment;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
  * @date 2020/3/16 16:34
  * @description 评论 mapper
  */
+@Mapper
 @Repository
 public interface CommentMapper extends BaseMapper<Comment> {
 }
