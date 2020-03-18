@@ -66,23 +66,19 @@ public class RedisPoolUtil {
      * 删除
      *
      * @param key 键
-     * @return String
      */
-    public static Long del(String key) {
+    public static void del(String key) {
         Jedis jedis = null;
-        Long result = null;
 
         try {
             jedis = RedisPool.getJedis();
-            result = jedis.del(key);
+            jedis.del(key);
         } catch (Exception e) {
             log.error("set key:{} error", key, e);
             assert jedis != null;
             RedisPool.returnResource(jedis);
-            return result;
         }
         RedisPool.returnResource(jedis);
-        return result;
     }
 
 }

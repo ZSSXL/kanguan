@@ -34,4 +34,11 @@ public interface AccountService {
      * @return Boolean
      */
     Boolean createAccount(Account account);
+
+    /**
+     * 查询邮箱是否被使用
+     * @param email email
+     * @return Boolean
+     */
+    Boolean emailUsed(String email);
 }

@@ -7,13 +7,12 @@
     <resultMap id="BaseResultMap" type="com.kanguan.entity.po.UserInfo">
         <id property="infoId" column="info_id"/>
         <result property="member" column="member"/>
-        <result property="recentlyLogin" column="recently_login"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        info_id, member, recently_login, create_time, update_time
+        info_id, member, create_time, update_time
     </sql>
 
 </mapper>

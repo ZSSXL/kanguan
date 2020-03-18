@@ -37,8 +37,8 @@ public class EmailUtil {
     public static void sendVerifyCode(String registerEmail, String verifyCode) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-        helper.setSubject("邮箱发送测试");
-        helper.setText("欢迎使用<b>看官网</b> <br>你的注册验证码是: <b style='color:red'>" + verifyCode + "</b> <br>请勿回复该邮箱，谢谢配合, 希望有你想要的资源！！！", true);
+        helper.setSubject("看官网邮箱验证");
+        helper.setText("欢迎使用<b>看官网</b> <br>您的注册验证码是: <b style='color:red'>" + verifyCode + "</b> 该验证码3分钟失效！ <br>请勿回复该邮箱，谢谢配合, 希望有您想要的资源！！！", true);
         helper.setTo(registerEmail);
         helper.setFrom("1271130458@qq.com");
         javaMailSender.send(mimeMessage);

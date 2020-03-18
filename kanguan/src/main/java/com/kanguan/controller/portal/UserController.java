@@ -53,11 +53,15 @@ public class UserController {
         if (result.hasErrors()) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.PARAMETER_ERROR.getCode(), ResponseCode.PARAMETER_ERROR.getDesc());
         } else {
+            System.out.println("registerVo : " + registerVo);
             // 校验验证码是否正确
             String verifyResult = RedisPoolUtil.get(Const.REDIS_PREFIX + registerVo.getEmail());
             if (StringUtils.isEmpty(verifyResult)) {
                 return ServerResponse.createByErrorMessage("验证码已过期，请重新发送验证码！");
             } else if (StringUtils.equals(verifyResult, registerVo.getVerifyCode())) {
+                // 删除redis缓存
+               RedisPoolUtil.del(Const.REDIS_PREFIX + registerVo.getEmail());
+
                 String userId = IdUtil.getId();
                 long timestamp = System.currentTimeMillis();
                 Account account = Account.builder()
@@ -70,7 +74,6 @@ public class UserController {
                 UserInfo userInfo = UserInfo.builder()
                         .infoId(userId)
                         .member("no")
-                        .recentlyLogin(String.valueOf(timestamp))
                         .createTime(String.valueOf(timestamp))
                         .updateTime(String.valueOf(timestamp))
                         .build();

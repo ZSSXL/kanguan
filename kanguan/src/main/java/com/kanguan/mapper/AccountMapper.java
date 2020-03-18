@@ -13,4 +13,13 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface AccountMapper extends BaseMapper<Account> {
+
+    /**
+     * 通过邮箱查询邮箱
+     *
+     * @param email 邮箱
+     * @return String
+     */
+    Integer selectByEmail(String email);
+
 }

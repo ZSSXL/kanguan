@@ -32,11 +32,6 @@ public class UserInfo extends Model<UserInfo> implements Serializable {
     private String member;
 
     /**
-     * 最近登录时间
-     */
-    private String recentlyLogin;
-
-    /**
      * 创建时间
      */
     private String createTime;

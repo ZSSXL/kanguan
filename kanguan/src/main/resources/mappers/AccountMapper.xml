@@ -17,4 +17,8 @@
         account_id, username, password, email, create_time, update_time
     </sql>
 
+    <select id="selectByEmail" resultType="java.lang.Integer" parameterType="java.lang.String">
+         select count(*) from kg_account where email = #{email}
+    </select>
+
 </mapper>

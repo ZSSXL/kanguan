@@ -2,10 +2,12 @@ package com.kanguan.controller.portal;
 
 import com.kanguan.common.Const;
 import com.kanguan.common.ServerResponse;
+import com.kanguan.service.AccountService;
 import com.kanguan.util.EmailUtil;
 import com.kanguan.util.IdUtil;
 import com.kanguan.util.RedisPoolUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +27,13 @@ import javax.validation.constraints.NotEmpty;
 @RequestMapping("/email")
 public class EmailController {
 
+    private final AccountService accountService;
+
+    @Autowired
+    public EmailController(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
     /**
      * 邮箱发送校验码
      *
@@ -36,14 +45,19 @@ public class EmailController {
         if (result.hasErrors()) {
             return ServerResponse.createByErrorMessage("邮箱不能为空");
         } else if (EmailUtil.isEmail(email)) {
-            String verifyCode = IdUtil.generateVerifyCode();
-            RedisPoolUtil.setAndExpire(Const.REDIS_PREFIX + email, verifyCode);
-            try {
-                EmailUtil.sendVerifyCode(email, verifyCode);
-                return ServerResponse.createBySuccess();
-            } catch (MessagingException e) {
-                log.error("[{}] 邮箱发送验证码失败，发生未知异常 ", email, e);
-                return ServerResponse.createByError();
+            Boolean used = accountService.emailUsed(email);
+            if (used) {
+                return ServerResponse.createByErrorMessage("该邮箱以注册，请更换一个邮箱使用！");
+            } else {
+                String verifyCode = IdUtil.generateVerifyCode();
+                RedisPoolUtil.setAndExpire(Const.REDIS_PREFIX + email, verifyCode);
+                try {
+                    EmailUtil.sendVerifyCode(email, verifyCode);
+                    return ServerResponse.createBySuccess();
+                } catch (MessagingException e) {
+                    log.error("[{}] 邮箱发送验证码失败，发生未知异常 ", email, e);
+                    return ServerResponse.createByError();
+                }
             }
         } else {
             return ServerResponse.createByErrorMessage("请输入正确的邮箱");

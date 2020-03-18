@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.kanguan.entity.po.Account;
 import com.kanguan.mapper.AccountMapper;
 import com.kanguan.service.AccountService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Boolean loginByEmail(String email, String password) {
         QueryWrapper<Account> wrapper = new QueryWrapper<>();
-        wrapper.eq("email",email).eq("password", password);
+        wrapper.eq("email", email).eq("password", password);
         Account account = accountMapper.selectOne(wrapper);
         return account != null;
     }
@@ -42,5 +43,12 @@ public class AccountServiceImpl implements AccountService {
     public Boolean createAccount(Account account) {
         int insert = accountMapper.insert(account);
         return insert == 1;
+    }
+
+    @Override
+    public Boolean emailUsed(String email) {
+        Integer result = accountMapper.selectByEmail(email);
+        // 如果为空，return true;
+        return result == 1;
     }
 }

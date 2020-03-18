@@ -32,7 +32,7 @@ public class IdUtil {
 
         StringBuilder shortId = new StringBuilder();
         int length = 6;
-        for (int k = 0; k <= length; k++) {
+        for (int k = 0; k < length; k++) {
             int index = rd.nextInt(chars.length);
             shortId.append(chars[index]);
         }
