@@ -16,7 +16,7 @@ public interface AccountService {
      * @param password 密码
      * @return Boolean
      */
-    Boolean loginByUsername(String username, String password);
+    Account loginByUsername(String username, String password);
 
     /**
      * 通过邮箱登录
@@ -25,7 +25,7 @@ public interface AccountService {
      * @param password 密码
      * @return Boolean
      */
-    Boolean loginByEmail(String email, String password);
+    Account loginByEmail(String email, String password);
 
     /**
      * 创建账户

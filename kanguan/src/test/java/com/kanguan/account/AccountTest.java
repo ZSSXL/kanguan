@@ -58,8 +58,8 @@ public class AccountTest extends BaseTest {
         String email = "12334534@qq.com";
         String password = "123456";
 
-        Boolean aBoolean = accountService.loginByEmail(email, password);
-        System.out.println(aBoolean);
+        Account account = accountService.loginByEmail(email, password);
+        System.out.println(account);
 
     }
 

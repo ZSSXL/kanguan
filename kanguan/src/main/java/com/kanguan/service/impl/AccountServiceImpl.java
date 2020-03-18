@@ -24,19 +24,17 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Boolean loginByUsername(String username, String password) {
+    public Account loginByUsername(String username, String password) {
         QueryWrapper<Account> wrapper = new QueryWrapper<>();
         wrapper.eq("username", username).eq("password", password);
-        Account account = accountMapper.selectOne(wrapper);
-        return account != null;
+        return accountMapper.selectOne(wrapper);
     }
 
     @Override
-    public Boolean loginByEmail(String email, String password) {
+    public Account loginByEmail(String email, String password) {
         QueryWrapper<Account> wrapper = new QueryWrapper<>();
         wrapper.eq("email", email).eq("password", password);
-        Account account = accountMapper.selectOne(wrapper);
-        return account != null;
+        return accountMapper.selectOne(wrapper);
     }
 
     @Override
