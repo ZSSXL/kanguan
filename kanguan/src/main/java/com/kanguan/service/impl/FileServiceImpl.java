@@ -44,7 +44,7 @@ public class FileServiceImpl implements FileService {
         try {
             file.transferTo(targetFile);
             FileInputStream fileInputStream = new FileInputStream(targetFile);
-            FtpUtil.uploadFile(Const.PATH.COVER_PATH, uploadFileName, fileInputStream);
+            FtpUtil.uploadFile(Const.path.COVER_PATH, uploadFileName, fileInputStream);
             targetFile.delete();
         } catch (IOException e) {
             log.error("上传文件失败，发生未知异常 ", e);

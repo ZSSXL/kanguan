@@ -12,7 +12,20 @@ public class Const {
      */
     public static String REDIS_PREFIX = "kanguan_";
 
-    public interface PATH{
+    /**
+     * 当前登录的管理员
+     */
+    public static String CURRENT_ADMIN = "currentAdmin";
+
+    /**
+     * 封面测试
+     */
+    public static String DEFAULT_COVER_PATH = "http://60.205.179.156:8001/about_time.jpg";
+
+    /**
+     * 存储路径
+     */
+    public interface path {
 
         /**
          * 封面图片地址

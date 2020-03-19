@@ -11,6 +11,7 @@ import com.kanguan.service.UserInfoService;
 import com.kanguan.util.EncryptionUtil;
 import com.kanguan.util.IdUtil;
 import com.kanguan.util.RedisPoolUtil;
+import com.kanguan.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,6 @@ public class UserController {
         if (result.hasErrors()) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.PARAMETER_ERROR.getCode(), ResponseCode.PARAMETER_ERROR.getDesc());
         } else {
-            System.out.println("registerVo : " + registerVo);
             // 校验验证码是否正确
             String verifyResult = RedisPoolUtil.get(Const.REDIS_PREFIX + registerVo.getEmail());
             if (StringUtils.isEmpty(verifyResult)) {
@@ -63,19 +63,18 @@ public class UserController {
                RedisPoolUtil.del(Const.REDIS_PREFIX + registerVo.getEmail());
 
                 String userId = IdUtil.getId();
-                long timestamp = System.currentTimeMillis();
                 Account account = Account.builder()
                         .accountId(userId)
                         .username(registerVo.getUsername())
                         .email(registerVo.getEmail())
                         .password(EncryptionUtil.encrypt(registerVo.getPassword()))
-                        .createTime(String.valueOf(timestamp))
-                        .updateTime(String.valueOf(timestamp)).build();
+                        .createTime(TimeUtil.getTimestamp())
+                        .updateTime(TimeUtil.getTimestamp()).build();
                 UserInfo userInfo = UserInfo.builder()
                         .infoId(userId)
                         .member("no")
-                        .createTime(String.valueOf(timestamp))
-                        .updateTime(String.valueOf(timestamp))
+                        .createTime(TimeUtil.getTimestamp())
+                        .updateTime(TimeUtil.getTimestamp())
                         .build();
                 try {
                     accountService.createAccount(account);
