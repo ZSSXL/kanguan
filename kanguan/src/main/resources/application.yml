@@ -11,6 +11,10 @@ spring:
     username: 1271130458@qq.com
     properties.mail.smtp.ssl.enable: true
 
+  devtools:
+    restart:
+      enabled: true
+
 
 mybatis-plus:
   global-config:
