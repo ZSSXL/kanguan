@@ -25,6 +25,8 @@
     <link th:href="@{assets/css/sidebar-menu.css}" rel="stylesheet"/>
     <!-- Custom Style-->
     <link th:href="@{assets/css/app-style.css}" rel="stylesheet"/>
+    <!-- customize Style -->
+    <link th:href="@{css/style.css}" rel="stylesheet"/>
 
 </head>
 
@@ -44,51 +46,51 @@
 
         <ul class="sidebar-menu">
             <li class="sidebar-header">MAIN NAVIGATION</li>
-            <li>
+            <li id="sidebar-1">
                 <a href="javaScript:void();" class="waves-effect">
                     <i class="zmdi zmdi-movie"></i>
                     <span>影视剧中心</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="sidebar-submenu">
-                    <li id="movies-check"><a><i class="zmdi zmdi-dot-circle-alt"></i> 查看</a></li>
-                    <li id="movies-add"><a><i class="zmdi zmdi-dot-circle-alt"></i> 添加</a></li>
+                    <li id="movies" class="finger"><a><i class="zmdi zmdi-dot-circle-alt"></i> 查看</a></li>
+                    <li id="add-movies" class="finger"><a><i class="zmdi zmdi-dot-circle-alt"></i> 添加</a></li>
                 </ul>
             </li>
-            <li>
+            <li id="sidebar-2">
                 <a href="javaScript:void();" class="waves-effect">
                     <i class="zmdi zmdi-view-subtitles"></i>
                     <span>字幕中心</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="sidebar-submenu">
-                    <li id="subtitle-check"><a><i class="zmdi zmdi-dot-circle-alt"></i> 查看</a></li>
-                    <li id="subtitle-add"><a><i class="zmdi zmdi-dot-circle-alt"></i> 添加</a></li>
+                    <li id="subtitle" class="finger"><a><i class="finger zmdi zmdi-dot-circle-alt"></i> 查看</a></li>
+                    <li id="add-subtitle" class="finger"><a><i class="zmdi zmdi-dot-circle-alt"></i> 添加</a></li>
                 </ul>
             </li>
-            <li>
+            <li id="sidebar-3">
                 <a href="javaScript:void();" class="waves-effect">
                     <i class="zmdi zmdi-accounts-alt"></i>
                     <span>用户中心</span>
                     <i class="fa fa-angle-left float-right"></i>
                 </a>
                 <ul class="sidebar-submenu">
-                    <li id="user-check"><a><i class="zmdi zmdi-dot-circle-alt"></i> 查看</a></li>
-                    <li id="vip-manage"><a><i class="zmdi zmdi-dot-circle-alt"></i> 会员管理</a></li>
+                    <li id="user" class="finger"><a><i class="zmdi zmdi-dot-circle-alt"></i> 查看</a></li>
+                    <li id="vip-manage" class="finger"><a><i class="zmdi zmdi-dot-circle-alt"></i> 会员管理</a></li>
                 </ul>
             </li>
             <li class="sidebar-header">LABELS</li>
-            <li>
+            <li id="sidebar-4">
                 <a href="javaScript:void();" class="waves-effect">
                     <i class="fa fa-edit"></i>
                     <span>用户反馈</span>
                     <small class="badge float-right badge-warning">12</small>
                 </a>
             </li>
-            <li>
+            <li id="sidebar-5">
                 <a href="javaScript:void();" class="waves-effect">
                     <i class="fa fa-question-circle"></i>
                     <span>资源请求</span>
-                    <small class="badge float-right badge-warning">12</small>
+                    <small class="badge float-right badge-info">12</small>
                 </a>
             </li>
         </ul>
@@ -160,7 +162,7 @@
                             </li>
                             <li class="list-group-item text-center">
                                 <a href="javaScript:void()">See All
-                                Notifications</a>
+                                    Notifications</a>
                             </li>
                         </ul>
                     </div>
@@ -244,6 +246,15 @@
 <script th:src="@{assets/plugins/apexcharts/apexcharts.js}"></script>
 <!-- page load -->
 <script th:src="@{js/load-page.js}"></script>
+
+<!-- 内部方法 -->
+<script type="text/javascript">
+
+    // 初始加载页面
+    window.onload = function () {
+        currentPage();
+    };
+</script>
 
 </body>
 </html>

@@ -1,0 +1,22 @@
+/* 小手指 */
+.finger {
+    cursor: pointer;
+}
+
+/* 超出字符省略 */
+.omit{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 9;
+    -webkit-box-orient: vertical;
+}
+
+/* 图片覆盖 */
+.overlay-img {
+    width: 100%;
+    height: 520px;
+    border-radius: .25rem;
+    background-size: cover;
+    background-position: center
+}

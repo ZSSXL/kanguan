@@ -1,39 +1,458 @@
-<!-- 电影部分 -->
-<div class="row">
-    <div class="col-12 col-lg-12 col-xl-12">
-        <div class="card">
-            <!-- header -->
-            <div class="card-header border-0">
-                <div class="row align-items-center">
-                    <div class="col text-left">
-                        <p class="mb-0">MOVIES</p>
+<!-- 导航栏 -->
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <h4 class="page-title">影视剧查看</h4>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#movies">MOVIES</a></li>
+            <li class="breadcrumb-item active"><a href="#tv">TV</a></li>
+        </ol>
+    </div>
+</div>
+
+<!-- Modal -->
+<!-- 添加电影资源 -->
+<div class="modal fade" id="add-movie-resource">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">添加资源</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <div class="form-group row">
+                            <label for="movie-resource-name" class="col-sm-2 col-form-label">资源名称</label>
+                            <div class="col-sm-10">
+                                <input id="movie-resource-name" type="text" class="form-control"
+                                       placeholder="请输入该资源的名称...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <div class="form-group row">
+                            <label for="movie-resource-bigness" class="col-sm-2 col-form-label">资源大小</label>
+                            <div class="col-sm-10">
+                                <input id="movie-resource-bigness" type="text" class="form-control"
+                                       placeholder="请输入资源的大小...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <div class="form-group row">
+                            <label for="movie-resource-format" class="col-sm-2 col-form-label">资源格式</label>
+                            <div class="col-sm-10">
+                                <input id="movie-resource-format" type="text" class="form-control"
+                                       placeholder="请输入该资源的格式...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <div class="form-group row">
+                            <label for="movie-resource" class="col-sm-2 col-form-label">资源链接</label>
+                            <div class="col-sm-10">
+                                <textarea rows="4" class="form-control" id="movie-resource"
+                                          placeholder="资源链接..."></textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- body -->
-            <div class="card-body">
-                <h2>电影展示</h2>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-square"><i class="fa fa-mail-reply-all"></i> 重置</button>
+                <button type="button" class="btn btn-dark btn-square" data-dismiss="modal"><i class="fa fa-times"></i>
+                    取消
+                </button>
+                <button type="button" class="btn btn-primary btn-square"><i class="fa fa-check-square-o"></i> 保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 添加电视剧资源 -->
+<div class="modal fade" id="add-tv-resource">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">添加资源</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <div class="form-group row">
+                            <label for="tv-resource-name" class="col-sm-2 col-form-label">资源名称</label>
+                            <div class="col-sm-10">
+                                <input id="tv-resource-name" type="text" class="form-control"
+                                       placeholder="请输入该资源的名称...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <div class="form-group row">
+                            <label for="tv-resource-bigness" class="col-sm-2 col-form-label">资源大小</label>
+                            <div class="col-sm-10">
+                                <input id="tv-resource-bigness" type="text" class="form-control"
+                                       placeholder="请输入资源的大小...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <div class="form-group row">
+                            <label for="tv-resource-format" class="col-sm-2 col-form-label">资源格式</label>
+                            <div class="col-sm-10">
+                                <input id="tv-resource-format" type="text" class="form-control"
+                                       placeholder="请输入该资源的格式...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <div class="form-group row">
+                            <label for="tv-resource-episode" class="col-sm-2 col-form-label">集数</label>
+                            <div class="col-sm-10">
+                                <input id="tv-resource-episode" type="text" class="form-control"
+                                       placeholder="请输入该资源的集数...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <div class="form-group row">
+                            <label for="tv-resource" class="col-sm-2 col-form-label">资源链接</label>
+                            <div class="col-sm-10">
+                                <textarea rows="4" class="form-control" id="tv-resource"
+                                          placeholder="资源链接..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info btn-square"><i class="fa fa-mail-reply-all"></i> 重置</button>
+                <button type="button" class="btn btn-dark btn-square" data-dismiss="modal"><i class="fa fa-times"></i>
+                    取消
+                </button>
+                <button type="button" class="btn btn-primary btn-square"><i class="fa fa-check-square-o"></i> 保存
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- 电视剧部分 -->
+<!-- 详情model -->
+<div class="modal fade" id="detail">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">资源详情</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- todo 先放着，后面再写 -->
+                <h4>展示影视剧详情，先放着，后面再完成！！！</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark btn-square" data-dismiss="modal"><i class="fa fa-times"></i>
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary btn-square"><i class="fa fa-check-square-o"></i> Save
+                    changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 电影部分 -->
+<h6 class="text-uppercase" id="movies">MOVIE AREA</h6>
+<hr>
 <div class="row">
-    <div class="col-12 col-lg-12 col-xl-12">
+    <div class="col-12 col-lg-4 col-xl-3">
         <div class="card">
-            <!-- header -->
-            <div class="card-header border-0">
+            <div class="overlay-img"
+                 style="background-image: url(https://images.pexels.com/photos/1391580/pexels-photo-1391580.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);"></div>
+            <div class="card-img-overlay">
                 <div class="row align-items-center">
                     <div class="col text-left">
-                        <p class="mb-0">TV</p>
+                        <i class="zmdi zmdi-share fa-2x text-white"></i>
+                    </div>
+                    <div class="col text-right">
+                        <i class="zmdi zmdi-more-vert fa-2x text-white" data-toggle="tooltip" title="点击查看详情"></i>
+                    </div>
+                </div>
+                <div class="content  text-center mt-5">
+                    <a href="javascript:void();" class="btn btn-light btn-round mt-3 text-white-50">NEWS</a>
+                    <h4 class="mt-2 text-white">人间不值得 (2016)</h4>
+                    <p class="mb-0 extra-small-font text-white">By 某某某</p>
+                    <p class="mt-3 text-white omit">Lorem Ipsum has been the industry's standard dummy text ever since
+                        the 150Lorem Ipsum has been the industry's standard dummy text ever since the 150Lorem Ipsum has
+                        been the industry's standard dummy text ever since the 150Lorem Ipsum has been the industry's
+                        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                        scrambled it to make a type specimen book</p>
+                </div>
+                <div class="row align-items-center mb-2">
+                    <div class="col text-center">
+                        <button class="btn btn-white btn-round mb-2" data-toggle="modal"
+                                data-target="#add-movie-resource">添加资源
+                        </button>
                     </div>
                 </div>
             </div>
-            <!-- body -->
-            <div class="card-body">
-                <h2>电视剧展示</h2>
+        </div>
+    </div>
+    <div class="col-12 col-lg-4 col-xl-3">
+        <div class="card">
+            <div class="overlay-img"
+                 style="background-image: url(https://images.pexels.com/photos/1391580/pexels-photo-1391580.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);"></div>
+            <div class="card-img-overlay">
+                <div class="row align-items-center">
+                    <div class="col text-left">
+                        <i class="zmdi zmdi-share fa-2x text-white"></i>
+                    </div>
+                    <div class="col text-right">
+                        <i class="zmdi zmdi-more-vert fa-2x text-white"></i>
+                    </div>
+                </div>
+                <div class="content  text-center mt-5">
+                    <a href="javascript:void();" class="btn btn-light btn-round mt-3 text-white-50">NEWS</a>
+                    <h4 class="mt-2 text-white">人间不值得 (2016)</h4>
+                    <p class="mb-0 extra-small-font text-white">By 某某某</p>
+                    <p class="mt-3 text-white omit">Lorem Ipsum has been the industry's standard dummy text ever since
+                        the 150Lorem Ipsum has been the industry's standard dummy text ever since the 150Lorem Ipsum has
+                        been the industry's standard dummy text ever since the 150Lorem Ipsum has been the industry's
+                        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                        scrambled it to make a type specimen book</p>
+                </div>
+                <div class="row align-items-center mb-2">
+                    <div class="col text-center">
+                        <button class="btn btn-white btn-round mb-2" data-toggle="modal"
+                                data-target="#add-movie-resource">添加资源
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+    <div class="col-12 col-lg-4 col-xl-3">
+        <div class="card">
+            <div class="overlay-img"
+                 style="background-image: url(https://images.pexels.com/photos/1391580/pexels-photo-1391580.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);"></div>
+            <div class="card-img-overlay">
+                <div class="row align-items-center">
+                    <div class="col text-left">
+                        <i class="zmdi zmdi-share fa-2x text-white"></i>
+                    </div>
+                    <div class="col text-right">
+                        <i class="zmdi zmdi-more-vert fa-2x text-white"></i>
+                    </div>
+                </div>
+                <div class="content  text-center mt-5">
+                    <a href="javascript:void();" class="btn btn-light btn-round mt-3 text-white-50">NEWS</a>
+                    <h4 class="mt-2 text-white">人间不值得 (2016)</h4>
+                    <p class="mb-0 extra-small-font text-white">By 某某某</p>
+                    <p class="mt-3 text-white omit">Lorem Ipsum has been the industry's standard dummy text ever since
+                        the 150Lorem Ipsum has been the industry's standard dummy text ever since the 150Lorem Ipsum has
+                        been the industry's standard dummy text ever since the 150Lorem Ipsum has been the industry's
+                        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                        scrambled it to make a type specimen book</p>
+                </div>
+                <div class="row align-items-center mb-2">
+                    <div class="col text-center">
+                        <a href="javascript:void();" class="btn btn-white btn-round mb-2">添加资源</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-4 col-xl-3">
+        <div class="card">
+            <div class="overlay-img"
+                 style="background-image: url(https://images.pexels.com/photos/1391580/pexels-photo-1391580.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);"></div>
+            <div class="card-img-overlay">
+                <div class="row align-items-center">
+                    <div class="col text-left">
+                        <i class="zmdi zmdi-share fa-2x text-white"></i>
+                    </div>
+                    <div class="col text-right">
+                        <i class="zmdi zmdi-more-vert fa-2x text-white"></i>
+                    </div>
+                </div>
+                <div class="content  text-center mt-5">
+                    <a href="javascript:void();" class="btn btn-light btn-round mt-3 text-white-50">NEWS</a>
+                    <h4 class="mt-2 text-white">人间不值得 (2016)</h4>
+                    <p class="mb-0 extra-small-font text-white">By 某某某</p>
+                    <p class="mt-3 text-white omit">Lorem Ipsum has been the industry's standard dummy text ever since
+                        the 150Lorem Ipsum has been the industry's standard dummy text ever since the 150Lorem Ipsum has
+                        been the industry's standard dummy text ever since the 150Lorem Ipsum has been the industry's
+                        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                        scrambled it to make a type specimen book</p>
+                </div>
+                <div class="row align-items-center mb-2">
+                    <div class="col text-center">
+                        <a href="javascript:void();" class="btn btn-white btn-round mb-2">添加资源</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-1">
+    <div class="col-12 col-lg-12 col-xl-12">
+        <ul class="pagination pagination-round">
+            <li class="page-item"><a class="page-link" href="javascript:void();">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="javascript:void();">1</a></li>
+            <li class="page-item active"><a class="page-link" href="javascript:void();">2</a></li>
+            <li class="page-item"><a class="page-link" href="javascript:void();">3</a></li>
+            <li class="page-item"><a class="page-link" href="javascript:void();">Next</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- 电视剧部分 -->
+<h6 class="text-uppercase mt-3" id="tv">TV SHOW AREA</h6>
+<hr>
+
+<div class="row">
+    <div class="col-12 col-lg-4 col-xl-3">
+        <div class="card">
+            <div class="overlay-img"
+                 style="background-image: url(https://images.pexels.com/photos/1391580/pexels-photo-1391580.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);"></div>
+            <div class="card-img-overlay">
+                <div class="row align-items-center">
+                    <div class="col text-left">
+                        <i class="zmdi zmdi-share fa-2x text-white"></i>
+                    </div>
+                    <div class="col text-right">
+                        <i class="zmdi zmdi-more-vert fa-2x text-white" data-toggle="tooltip" title="点击查看详情"></i>
+                    </div>
+                </div>
+                <div class="content  text-center mt-5">
+                    <a href="javascript:void();" class="btn btn-light btn-round mt-3 text-white-50">NEWS</a>
+                    <h4 class="mt-2 text-white">人间不值得 (2016)</h4>
+                    <p class="mb-0 extra-small-font text-white">By 某某某</p>
+                    <p class="mt-3 text-white omit">Lorem Ipsum has been the industry's standard dummy text ever since
+                        the 150Lorem Ipsum has been the industry's standard dummy text ever since the 150Lorem Ipsum has
+                        been the industry's standard dummy text ever since the 150Lorem Ipsum has been the industry's
+                        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                        scrambled it to make a type specimen book</p>
+                </div>
+                <div class="row align-items-center mb-2">
+                    <div class="col text-center">
+                        <button class="btn btn-white btn-round mb-2" data-toggle="modal"
+                                data-target="#add-tv-resource">添加资源
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-4 col-xl-3">
+        <div class="card">
+            <div class="overlay-img"
+                 style="background-image: url(https://images.pexels.com/photos/1391580/pexels-photo-1391580.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);"></div>
+            <div class="card-img-overlay">
+                <div class="row align-items-center">
+                    <div class="col text-left">
+                        <i class="zmdi zmdi-share fa-2x text-white"></i>
+                    </div>
+                    <div class="col text-right">
+                        <i class="zmdi zmdi-more-vert fa-2x text-white"></i>
+                    </div>
+                </div>
+                <div class="content  text-center mt-5">
+                    <a href="javascript:void();" class="btn btn-light btn-round mt-3 text-white-50">NEWS</a>
+                    <h4 class="mt-2 text-white">人间不值得 (2016)</h4>
+                    <p class="mb-0 extra-small-font text-white">By 某某某</p>
+                    <p class="mt-3 text-white omit">Lorem Ipsum has been the industry's standard dummy text ever since
+                        the 150Lorem Ipsum has been the industry's standard dummy text ever since the 150Lorem Ipsum has
+                        been the industry's standard dummy text ever since the 150Lorem Ipsum has been the industry's
+                        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                        scrambled it to make a type specimen book</p>
+                </div>
+                <div class="row align-items-center mb-2">
+                    <div class="col text-center">
+                        <a href="javascript:void();" class="btn btn-white btn-round mb-2">添加资源</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-4 col-xl-3">
+        <div class="card">
+            <div class="overlay-img"
+                 style="background-image: url(https://images.pexels.com/photos/1391580/pexels-photo-1391580.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);"></div>
+            <div class="card-img-overlay">
+                <div class="row align-items-center">
+                    <div class="col text-left">
+                        <i class="zmdi zmdi-share fa-2x text-white"></i>
+                    </div>
+                    <div class="col text-right">
+                        <i class="zmdi zmdi-more-vert fa-2x text-white"></i>
+                    </div>
+                </div>
+                <div class="content  text-center mt-5">
+                    <a href="javascript:void();" class="btn btn-light btn-round mt-3 text-white-50">NEWS</a>
+                    <h4 class="mt-2 text-white">人间不值得 (2016)</h4>
+                    <p class="mb-0 extra-small-font text-white">By 某某某</p>
+                    <p class="mt-3 text-white omit">Lorem Ipsum has been the industry's standard dummy text ever since
+                        the 150Lorem Ipsum has been the industry's standard dummy text ever since the 150Lorem Ipsum has
+                        been the industry's standard dummy text ever since the 150Lorem Ipsum has been the industry's
+                        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                        scrambled it to make a type specimen book</p>
+                </div>
+                <div class="row align-items-center mb-2">
+                    <div class="col text-center">
+                        <a href="javascript:void();" class="btn btn-white btn-round mb-2">添加资源</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-4 col-xl-3">
+        <div class="card">
+            <div class="overlay-img"
+                 style="background-image: url(https://images.pexels.com/photos/1391580/pexels-photo-1391580.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);"></div>
+            <div class="card-img-overlay">
+                <div class="row align-items-center">
+                    <div class="col text-left">
+                        <i class="zmdi zmdi-share fa-2x text-white"></i>
+                    </div>
+                    <div class="col text-right">
+                        <i class="zmdi zmdi-more-vert fa-2x text-white"></i>
+                    </div>
+                </div>
+                <div class="content  text-center mt-5">
+                    <a href="javascript:void();" class="btn btn-light btn-round mt-3 text-white-50">NEWS</a>
+                    <h4 class="mt-2 text-white">人间不值得 (2016)</h4>
+                    <p class="mb-0 extra-small-font text-white">By 某某某</p>
+                    <p class="mt-3 text-white omit">Lorem Ipsum has been the industry's standard dummy text ever since
+                        the 150Lorem Ipsum has been the industry's standard dummy text ever since the 150Lorem Ipsum has
+                        been the industry's standard dummy text ever since the 150Lorem Ipsum has been the industry's
+                        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                        scrambled it to make a type specimen book</p>
+                </div>
+                <div class="row align-items-center mb-2">
+                    <div class="col text-center">
+                        <a href="javascript:void();" class="btn btn-white btn-round mb-2">添加资源</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-1">
+    <div class="col-12 col-lg-12 col-xl-12">
+        <ul class="pagination pagination-round">
+            <li class="page-item"><a class="page-link" href="javascript:void();">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="javascript:void();">1</a></li>
+            <li class="page-item active"><a class="page-link" href="javascript:void();">2</a></li>
+            <li class="page-item"><a class="page-link" href="javascript:void();">3</a></li>
+            <li class="page-item"><a class="page-link" href="javascript:void();">Next</a></li>
+        </ul>
     </div>
 </div>
