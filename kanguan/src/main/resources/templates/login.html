@@ -108,7 +108,12 @@
 <!-- notiflix -->
 <script th:src="@{js/notiflix-1.3.0.min.js}"></script>
 
-<script type="text/javascript">
+<script th:inline="javascript" type="text/javascript">
+
+    window.onload = function () {
+        // todo 完成退出登录
+        console.log("log out");
+    };
 
     Notiflix.Notify.Init({
         timeout: 2000
@@ -119,7 +124,6 @@
         let password = $("#password").val();
 
         let data = {account, password};
-        console.log(data);
         login(data);
     });
 
@@ -138,7 +142,6 @@
 
     /* 解析数据 */
     function analysisResult(result) {
-        console.log(result);
         if (result.status === 0) {
             localStorage.setItem("kanguan-current-page", "movies");
             Notiflix.Notify.Success("登录成功");

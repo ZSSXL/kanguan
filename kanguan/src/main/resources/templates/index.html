@@ -27,6 +27,8 @@
     <link th:href="@{assets/css/app-style.css}" rel="stylesheet"/>
     <!-- customize Style -->
     <link th:href="@{css/style.css}" rel="stylesheet"/>
+    <!-- notiflix -->
+    <link th:href="@{css/notiflix-1.3.0.min.css}" rel="stylesheet"/>
 
 </head>
 
@@ -246,14 +248,26 @@
 <script th:src="@{assets/plugins/apexcharts/apexcharts.js}"></script>
 <!-- page load -->
 <script th:src="@{js/load-page.js}"></script>
+<!-- notiflix -->
+<script th:src="@{js/notiflix-1.3.0.min.js}"></script>
 
 <!-- 内部方法 -->
-<script type="text/javascript">
+<script th:inline="javascript" type="text/javascript">
 
     // 初始加载页面
     window.onload = function () {
-        currentPage();
+        // 判断httpSession是否为空
+        if ([[${session.currentAdmin}]] === null) {
+            window.location.href = "/login";
+        } else {
+            currentPage();
+        }
     };
+
+    /* 初始化 notiflix */
+    Notiflix.Notify.Init({
+        timeout: 2000
+    });
 </script>
 
 </body>

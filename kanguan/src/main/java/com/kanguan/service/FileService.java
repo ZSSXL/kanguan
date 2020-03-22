@@ -12,9 +12,10 @@ public interface FileService {
     /**
      * 上传文件
      *
-     * @param file 文件
-     * @param path 路径
+     * @param file    文件
+     * @param dirPath 文件夹路径
+     * @param path    路径
      * @return String
      */
-    String uploadFile(MultipartFile file, String path);
+    String uploadFile(MultipartFile file, String dirPath, String path);
 }

@@ -22,7 +22,7 @@ import java.io.IOException;
 public class FileServiceImpl implements FileService {
 
     @Override
-    public String uploadFile(MultipartFile file, String path) {
+    public String uploadFile(MultipartFile file, String ditPath, String path) {
         // 获取原始文件的文件名
         String fileName = file.getOriginalFilename();
         if (fileName == null) {
@@ -44,7 +44,7 @@ public class FileServiceImpl implements FileService {
         try {
             file.transferTo(targetFile);
             FileInputStream fileInputStream = new FileInputStream(targetFile);
-            FtpUtil.uploadFile(Const.path.COVER_PATH, uploadFileName, fileInputStream);
+            FtpUtil.uploadFile(ditPath, uploadFileName, fileInputStream);
             targetFile.delete();
         } catch (IOException e) {
             log.error("上传文件失败，发生未知异常 ", e);

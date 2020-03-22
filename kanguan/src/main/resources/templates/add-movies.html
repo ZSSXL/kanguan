@@ -102,10 +102,13 @@
                 </div>
                 <hr/>
                 <div class="row mt-4">
-                    <button type="button" class="btn btn-outline-success btn-lg btn-round btn-block m-1">
-                        提交
+                    <button id="update-movies" type="button"
+                            class="btn btn-outline-success btn-lg btn-round btn-block m-1">
+                        上传
                     </button>
-                    <button type="button" class="btn btn-outline-dark btn-lg btn-round btn-block m-1">重置</button>
+                    <button id="reset-all" type="button" class="btn btn-outline-dark btn-lg btn-round btn-block m-1">
+                        重置
+                    </button>
                 </div>
             </div>
         </div>
@@ -116,9 +119,9 @@
     /* 切换 片长/集数 */
     $(".type-check").change(function () {
         let type = $("input[name='checkType']:checked").val();
-        if(type === '1'){
+        if (type === '1') {
             $("#movies-length").text("片长");
-        } else if(type === '0'){
+        } else if (type === '0') {
             $("#movies-length").text("集数");
         }
     });
@@ -165,5 +168,94 @@
             pic.src = this.result;
         }
     }
+</script>
 
+<!-- 上传影视剧 -->
+<script type="text/javascript">
+    $("#update-movies").click(function () {
+        let formData = getBaseMessage();
+        let file = $("#f")[0].files[0];
+        formData.append("cover", file);
+        console.log(formData);
+        $.ajax({
+            url: "/backend/movies",
+            type: "post",
+            cache: false,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            mimeType: "multipart/form-data",
+            data: formData,
+            success: function (result) {
+                if (result.code === "0") {
+                    Notiflix.Notify.Info("上传成功");
+                    resetAll();
+                } else {
+                    Notiflix.Notify.Failure(result.msg);
+                }
+            }
+        });
+    });
+
+    /* 重置按钮 */
+    $("#reset-all").click(function () {
+        resetAll();
+    });
+
+    /* 重置所有 */
+    function resetAll() {
+        $("#page-load-area").load("/add-movies");
+    }
+
+    /**
+     * 获取影视剧基本信息
+     * @return formData
+     */
+    function getBaseMessage() {
+        let name = $("#name").val();
+        let director = $("#director").val();
+        let scenarist = $("#scenarist").val();
+        let staring = $("#staring").val();
+        let style = $("#style").val();
+        let type = $("input[name='checkType']:checked").val();
+        let countryRegion = $("#country-region").val();
+        let premiere = $("#premiere").val();
+        let release = $("#release").val();
+        let length = $("#length").val();
+        let anotherName = $("#another-name").val();
+        let introduction = $("#introduction").val();
+        let score = $("#score").val();
+        let data = {
+            name,
+            director,
+            scenarist,
+            staring,
+            style,
+            type,
+            countryRegion,
+            premiere,
+            release,
+            length,
+            anotherName,
+            introduction,
+            score
+        };
+        console.log(data);
+
+        let formData = new FormData();
+        formData.append("name", name);
+        formData.append("director", director);
+        formData.append("scenarist", scenarist);
+        formData.append("staring", staring);
+        formData.append("style", style);
+        formData.append("type", type);
+        formData.append("countryRegion", countryRegion);
+        formData.append("premiere", premiere);
+        formData.append("release", release);
+        formData.append("length", length);
+        formData.append("anotherName", anotherName);
+        formData.append("introduction", introduction);
+        formData.append("score", score);
+        return formData;
+    }
 </script>
