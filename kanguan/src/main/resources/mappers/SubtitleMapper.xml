@@ -11,12 +11,13 @@
         <result property="format" column="format"/>
         <result property="download" column="download"/>
         <result property="language" column="language"/>
+        <result property="object" column="object"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        subtitle_id, name, episode, format, download, language, create_time, update_time
+        subtitle_id, name, episode, format, download, language, object, create_time, update_time
     </sql>
 
 </mapper>

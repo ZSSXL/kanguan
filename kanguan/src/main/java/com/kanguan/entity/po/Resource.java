@@ -52,6 +52,11 @@ public class Resource extends Model<Resource> implements Serializable {
     private String downloadLink;
 
     /**
+     * 资源对象
+     */
+    private String object;
+
+    /**
      * 创建时间
      */
     private String createTime;

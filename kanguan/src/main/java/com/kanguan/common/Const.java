@@ -23,6 +23,16 @@ public class Const {
     public static String DEFAULT_COVER_PATH = "http://60.205.179.156:8001/about_time.jpg";
 
     /**
+     * 默认当前页
+     */
+    public static final String DEFAULT_PAGE_NUMBER = "0";
+
+    /**
+     * 默认分页条数
+     */
+    public static final String DEFAULT_PAGE_SIZE = "20";
+
+    /**
      * 存储路径
      */
     public interface path {
@@ -36,5 +46,20 @@ public class Const {
          * 字幕地址
          */
         String SUBTITLE_PATH = "subtitle";
+    }
+
+    /**
+     * 电影/电视剧
+     */
+    public interface type {
+        /**
+         * 电影
+         */
+        String MOVIE = "1";
+
+        /**
+         * 电视剧
+         */
+        String TV = "0";
     }
 }

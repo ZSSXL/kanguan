@@ -52,6 +52,11 @@ public class Subtitle extends Model<Subtitle> implements Serializable {
     private String download;
 
     /**
+     * 字幕对象
+     */
+    private String object;
+
+    /**
      * 创建时间
      */
     private String createTime;

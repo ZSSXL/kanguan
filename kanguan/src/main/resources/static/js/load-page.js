@@ -4,6 +4,7 @@
 $("#movies").click(function () {
     loadPage("movies");
     sideBarActive("movies", "movies");
+    getAllMovies();
 });
 
 // 添加影视剧页面加载
@@ -74,9 +75,13 @@ function currentPage() {
     let item = localStorage.getItem("kanguan-current-page");
     if (item === null) {
         loadPage("movies");
+        getAllMovies();
     } else {
         loadPage(item);
         if (item.indexOf("movies") >= 0) {
+            if(item === "movies"){
+                getAllMovies();
+            }
             sideBarActive("movies", item);
         } else {
             sideBarActive("subtitle", item);

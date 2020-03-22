@@ -1,5 +1,6 @@
 package com.kanguan.controller.backend;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kanguan.common.Const;
 import com.kanguan.common.ResponseCode;
 import com.kanguan.common.ServerResponse;
@@ -15,10 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -90,6 +88,47 @@ public class MoviesController {
             }
         }
     }
+
+    /**
+     * 获取所有的电影资源
+     *
+     * @param session 用户session
+     * @param page    第几页
+     * @param size    每页大小
+     * @return ServerResponse<IPage < Movies>>
+     */
+    @GetMapping("/movie")
+    public ServerResponse<IPage<Movies>> getAllMovie(HttpSession session
+            , @RequestParam(value = "page", defaultValue = Const.DEFAULT_PAGE_NUMBER) Integer page
+            , @RequestParam(value = "size", defaultValue = Const.DEFAULT_PAGE_SIZE) Integer size) {
+        if (SessionUtil.checkSession(session)) {
+                return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+        } else {
+            IPage<Movies> allMovies = moviesService.getAllMovies(Const.type.MOVIE, page, size);
+            return ServerResponse.createBySuccess(allMovies);
+        }
+    }
+
+    /**
+     * 获取所有的电视剧资源
+     *
+     * @param session 用户session
+     * @param page    第几页
+     * @param size    每页大小
+     * @return ServerResponse<IPage < Movies>>
+     */
+    @GetMapping("/tv")
+    public ServerResponse<IPage<Movies>> getAllTv(HttpSession session
+            , @RequestParam(value = "page", defaultValue = Const.DEFAULT_PAGE_NUMBER) Integer page
+            , @RequestParam(value = "size", defaultValue = Const.DEFAULT_PAGE_SIZE) Integer size) {
+        if (SessionUtil.checkSession(session)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+        } else {
+            IPage<Movies> allMovies = moviesService.getAllMovies(Const.type.TV, page, size);
+            return ServerResponse.createBySuccess(allMovies);
+        }
+    }
+
 
     // ------------------------------ 内部私有工具 ------------------------------- //
 

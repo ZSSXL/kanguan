@@ -24,6 +24,7 @@
         <jedis-client.version>3.1.0</jedis-client.version>
         <aspectj.version>1.9.4</aspectj.version>
         <commons-net.version>3.6</commons-net.version>
+        <fastjson.version>1.2.62</fastjson.version>
     </properties>
 
     <dependencies>
@@ -98,6 +99,18 @@
             <artifactId>commons-net</artifactId>
             <version>${commons-net.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>bittorrent</artifactId>
+            <version>0.3.0-v20070627-1030</version>
+        </dependency>
+
+
         <!-- 工具 end -->
 
         <!-- aspectj -->
