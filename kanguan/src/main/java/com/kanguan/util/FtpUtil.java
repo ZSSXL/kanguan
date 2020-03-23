@@ -32,7 +32,6 @@ public class FtpUtil {
         // 连接ftp服务器
         ftpClient.connect(FtpProperties.FTP_IP, FtpProperties.FTP_PORT);
         boolean login = ftpClient.login(FtpProperties.FTP_USERNAME, FtpProperties.FTP_PASSWORD);
-        System.out.println("ftp login : " + login);
         // 登录ftp服务器
         if (!login) {
             log.info("connect failed... ftp服务器:" + FtpProperties.FTP_IP + ":" + FtpProperties.FTP_PORT);
@@ -52,7 +51,6 @@ public class FtpUtil {
     public static Boolean uploadFile(String pathName, String fileName, InputStream inputStream) throws IOException {
         initFtpClient();
         try {
-            log.info("start upload file ...");
             // 文件类型设置成二进制类型，避免出现乱码
             ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
             // 打开被动模式
@@ -79,7 +77,6 @@ public class FtpUtil {
             ftpClient.storeFile(fileName, inputStream);
             inputStream.close();
             ftpClient.logout();
-            log.info("上传文件成功...");
             return true;
         } finally {
             if (ftpClient.isConnected()) {

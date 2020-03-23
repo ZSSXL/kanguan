@@ -27,7 +27,7 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/account")
-public class AccountController {
+public class AccountController extends BaseController {
 
     private final AccountService accountService;
     private final TokenUtil tokenUtil;
@@ -49,7 +49,6 @@ public class AccountController {
         if (result.hasErrors()) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.PARAMETER_ERROR.getCode(), ResponseCode.PARAMETER_ERROR.getDesc());
         } else {
-            System.out.println(loginVo.toString());
             // 判断输入的account是用户名还是email
             String token;
             if (EmailUtil.isEmail(loginVo.getAccount())) {

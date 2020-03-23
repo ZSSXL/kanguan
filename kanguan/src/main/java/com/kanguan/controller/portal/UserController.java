@@ -31,7 +31,7 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController {
 
     private final AccountService accountService;
     private final UserInfoService userInfoService;
@@ -60,7 +60,7 @@ public class UserController {
                 return ServerResponse.createByErrorMessage("验证码已过期，请重新发送验证码！");
             } else if (StringUtils.equals(verifyResult, registerVo.getVerifyCode())) {
                 // 删除redis缓存
-               RedisPoolUtil.del(Const.REDIS_PREFIX + registerVo.getEmail());
+                RedisPoolUtil.del(Const.REDIS_PREFIX + registerVo.getEmail());
 
                 String userId = IdUtil.getId();
                 Account account = Account.builder()

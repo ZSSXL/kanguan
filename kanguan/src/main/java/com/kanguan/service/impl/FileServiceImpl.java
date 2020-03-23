@@ -1,6 +1,5 @@
 package com.kanguan.service.impl;
 
-import com.kanguan.common.Const;
 import com.kanguan.service.FileService;
 import com.kanguan.util.FtpUtil;
 import com.kanguan.util.IdUtil;
@@ -22,7 +21,7 @@ import java.io.IOException;
 public class FileServiceImpl implements FileService {
 
     @Override
-    public String uploadFile(MultipartFile file, String ditPath, String path) {
+    public String uploadFile(MultipartFile file, String dirPath, String path) {
         // 获取原始文件的文件名
         String fileName = file.getOriginalFilename();
         if (fileName == null) {
@@ -44,7 +43,7 @@ public class FileServiceImpl implements FileService {
         try {
             file.transferTo(targetFile);
             FileInputStream fileInputStream = new FileInputStream(targetFile);
-            FtpUtil.uploadFile(ditPath, uploadFileName, fileInputStream);
+            FtpUtil.uploadFile(dirPath, uploadFileName, fileInputStream);
             targetFile.delete();
         } catch (IOException e) {
             log.error("上传文件失败，发生未知异常 ", e);

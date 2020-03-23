@@ -25,7 +25,7 @@ import javax.validation.Valid;
  * @description 资源管理
  */
 @Slf4j
-@RestController
+@RestController("adminResourceController")
 @RequestMapping("/backend/resource")
 public class ResourceController {
 

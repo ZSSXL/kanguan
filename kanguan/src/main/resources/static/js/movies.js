@@ -44,6 +44,7 @@ function getAllTv(page, size) {
  * 展示影视剧
  * @param data 分页数据
  * @param idName idName
+ * @param modal modal
  */
 function showMovies(data, idName, modal) {
     $("#" + idName).empty();
@@ -72,7 +73,7 @@ $(document).on("click", ".add-resource-btn", function () {
     if (parseInt(type) === 1) {
         // 添加电影资源
         $("#add-movie-resource").attr("movie-id", movieId);
-    } else if (type === 0) {
+    } else if (parseInt(type)  === 0) {
         // 添加电视剧资源
         $("#add-tv-resource").attr("tv-id", movieId);
     }

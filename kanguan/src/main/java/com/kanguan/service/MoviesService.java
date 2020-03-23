@@ -36,4 +36,20 @@ public interface MoviesService {
      */
     IPage<Movies> getAllMovies(String type, Integer page, Integer size);
 
+    /**
+     * 通过Id删除影视剧
+     *
+     * @param movieId 影视剧
+     * @return Boolean
+     */
+    Boolean deleteMoviesById(String movieId);
+
+    /**
+     * 通过Id获取资源
+     *
+     * @param movieId 影视剧Id
+     * @return Movies
+     */
+    Movies getMoviesById(String movieId);
+
 }

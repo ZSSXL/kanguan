@@ -231,11 +231,25 @@
                     Notiflix.Notify.Info("添加成功");
                     $("#add-movie-resource-modal").modal("hide");
                     $("#add-tv-resource-modal").modal("hide");
+                    resetResourceAll();
                 } else {
                     Notiflix.Notify.Warning(result.msg);
                 }
             }
         });
+    }
+
+    /**
+     * 重置所有
+     */
+    function resetResourceAll() {
+        $("#tv-resource-name").val("");
+        $("#tv-resource-bigness").val("");
+        $("#tv-resource-episode").val("");
+        $("#tv-resource").val("");
+        $("#movie-resource-name").val("");
+        $("#movie-resource-bigness").val("");
+        $("#movie-resource").val("");
     }
 
 </script>

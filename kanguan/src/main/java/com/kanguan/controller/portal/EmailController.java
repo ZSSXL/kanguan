@@ -25,7 +25,7 @@ import javax.validation.constraints.NotEmpty;
 @Slf4j
 @RestController
 @RequestMapping("/email")
-public class EmailController {
+public class EmailController extends BaseController {
 
     private final AccountService accountService;
 

@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author ZSS
  * @date 2020/3/22 20:59
@@ -33,7 +35,15 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public Boolean isExistInDbByName(String name) {
         QueryWrapper<Resource> wrapper = new QueryWrapper<>();
+        wrapper.eq("name", name);
         Resource resource = resourceMapper.selectOne(wrapper);
         return resource != null;
+    }
+
+    @Override
+    public List<Resource> getResourceByObject(String object) {
+        QueryWrapper<Resource> wrapper = new QueryWrapper<>();
+        wrapper.eq("object", object);
+        return resourceMapper.selectList(wrapper);
     }
 }

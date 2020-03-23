@@ -2,6 +2,8 @@ package com.kanguan.service;
 
 import com.kanguan.entity.po.Resource;
 
+import java.util.List;
+
 /**
  * @author ZSS
  * @date 2020/3/22 20:58
@@ -24,4 +26,12 @@ public interface ResourceService {
      * @return Boolean
      */
     Boolean isExistInDbByName(String name);
+
+    /**
+     * 通过对象获取资源
+     *
+     * @param object 资源对象
+     * @return List<Resource>
+     */
+    List<Resource> getResourceByObject(String object);
 }

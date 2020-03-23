@@ -29,7 +29,7 @@ import javax.validation.Valid;
  * @description 影视剧控制器
  */
 @Slf4j
-@RestController
+@RestController("adminMoviesController")
 @RequestMapping("/backend/movies")
 public class MoviesController {
 
@@ -102,7 +102,7 @@ public class MoviesController {
             , @RequestParam(value = "page", defaultValue = Const.DEFAULT_PAGE_NUMBER) Integer page
             , @RequestParam(value = "size", defaultValue = Const.DEFAULT_PAGE_SIZE) Integer size) {
         if (SessionUtil.checkSession(session)) {
-                return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
         } else {
             IPage<Movies> allMovies = moviesService.getAllMovies(Const.type.MOVIE, page, size);
             return ServerResponse.createBySuccess(allMovies);
@@ -126,6 +126,29 @@ public class MoviesController {
         } else {
             IPage<Movies> allMovies = moviesService.getAllMovies(Const.type.TV, page, size);
             return ServerResponse.createBySuccess(allMovies);
+        }
+    }
+
+    /**
+     * 删除影视剧
+     *
+     * @param session 用户session
+     * @param movieId 影视剧Id
+     * @return ServerResponse<String>
+     */
+    @DeleteMapping("/{movieId}")
+    public ServerResponse<String> deleteMoviesById(HttpSession session, @PathVariable(value = "movieId") String movieId) {
+        if (SessionUtil.checkSession(session)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+        } else if (StringUtils.isEmpty(movieId)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.PARAMETER_ERROR.getCode(), ResponseCode.PARAMETER_ERROR.getDesc());
+        } else {
+            Boolean result = moviesService.deleteMoviesById(movieId);
+            if (result) {
+                return ServerResponse.createBySuccess();
+            } else {
+                return ServerResponse.createByError();
+            }
         }
     }
 

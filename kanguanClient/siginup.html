@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>kanguan 注册</title>
+    <!--favicon-->
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <!-- Bootstrap core CSS-->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- animate CSS-->
+    <link href="assets/css/animate.css" rel="stylesheet" type="text/css"/>
+    <!-- Icons CSS-->
+    <link href="assets/css/icons.css" rel="stylesheet" type="text/css"/>
+    <!-- Custom Style-->
+    <link href="assets/css/app-style.css" rel="stylesheet"/>
+    <!-- notiflix Style -->
+    <link href="css/notiflix-1.3.0.min.css" rel="stylesheet"/>
+
+</head>
+
+<body>
+
+
+<!-- Start wrapper-->
+<div id="wrapper">
+
+    <!-- registration box 1 -->
+
+    <div class="mt-5">
+        <div class="card card-authentication1 mx-auto">
+            <div class="card-body">
+                <div class="card-content">
+                    <div class="text-center pb-4">
+                        <img src="assets/images/logo-icon.png" alt="logo icon"/>
+                        <h6 class="pb-0 pt-3 line-height-5">欢迎使用看官网</h6>
+                        <small>Create Your New Account</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username" class="sr-only">Name</label>
+                        <div class="position-relative has-icon-right">
+                            <input type="text" id="username" class="form-control form-control-rounded"
+                                   placeholder="请输入用户名">
+                            <div class="form-control-position">
+                                <i class="icon-user"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-12 col-lg-8 col-xl-8">
+                                <label for="email" class="sr-only">Email ID</label>
+                                <div class="position-relative has-icon-right">
+                                    <input type="text" id="email" class="form-control form-control-rounded"
+                                           placeholder="请输入邮箱">
+                                    <div class="form-control-position">
+                                        <i class="icon-envelope-open"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-4 col-xl-4">
+                                <button id="send-verify-code" class="btn btn-outline-info btn-round float-right">获取验证码
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="verify-code" class="sr-only">Verification Code</label>
+                        <div class="position-relative has-icon-right">
+                            <input type="text" id="verify-code" class="form-control form-control-rounded"
+                                   placeholder="请输入验证码">
+                            <div class="form-control-position">
+                                <i class="icon-shield"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="sr-only">Password</label>
+                        <div class="position-relative has-icon-right">
+                            <input type="password" id="password" class="form-control form-control-rounded"
+                                   placeholder="请输入密码">
+                            <div class="form-control-position">
+                                <i class="icon-lock"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="sign-up" type="button" class="btn btn-info btn-block btn-round">注册</button>
+                </div>
+            </div>
+            <div class="card-footer text-center py-3 bg-transparent">
+                <p class="mb-0">已经有账号? <a href="login.html">点击这里登录</a></p>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Start Back To Top Button-->
+    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+    <!--End Back To Top Button-->
+
+
+</div><!--wrapper-->
+
+<!-- Bootstrap core JavaScript-->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+
+<!-- sidebar-menu js -->
+<script src="assets/js/sidebar-menu.js"></script>
+<!-- notiflix -->
+<script src="js/notiflix-1.3.0.min.js"></script>
+<!-- base url -->
+<script src="js/app-url.js"></script>
+
+<!-- 内部方法 -->
+<script type="text/javascript">
+
+    /* 初始化 notiflix */
+    Notiflix.Notify.Init({
+        timeout: 4000
+    });
+
+    /**
+     * 发送邮箱
+     */
+    $("#send-verify-code").click(function () {
+        let email = $("#email").val();
+        if (email === "") {
+            Notiflix.Notify.Warning("邮箱不能为空 ...");
+        } else {
+            $.ajax({
+                url: baseUrl + "/email",
+                contentType: "application/text;charset=utf-8",
+                type: "post",
+                data: email,
+                success: function (result) {
+                    if (result.status === 0) {
+                        Notiflix.Notify.Success("验证码已经发送，请注意查收...");
+                    } else {
+                        Notiflix.Notify.Failure(result.msg);
+                    }
+                }
+            });
+        }
+    });
+
+    /**
+     * 注册新用户
+     */
+    $("#sign-up").click(function () {
+        let username = $("#username").val();
+        let email = $("#email").val();
+        let verifyCode = $("#verify-code").val();
+        let password = $("#password").val();
+
+        let data = {username, email, verifyCode, password};
+
+        $.ajax({
+            url: baseUrl + "/user",
+            contentType: "application/json;charset=utf-8",
+            type: "post",
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.status === 0) {
+                    resetAll();
+                    Notiflix.Notify.Success("注册成功 ！[点击这里去登录]", function () {
+                        window.location.href = "./login.html";
+                    });
+                } else {
+                    Notiflix.Notify.Warning(result.msg);
+                    resetAll();
+                }
+            }
+        });
+    });
+
+    /**
+     * 重置所有
+     */
+    function resetAll() {
+        $("#username").val("");
+        $("#email").val("");
+        $("#verify-code").val("");
+        $("#password").val("");
+    }
+</script>
+
+</body>
+</html>
