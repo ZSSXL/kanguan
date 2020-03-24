@@ -1,7 +1,6 @@
 /* 获取影视剧资源   */
 $(document).on("click", ".get-movies-detail", function () {
     let movieId = $(this).attr("movie-id");
-    console.log("movieId : " + movieId);
     $.ajax({
         url: baseUrl + "/movies/" + movieId,
         type: "get",
@@ -9,7 +8,8 @@ $(document).on("click", ".get-movies-detail", function () {
             XMLHttpRequest.setRequestHeader("token", token);
         },
         success: function (result) {
-            console.log(result);
+            sessionStorage.setItem("kanguan-resource-data", JSON.stringify(result.data));
+            $("#page-load-area").load("resource.html");
         }
     });
 });

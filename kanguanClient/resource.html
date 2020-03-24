@@ -1,3 +1,273 @@
-<!-- 电影部分 -->
-<h6 class="text-uppercase">资源展示</h6>
+<!-- 界面加载区域 -->
+<!-- Modal -->
+<div class="modal fade" id="resource-download-link-modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">资源链接</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <h5>资源名称: <span id="resource-name-in-modal" class="text-grey"></span></h5>
+                        <h5>大&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;小: <span id="resource-bigness-in-modal"
+                                                                                class="text-grey"></span></h5>
+                        <h5>资源链接: <small>(点击下方链接，进行复制)</small></h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- id="resource-download-link"-->
+                    <div class="col-12 bg-inverse-primary">
+                        <div class="m-2" id="resource-download-link" style="word-break: break-all;" onclick="selectArea();">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark btn-square" data-dismiss="modal"><i class="fa fa-times"></i>
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h6 class="text-uppercase" id="movies">DETAIL</h6>
 <hr>
+<div class="card">
+    <div class="card-body">
+        <div class="row justify-content-center">
+            <div class="col-10 col-lg-10 col-xl-10">
+                <h4 id="detail-name"></h4>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-3 col-lg-3 col-xl-3">
+                <div class="cover-img" id="detail-cover"
+                     style="background-image: url(img/the-world-in-your-eyes.jpg)"></div>
+                <button id="add-subscription" class="btn btn-outline-info btn-lg mt-1" style="width: 85%;"><i
+                        class="zmdi zmdi-favorite-outline"></i> 添加订阅
+                </button>
+            </div>
+            <div class="col-7 col-lg-7 col-xl-7">
+                <h5>导演: <span id="detail-director" class="text-grey"></span></h5>
+                <h5>编剧: <span id="detail-scenarist" class="text-grey"></span></h5>
+                <h5>主演: <span id="detail-staring" class="text-grey"></span></h5>
+                <h5>类型: <span id="detail-style" class="text-grey"></span></h5>
+                <h5>国家/地区: <span id="detail-country-region" class="text-grey"></span></h5>
+                <h5>上映日期: <span id="detail-release" class="text-grey"></span></h5>
+                <h5>片长: <span id="detail-movie-length" class="text-grey"></span></h5>
+                <h5 style="display: none;">集数: <span id="detail-tv-length" class="text-grey"></span></h5>
+                <h5>又名: <span id="detail-another-name" class="text-grey"></span></h5>
+                <h5>评分: <span id="detail-score" class="text-danger">8.5</span>
+                    <img style="width: 20px;" alt="#" src="https://www.douban.com/pics/icon/dou24.png">
+                </h5>
+                <h5>简介: <small id="detail-introduction" class="text-grey omit-5"></small></h5>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 资源列表 -->
+<h6 class="text-uppercase" id="resource">RESOURCE</h6>
+<hr>
+<div class="card">
+    <div class="card-body">
+        <div id="select-episode">
+            <h5 class="float-left mr-2">分集筛选</h5>
+            <ul class="list-unstyled list-inline" id="show-episode-area">
+            </ul>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hide table-striped table-hover table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">名称</th>
+                    <th scope="col">大小</th>
+                    <th scope="col">格式</th>
+                    <th scope="col">尺寸</th>
+                    <th scope="col">集数</th>
+                    <th scope="col">链接</th>
+                </tr>
+                </thead>
+                <tbody id="show-resource-area">
+                </tbody>
+            </table>
+        </div>
+        <div class="row justify-content-center mt-3" id="no-resources" style="display: none;">
+            <div class="col-4 col-4 col-4 text-center">
+                <h5>暂无资源，敬请期待，何不添加订阅！</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        let data = sessionStorage.getItem("kanguan-resource-data");
+        showMoviesDetail(JSON.parse(data));
+    });
+
+    /**
+     * 加载电影视剧资源
+     * @param data 影视剧数据
+     */
+    function showMoviesDetail(data) {
+        let movies = data.movies;
+        let resourceList = data.resourceList;
+        showMoviesBasicInfo(movies);
+        showResources(resourceList);
+    }
+
+    /**
+     * 展示影视剧基本信息
+     * @param movies
+     */
+    function showMoviesBasicInfo(movies) {
+        $("#add-subscription").attr("movie-id", movies.movieId);
+
+        $("#detail-name").append(movies.name).append($("<span class='text-grey'></span>").append(" (" + movies.premiere + ")"));
+        $("#detail-cover").css("background-image", "url(" + movies.cover + ")");
+        $("#detail-director").text(movies.director);
+        $("#detail-scenarist").text(movies.scenarist);
+        $("#detail-staring").text(movies.staring);
+        $("#detail-style").text(movies.style);
+        $("#detail-country-region").text(movies.countryRegion);
+        $("#detail-release").text(movies.release);
+        if (movies.type === 1) {
+            $("#select-episode").css("display", "none");
+            $("#detail-movie-length").text(movies.length + "分钟");
+        } else {
+            $("#detail-tv-length").parent("h5").attr("style", "");
+            $("#detail-movie-length").parent("h5").css("display", "none");
+            $("#detail-tv-length").text(movies.length + "集");
+            showEpisode(movies.length);
+        }
+        $("#detail-another-name").text(movies.anotherName);
+        $("#detail-score").text(movies.score);
+        $("#detail-introduction").text(movies.introduction);
+    }
+
+    /* 展示选择集数 */
+    function showEpisode(length) {
+        let number = parseInt(length);
+        $("#show-episode-area").empty();
+        for (i = 1; i <= number; i++) {
+            let index = "";
+            if (i <= 9) {
+                index = "0" + i;
+            } else {
+                index = i;
+            }
+            $("<li class='list-inline-item'></li>")
+                .append($("<a class='finger'></a>").attr("tag-id", "E" + index).append("E" + index)).appendTo("#show-episode-area");
+        }
+        $("<li class='list-inline-item'></li>")
+            .append($("<a class='finger'></a>").attr("tag-id", "").append("全部")).appendTo("#show-episode-area");
+    }
+
+    /**
+     * 显示资源
+     * @param resourceList
+     */
+    function showResources(resourceList) {
+        $("#show-resource-area").empty();
+        if (resourceList.length === 0) {
+            $("#no-resources").attr("style", "");
+        }
+        $.each(resourceList, function (index, resource) {
+            /* 获取尺寸 */
+            let dimensionTd = $("<td></td>");
+            if (resource.name.indexOf("1080") > 0) {
+                dimensionTd.append("1080P");
+            } else if (resource.name.indexOf("720")) {
+                dimensionTd.append("720P");
+            } else if (resource.name.indexOf("HD4K") || resource.name.indexOf("2160")) {
+                dimensionTd.append("2160P");
+            } else {
+                dimensionTd.append("-");
+            }
+
+            let numTd = $("<td></td>").append(index + 1);
+            let nameTd = $("<td></td>").append(resource.name);
+            let bignessTd = $("<td></td>").append(resource.bigness);
+            let formatTd = $("<td></td>").append(resource.format);
+            let episodeTd = $("<td></td>").append(resource.episode);
+            let resourceTd = $("<td></td>")
+                .append($("<button class='btn btn-sm btn-outline-info btn-round resource-btn'></button>")
+                    .append("资源").attr("resource-id", resource.resourceId));
+            let baseTr = $("<tr></tr>")
+                .append(numTd)
+                .append(nameTd)
+                .append(bignessTd)
+                .append(formatTd)
+                .append(dimensionTd)
+                .append(episodeTd)
+                .append(resourceTd)
+                .appendTo("#show-resource-area");
+        })
+    }
+
+    /**
+     * 快速筛选
+     */
+    $(".finger").click(function () {
+        let tag = $(this).attr("tag-id");
+        filterTable(tag);
+    });
+
+    function filterTable(val) {
+        $("table tbody tr").hide()
+            .filter(":contains('" + (val) + "')").show();//filter和contains共同来实现了这个功能。
+    }
+</script>
+<script type="text/javascript">
+    $(document).on("click", ".resource-btn", function () {
+        let resourceId = $(this).attr("resource-id");
+        getResource(resourceId);
+    });
+
+    function getResource(resourceId) {
+        $.ajax({
+            url: baseUrl + "/resource/" + resourceId,
+            type: "get",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("token", token);
+            },
+            success: function (result) {
+                if (result.status === 0) {
+                    showResource(result.data);
+                    $("#resource-download-link-modal").modal("show");
+                } else {
+                    Notiflix.Notify.Warning(result.msg);
+                }
+            }
+        });
+    }
+
+    /**
+     * 展示资源
+     * @param resource
+     */
+    function showResource(resource) {
+        $("#resource-name-in-modal").text(resource.name);
+        $("#resource-bigness-in-modal").text(resource.bigness);
+        $("#resource-download-link").text(resource.downloadLink);
+    }
+
+    /**
+     * 选择文字
+     */
+    function selectArea() {
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        var range = document.createRange();
+        range.selectNodeContents(document.getElementById("resource-download-link")); // 需要选中的dom节点
+        selection.addRange(range);
+    }
+
+</script>

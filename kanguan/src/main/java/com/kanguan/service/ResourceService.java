@@ -34,4 +34,12 @@ public interface ResourceService {
      * @return List<Resource>
      */
     List<Resource> getResourceByObject(String object);
+
+    /**
+     * 通过Id获取资源
+     *
+     * @param resourceId 资源Id
+     * @return Resource
+     */
+    Resource getResourceById(String resourceId);
 }

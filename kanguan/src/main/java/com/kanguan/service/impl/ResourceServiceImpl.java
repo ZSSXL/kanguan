@@ -46,4 +46,9 @@ public class ResourceServiceImpl implements ResourceService {
         wrapper.eq("object", object);
         return resourceMapper.selectList(wrapper);
     }
+
+    @Override
+    public Resource getResourceById(String resourceId) {
+        return resourceMapper.selectById(resourceId);
+    }
 }

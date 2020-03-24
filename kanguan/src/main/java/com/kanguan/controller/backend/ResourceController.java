@@ -36,6 +36,14 @@ public class ResourceController {
         this.resourceService = resourceService;
     }
 
+    /**
+     * 添加资源
+     *
+     * @param session    用户session
+     * @param resourceVo 资源实体Vo
+     * @param result     错误结果
+     * @return ServerResponse<String>
+     */
     @PostMapping
     public ServerResponse<String> addResource(HttpSession session, @RequestBody @Valid ResourceVo resourceVo, BindingResult result) {
         if (SessionUtil.checkSession(session)) {
