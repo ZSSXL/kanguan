@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.kanguan.entity.po.UserInfo">
+<mapper namespace="com.kanguan.mapper.UserInfoMapper">
     <resultMap id="BaseResultMap" type="com.kanguan.entity.po.UserInfo">
         <id property="infoId" column="info_id"/>
         <result property="member" column="member"/>

@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.kanguan.entity.po.Subtitle">
+<mapper namespace="com.kanguan.mapper.SubtitleMapper">
     <resultMap id="BaseResultMap" type="com.kanguan.entity.po.Subtitle">
         <id property="subtitleId" column="subtitle_id"/>
         <result property="name" column="name"/>

@@ -33,6 +33,11 @@ public class Const {
     public static final String DEFAULT_PAGE_SIZE = "20";
 
     /**
+     * 默认推荐适量
+     */
+    public static final Integer DEFAULT_RECOMMENDED_QUANTITY = 12;
+
+    /**
      * 存储路径
      */
     public interface path {

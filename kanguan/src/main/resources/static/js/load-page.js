@@ -13,6 +13,13 @@ $("#add-movies").click(function () {
     sideBarActive("movies", "add-movies");
 });
 
+// 影视剧推荐页面加载
+$("#hot-movies").click(function () {
+    loadPage("hot-movies");
+    sideBarActive("movies", "hot-movies");
+    getAllHotMovies();
+});
+
 // 字幕查看页面加载
 $("#subtitle").click(function () {
     loadPage("subtitle");
@@ -46,9 +53,14 @@ function sideBarActive(pageName, idName) {
         $("#sidebar-1").attr("class", "active");
         $("#" + idName).attr("class", "active finger");
         if (idName === "movies") {
-            $("#add-" + idName).attr("class", "finger");
+            $("#add-movies").attr("class", "finger");
+            $("#hot-movies").attr("class", "finger");
+        } else if (idName === "add-movies") {
+            $("#movies").attr("class", "finger");
+            $("#hot-movies").attr("class", "finger");
         } else {
             $("#movies").attr("class", "finger");
+            $("#add-movies").attr("class", "finger");
         }
         // sidebar-2
     } else if (pageName === "subtitle") {
@@ -73,14 +85,17 @@ function sideBarActive(pageName, idName) {
  */
 function currentPage() {
     let item = localStorage.getItem("kanguan-current-page");
+    console.log(item);
     if (item === null) {
         loadPage("movies");
         getAllMovies();
     } else {
         loadPage(item);
         if (item.indexOf("movies") >= 0) {
-            if(item === "movies"){
+            if (item === "movies") {
                 getAllMovies();
+            } else if(item === "hot-movies"){
+                getAllHotMovies();
             }
             sideBarActive("movies", item);
         } else {

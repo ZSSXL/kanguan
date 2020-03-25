@@ -28,6 +28,10 @@
     -webkit-box-orient: vertical;
 }
 
+.text-grey {
+    color: #888888;
+}
+
 /* 图片覆盖 */
 .overlay-img {
     width: 100%;

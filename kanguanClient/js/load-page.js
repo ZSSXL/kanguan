@@ -1,9 +1,15 @@
 /* 界面加载 */
+// 网站首页
+$("#home").click(function () {
+    loadPage("home");
+    getAllMovie(1, 20);
+    sideBarActive("home");
+});
 
 // 影视剧查看页面加载
 $("#movie").click(function () {
     loadPage("movie");
-    getAllMovie(1,20);
+    getAllMovie(1, 20);
     sideBarActive("movie");
 });
 
@@ -12,6 +18,13 @@ $("#tv").click(function () {
     loadPage("tv");
     getAllTv(1, 20);
     sideBarActive("tv");
+});
+
+// 检索页面
+$("#select").click(function () {
+    loadPage("select");
+    getAllTv(1, 20);
+    sideBarActive("select");
 });
 
 /**
@@ -29,9 +42,21 @@ function loadPage(idName) {
  * @param pageName
  */
 function sideBarActive(pageName) {
-    if (pageName === "tv") {
+    if (pageName === "home") {
         $("#movie").attr("class", "nav-link");
+        $("#tv").attr("class", "nav-link");
+        $("#select").attr("class", "nav-link");
+    } else if (pageName === "tv") {
+        $("#home").attr("class", "nav-link");
+        $("#movie").attr("class", "nav-link");
+        $("#select").attr("class", "nav-link");
     } else if (pageName === "movie") {
+        $("#home").attr("class", "nav-link");
+        $("#tv").attr("class", "nav-link");
+        $("#select").attr("class", "nav-link");
+    } else if (pageName === "select") {
+        $("#home").attr("class", "nav-link");
+        $("#movie").attr("class", "nav-link");
         $("#tv").attr("class", "nav-link");
     }
     $("#" + pageName).attr("class", "nav-link active");
@@ -44,14 +69,14 @@ function sideBarActive(pageName) {
 function currentPage() {
     let item = localStorage.getItem("kanguan-current-page");
     if (item === null) {
-        loadPage("movies");
-        sideBarActive("movie");
+        loadPage("home");
+        sideBarActive("home");
     } else {
         loadPage(item);
         sideBarActive(item);
         if (item === "movie") {
             getAllMovie(1, 20);
-        } else {
+        } else if (item === "tv") {
             getAllTv(1, 20);
         }
     }

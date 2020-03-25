@@ -3,6 +3,38 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="">
+<mapper namespace="com.kanguan.mapper.HotMapper">
+    <resultMap id="BaseResultMap" type="com.kanguan.entity.po.Hot">
+        <id property="hotId" column="hot_id"/>
+        <result property="object" column="object"/>
+        <result property="type" column="type"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    <resultMap id="HotMovieVo" type="com.kanguan.entity.vo.HotMoviesVo">
+        <result property="hotId" column="hot_id"/>
+        <result property="movieId" column="movie_id"/>
+        <result property="name" column="name"/>
+        <result property="cover" column="cover"/>
+        <result property="premiere" column="premiere"/>
+        <result property="type" column="type"/>
+        <result property="director" column="director"/>
+        <result property="introduction" column="introduction"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        hot_id, object, type, create_time, update_time
+    </sql>
+    <sql id="Hot_Movie_Vo_List">
+        kh.hot_id, km.movie_id, km.name, km.cover, km.premiere, km.type, km.director, km.introduction
+    </sql>
+
+    <select id="selectHotByType" resultType="com.kanguan.entity.vo.HotMoviesVo" parameterType="java.lang.Integer">
+        select
+        <include refid="Hot_Movie_Vo_List"/>
+        from KG_HOT kh, KG_MOVIES km
+        where kh.object = km.movie_id
+        and km.type = #{type}
+    </select>
+
 
 </mapper>
