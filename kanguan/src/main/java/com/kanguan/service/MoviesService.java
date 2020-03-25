@@ -3,6 +3,8 @@ package com.kanguan.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kanguan.entity.po.Movies;
 
+import java.util.List;
+
 /**
  * @author ZSS
  * @date 2020/3/19 20:49
@@ -52,4 +54,11 @@ public interface MoviesService {
      */
     Movies getMoviesById(String movieId);
 
+    /**
+     * 检索影视剧
+     *
+     * @param name 影视剧名称
+     * @return List<Movies>
+     */
+    List<Movies> searchMoviesByName(String name);
 }

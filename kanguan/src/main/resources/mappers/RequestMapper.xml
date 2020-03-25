@@ -6,6 +6,7 @@
 <mapper namespace="com.kanguan.mapper.RequestMapper">
     <resultMap id="BaseResultMap" type="com.kanguan.entity.po.Request">
         <id property="requestId" column="request_id"/>
+        <result property="requester" column="requester"/>
         <result property="doubanAddress" column="douban_address"/>
         <result property="name" column="name"/>
         <result property="exist" column="exist"/>
@@ -14,7 +15,7 @@
     </resultMap>
 
     <sql id="Bash_Column_List">
-        request_id, douban_address, name, exist, create_time, update_time
+        request_id, requester, douban_address, name, exist, create_time, update_time
     </sql>
 
 </mapper>

@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author ZSS
@@ -151,7 +152,6 @@ public class MoviesController {
             }
         }
     }
-
 
     // ------------------------------ 内部私有工具 ------------------------------- //
 

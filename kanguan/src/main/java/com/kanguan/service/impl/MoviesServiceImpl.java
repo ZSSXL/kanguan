@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author ZSS
  * @date 2020/3/19 20:49
@@ -62,6 +64,13 @@ public class MoviesServiceImpl implements MoviesService {
     @Override
     public Movies getMoviesById(String movieId) {
         return moviesMapper.selectById(movieId);
+    }
+
+    @Override
+    public List<Movies> searchMoviesByName(String name) {
+        QueryWrapper<Movies> wrapper = new QueryWrapper<>();
+        wrapper.like("name", name);
+        return moviesMapper.selectList(wrapper);
     }
 
 }

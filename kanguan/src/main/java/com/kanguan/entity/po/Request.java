@@ -27,6 +27,11 @@ public class Request extends Model<Request> implements Serializable {
     private String requestId;
 
     /**
+     * 请求者
+     */
+    private String requester;
+
+    /**
      * 豆瓣地址
      */
     private String doubanAddress;

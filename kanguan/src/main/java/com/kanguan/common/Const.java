@@ -25,12 +25,12 @@ public class Const {
     /**
      * 默认当前页
      */
-    public static final String DEFAULT_PAGE_NUMBER = "0";
+    public static final String DEFAULT_PAGE_NUMBER = "1";
 
     /**
      * 默认分页条数
      */
-    public static final String DEFAULT_PAGE_SIZE = "20";
+    public static final String DEFAULT_PAGE_SIZE = "24";
 
     /**
      * 默认推荐适量

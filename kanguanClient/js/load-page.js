@@ -2,7 +2,7 @@
 // 网站首页
 $("#home").click(function () {
     loadPage("home");
-    getAllMovie(1, 20);
+    getAllHotMovies();
     sideBarActive("home");
 });
 
@@ -68,6 +68,7 @@ function sideBarActive(pageName) {
  */
 function currentPage() {
     let item = localStorage.getItem("kanguan-current-page");
+    console.log(item);
     if (item === null) {
         loadPage("home");
         sideBarActive("home");
@@ -78,6 +79,8 @@ function currentPage() {
             getAllMovie(1, 20);
         } else if (item === "tv") {
             getAllTv(1, 20);
+        } else if (item === "home") {
+            getAllHotMovies();
         }
     }
 }

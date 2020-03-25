@@ -56,9 +56,14 @@ function showMovies(data, idName, modal) {
             .append($("<p class='mb-0 extra-small-font text-white omit-3 m-2'></p>").append("by " + record.director))
             .append($("<span class='post omit-9'></span>").append(record.introduction));
         let btnDiv = $("<div class='icon'></div>")
-            .append($("<button class='btn btn-white btn-round mb-2 add-resource-btn' data-toggle='modal'>添加资源</button>")
+            .append($("<button class='btn btn-info btn-round mb-2'>详情</button>").attr("movie-id", record.movieId))
+            .append($("<button class='btn btn-primary btn-round mb-2 add-resource-btn' data-toggle='modal'>添加资源</button>")
                 .attr({"movies-id": record.movieId, "movies-type": record.type, "data-target": modal}))
-            .append($("<button class='btn btn-white btn-round mb-2'>查看详情</button>").attr("movie-id", record.movieId));
+            .append($("<button class='btn btn-danger recommend-resource btn-round mb-2'></button>")
+                .append($("<span class='fa fa-thumbs-o-up'>推荐</span>")).attr({
+                    "object": record.movieId,
+                    "movies-type": record.type
+                }));
         $("<div class='col-12 col-lg-4 col-xl-3'></div>").append($("<div class='box card'></div>")
             .append(coverDiv)
             .append(contentDiv)
@@ -73,8 +78,31 @@ $(document).on("click", ".add-resource-btn", function () {
     if (parseInt(type) === 1) {
         // 添加电影资源
         $("#add-movie-resource").attr("movie-id", movieId);
-    } else if (parseInt(type)  === 0) {
+    } else if (parseInt(type) === 0) {
         // 添加电视剧资源
         $("#add-tv-resource").attr("tv-id", movieId);
     }
+});
+
+/**
+ * 推荐资源
+ */
+$(document).on("click", ".recommend-resource", function () {
+    let object = $(this).attr("object");
+    let type = $(this).attr("movies-type");
+    let data = {object, type};
+    $.ajax({
+        url: "/backend/hot",
+        contentType: "application/json;charset=utf-8",
+        type: "post",
+        dataType: "json",
+        data: JSON.stringify(data),
+        success: function (result) {
+            if (result.status === 0) {
+                Notiflix.Notify.Success("推荐成功");
+            } else {
+                Notiflix.Notify.Warning(result.msg);
+            }
+        }
+    });
 });

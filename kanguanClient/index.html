@@ -33,6 +33,39 @@
 
 <body>
 
+<!-- Modal -->
+<div class="modal fade" id="request-resource-modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">求资源</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <div class="form-group">
+                            <label for="request-name">资源名称</label>
+                            <input type="text" class="form-control" id="request-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="douban-address">豆瓣地址 <span class="text-grey"> (例：https://movie.douban.com/subject/1292052/)</span></label>
+                            <input type="text" class="form-control" id="douban-address">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark btn-square" data-dismiss="modal"><i class="fa fa-times"></i>
+                    关闭
+                </button>
+                <button type="button" class="btn btn-info btn-square" id="send-request">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Start wrapper-->
 <div id="wrapper">
     <!--Start topbar header-->
@@ -59,8 +92,8 @@
                     </li>
                 </ul>
                 <form class="search-bar">
-                    <input type="text" class="form-control" placeholder="电影、电视剧">
-                    <a href="#">
+                    <input id="search-name" type="text" class="form-control" placeholder="电影、电视剧">
+                    <a href="#" id="search-movies">
                         <i class="icon-magnifier"></i>
                     </a>
                 </form>
@@ -166,7 +199,8 @@
     <footer class="footer">
         <div class="container">
             <div class="text-center">
-                Copyright © 2020 <a href="http://www.baidu.com/">Kanguan</a>
+                Copyright © 2020 <a href="http://www.baidu.com/" class="text-dark">Kanguan</a>
+                <span id="request-resource" class="finger text-secondary ml-3" data-toggle="modal" data-target="#request-resource-modal">求资源</span>
             </div>
         </div>
     </footer>
@@ -201,6 +235,8 @@
 <script src="js/tv.js"></script>
 <!-- index js -->
 <script src="js/index.js"></script>
+<!-- home js -->
+<script src="js/home.js"></script>
 
 <!-- 内部方法 -->
 <script type="text/javascript">
