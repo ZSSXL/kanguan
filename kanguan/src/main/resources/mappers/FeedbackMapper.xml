@@ -6,13 +6,15 @@
 <mapper namespace="com.kanguan.mapper.FeedbackMapper">
     <resultMap id="BaseResultMap" type="com.kanguan.entity.po.Feedback">
         <id property="feedbackId" column="feedback_id"/>
+        <result property="feedbackPerson" column="feedback_person"/>
         <result property="content" column="content"/>
+        <result property="read" column="read"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        feedback_id, content, create_time, update_time
+        feedback_id, feedback_person, content, create_time, update_time
     </sql>
 
 </mapper>

@@ -16,4 +16,13 @@ public interface RequestService {
      * @return Boolean
      */
     Boolean createRequest(Request request);
+
+    /**
+     * 查看是否已经存在该请求
+     *
+     * @param requester 请求者
+     * @param name      资源名称
+     * @return Boolean
+     */
+    Boolean isExistInDb(String requester, String name);
 }

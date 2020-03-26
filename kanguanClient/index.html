@@ -66,6 +66,36 @@
         </div>
     </div>
 </div>
+
+<!-- 反馈 Modal -->
+<div class="modal fade" id="feedback-modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">反馈</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <div class="form-group">
+                            <label for="feedback-content">反馈内容<span class="text-grey"> (意见、改进、合作)</span></label>
+                            <textarea rows="5" type="text" class="form-control" id="feedback-content"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark btn-square" data-dismiss="modal"><i class="fa fa-times"></i>
+                    关闭
+                </button>
+                <button type="button" class="btn btn-info btn-square" id="send-feedback">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Start wrapper-->
 <div id="wrapper">
     <!--Start topbar header-->
@@ -91,7 +121,7 @@
                         <a id="select" class="nav-link" href="#"><p class="font-16">检索</p></a>
                     </li>
                 </ul>
-                <form class="search-bar">
+                <form class="search-bar mr-4">
                     <input id="search-name" type="text" class="form-control" placeholder="电影、电视剧">
                     <a href="#" id="search-movies">
                         <i class="icon-magnifier"></i>
@@ -99,54 +129,6 @@
                 </form>
             </div>
             <ul class="navbar-nav align-items-center ml-3">
-                <li class="nav-item dropdown-lg">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown"
-                       href="javascript:void();">
-                        <i class="fa fa-bell-o"></i><span class="badge badge-info badge-up">14</span></a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                You have 14 Notifications
-                                <span class="badge badge-info">14</span>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="javaScript:void();">
-                                    <div class="media">
-                                        <i class="zmdi zmdi-accounts fa-2x mr-3 text-info"></i>
-                                        <div class="media-body">
-                                            <h6 class="mt-0 msg-title">New Registered Users</h6>
-                                            <p class="msg-info">Lorem ipsum dolor sit amet...</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="javaScript:void();">
-                                    <div class="media">
-                                        <i class="zmdi zmdi-coffee fa-2x mr-3 text-warning"></i>
-                                        <div class="media-body">
-                                            <h6 class="mt-0 msg-title">New Received Orders</h6>
-                                            <p class="msg-info">Lorem ipsum dolor sit amet...</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="javaScript:void();">
-                                    <div class="media">
-                                        <i class="zmdi zmdi-notifications-active fa-2x mr-3 text-danger"></i>
-                                        <div class="media-body">
-                                            <h6 class="mt-0 msg-title">New Updates</h6>
-                                            <p class="msg-info">Lorem ipsum dolor sit amet...</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="list-group-item text-center"><a href="javaScript:void();">See All
-                                Notifications</a></li>
-                        </ul>
-                    </div>
-                </li>
                 <li class="nav-item ml-3">
                     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret mt-2" data-toggle="dropdown" href="#">
                         <span class="user-profile">
@@ -154,25 +136,12 @@
                         </span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li class="dropdown-item user-details">
-                            <a href="javaScript:void();">
-                                <div class="media">
-                                    <div class="avatar">
-                                        <img class="align-self-start mr-3"
-                                             src="assets/images/avatars/avatar-13.png"
-                                             alt="user avatar">
-                                    </div>
-                                    <div class="media-body">
-                                        <h6 class="mt-2 user-title">kanguan admin</h6>
-                                        <p class="user-subtitle">admin@example.com</p>
-                                    </div>
-                                </div>
-                            </a>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item finger" id="personal-center">
+                            <i class="icon-settings mr-2"></i> 个人中心
                         </li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
-                        <li class="dropdown-divider"></li>
-                        <li class="dropdown-item" id="logout"><i class="icon-power mr-2"></i> Logout</li>
+                        <li class="dropdown-item finger" id="logout"><i class="icon-power mr-2"></i> 退出</li>
                     </ul>
                 </li>
             </ul>
@@ -200,7 +169,10 @@
         <div class="container">
             <div class="text-center">
                 Copyright © 2020 <a href="http://www.baidu.com/" class="text-dark">Kanguan</a>
-                <span id="request-resource" class="finger text-secondary ml-3" data-toggle="modal" data-target="#request-resource-modal">求资源</span>
+                <span class="finger text-secondary ml-3" data-toggle="modal"
+                      data-target="#request-resource-modal">求资源</span>
+                <span class="finger text-secondary ml-2" data-toggle="modal"
+                      data-target="#feedback-modal">反馈</span>
             </div>
         </div>
     </footer>

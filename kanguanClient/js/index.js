@@ -35,3 +35,59 @@ $("#search-movies").click(function () {
         }
     });
 });
+
+/**
+ * 请求资源
+ */
+$("#send-request").click(function () {
+    let name = $("#request-name").val();
+    let doubanAddress = $("#douban-address").val();
+    let data = {name, doubanAddress};
+    $.ajax({
+        url: baseUrl + "/request",
+        contentType: "application/json;charset=utf-8",
+        type: "post",
+        beforeSend: function (XMLHttpRequest) {
+            XMLHttpRequest.setRequestHeader("token", token);
+        },
+        dataType: "json",
+        data: JSON.stringify(data),
+        success: function (result) {
+            if (result.status === 0) {
+                Notiflix.Notify.Success("提交成功");
+                $("#request-name").val("");
+                $("#douban-address").val("");
+                $("#request-resource-modal").modal("hide");
+            } else {
+                Notiflix.Notify.Warning(result.msg);
+            }
+        }
+    });
+});
+
+/**
+ * 请求资源
+ */
+$("#send-feedback").click(function () {
+    let content = $("#feedback-content").val();
+    console.log(content);
+    $.ajax({
+        url: baseUrl + "/feedback",
+        contentType: "application/json;charset=utf-8",
+        type: "post",
+        beforeSend: function (XMLHttpRequest) {
+            XMLHttpRequest.setRequestHeader("token", token);
+        },
+        dataType: "json",
+        data: JSON.stringify(content),
+        success: function (result) {
+            if (result.status === 0) {
+                Notiflix.Notify.Success("提交成功");
+                $("#feedback-content").val("");
+                $("#feedback-modal").modal("hide");
+            } else {
+                Notiflix.Notify.Warning(result.msg);
+            }
+        }
+    });
+});

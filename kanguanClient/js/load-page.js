@@ -28,6 +28,13 @@ $("#select").click(function () {
 });
 
 /**
+ * 打开个人中心
+ */
+$("#personal-center").click(function () {
+    $("#page-load-area").load("center.html");
+});
+
+/**
  * 加载页面
  * @param idName id名
  */
@@ -35,7 +42,6 @@ function loadPage(idName) {
     $("#page-load-area").load(idName + ".html");
     localStorage.setItem("kanguan-current-page", idName);
 }
-
 
 /**
  * 设置active

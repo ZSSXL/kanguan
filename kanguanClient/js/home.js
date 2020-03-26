@@ -51,7 +51,7 @@ function showHotMovie(data) {
             .append($("<span class='post omit-6'></span>").append(item.introduction));
         let btnDiv = $("<div class='icon'></div>")
             .append($("<button class='btn btn-white btn-round get-movies-detail mb-2'>查看详情</button>").attr("movie-id", item.movieId));
-        $("<div class='col-12 col-lg-3 col-xl-2'></div>").append($("<div class='box'></div>")
+        $("<div class='col-12 col-lg-3 col-xl-2 mt-3'></div>").append($("<div class='box'></div>")
             .append(coverDiv)
             .append(contentDiv)
             .append(btnDiv)).appendTo("#load-hot-movie");
@@ -72,7 +72,7 @@ function showHotTv(data) {
             .append($("<span class='post omit-6'></span>").append(item.introduction));
         let btnDiv = $("<div class='icon'></div>")
             .append($("<button class='btn btn-white btn-round get-movies-detail mb-2'>查看详情</button>").attr("movie-id", item.movieId));
-        $("<div class='col-12 col-lg-3 col-xl-2'></div>").append($("<div class='box'></div>")
+        $("<div class='col-12 col-lg-3 col-xl-2 mt-3'></div>").append($("<div class='box'></div>")
             .append(coverDiv)
             .append(contentDiv)
             .append(btnDiv)).appendTo("#load-hot-tv");

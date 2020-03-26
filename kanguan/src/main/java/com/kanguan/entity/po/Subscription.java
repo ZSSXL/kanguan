@@ -27,9 +27,14 @@ public class Subscription extends Model<Subscription> implements Serializable {
     private String subId;
 
     /**
-     * 订阅名称
+     * 订阅人
      */
-    private String name;
+    private String subscriber;
+
+    /**
+     * 订阅对象
+     */
+    private String subObject;
 
     /**
      * 创建时间

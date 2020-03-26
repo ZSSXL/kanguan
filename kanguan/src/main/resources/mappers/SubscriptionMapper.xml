@@ -6,13 +6,14 @@
 <mapper namespace="com.kanguan.mapper.SubscriptionMapper">
     <resultMap id="BaseResultMap" type="com.kanguan.entity.po.Subscription">
         <id property="subId" column="sub_id"/>
-        <result property="name" column="name"/>
+        <result property="subscriber" column="subscriber"/>
+        <result property="subObject" column="sub_object"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        sub_id, name, create_time, update_time
+        sub_id, subscriber, sub_content, create_time, update_time
     </sql>
 
 </mapper>

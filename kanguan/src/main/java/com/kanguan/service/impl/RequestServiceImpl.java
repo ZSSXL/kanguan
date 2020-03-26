@@ -1,5 +1,6 @@
 package com.kanguan.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.kanguan.entity.po.Request;
 import com.kanguan.mapper.RequestMapper;
 import com.kanguan.service.RequestService;
@@ -25,5 +26,14 @@ public class RequestServiceImpl implements RequestService {
     public Boolean createRequest(Request request) {
         int insert = requestMapper.insert(request);
         return insert == 1;
+    }
+
+    @Override
+    public Boolean isExistInDb(String requester, String name) {
+        QueryWrapper<Request> wrapper = new QueryWrapper<>();
+        wrapper.eq("requester", requester)
+                .like("name", name);
+        Request request = requestMapper.selectOne(wrapper);
+        return request != null;
     }
 }

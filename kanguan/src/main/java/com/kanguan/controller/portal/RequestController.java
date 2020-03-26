@@ -24,7 +24,7 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping("/request")
-public class RequestController {
+public class RequestController extends BaseController {
 
     private final RequestService requestService;
     private final TokenUtil tokenUtil;
@@ -50,25 +50,29 @@ public class RequestController {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.PARAMETER_ERROR.getCode(), ResponseCode.PARAMETER_ERROR.getDesc());
         } else {
             String requester = tokenUtil.getClaim(token, "userId").asString();
-            Request build = Request.builder()
-                    .requestId(UUIDUtil.getId())
-                    .requester(requester)
-                    .name(requestVo.getName())
-                    .doubanAddress(requestVo.getDoubanAddress())
-                    .createTime(TimeUtil.getTimestamp())
-                    .updateTime(TimeUtil.getTimestamp())
-                    .build();
-            try {
-                Boolean requestResult = requestService.createRequest(build);
-                if (requestResult) {
-                    return ServerResponse.createBySuccessMessage("请求成功");
-                } else {
-                    return ServerResponse.createByErrorMessage("请求失败");
+            Boolean existInDb = requestService.isExistInDb(requester, requestVo.getName());
+            if (existInDb) {
+                return ServerResponse.createByErrorMessage("已经申请过了，请到个人中心查看");
+            } else {
+                Request build = Request.builder()
+                        .requestId(UUIDUtil.getId())
+                        .requester(requester)
+                        .name(requestVo.getName())
+                        .doubanAddress(requestVo.getDoubanAddress())
+                        .createTime(TimeUtil.getTimestamp())
+                        .updateTime(TimeUtil.getTimestamp())
+                        .build();
+                try {
+                    Boolean requestResult = requestService.createRequest(build);
+                    if (requestResult) {
+                        return ServerResponse.createBySuccessMessage("请求成功");
+                    } else {
+                        return ServerResponse.createByErrorMessage("请求失败");
+                    }
+                } catch (Exception e) {
+                    log.error("create request has unknown error, please check the log ", e);
+                    return ServerResponse.createByErrorMessage("发生未知异常, 反馈给站主");
                 }
-                // todo 明天完成资源请求的相关功能
-            } catch (Exception e) {
-                log.error("create request has unknown error, please check the log ", e);
-                return ServerResponse.createByErrorMessage("发生未知异常, 反馈给站主");
             }
         }
     }

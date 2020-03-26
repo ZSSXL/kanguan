@@ -27,9 +27,19 @@ public class Feedback extends Model<Feedback> implements Serializable {
     private String feedbackId;
 
     /**
+     * 反馈人
+     */
+    private String feedbackPerson;
+
+    /**
      * 反馈内容
      */
     private String content;
+
+    /**
+     * 阅读状态 1 是已读， 0 是未读
+     */
+    private Integer read;
 
     /**
      * 创建时间
