@@ -91,3 +91,25 @@ $("#send-feedback").click(function () {
         }
     });
 });
+
+/**
+ * 获取个人信息
+ */
+function getPersonalInfo() {
+    $.ajax({
+        url: baseUrl + "/user",
+        contentType: "application/json;charset=utf-8",
+        type: "get",
+        beforeSend: function (XMLHttpRequest) {
+            XMLHttpRequest.setRequestHeader("token", token);
+        },
+        success: function (result) {
+            if (result.status === 0) {
+                $("#personal-name").text(result.data.username);
+                $("#personal-center").attr({"email": result.data.email, "account-id": result.data.accountId});
+            } else {
+                Notiflix.Notify.Warning(result.msg);
+            }
+        }
+    });
+}

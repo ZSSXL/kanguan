@@ -37,9 +37,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public Boolean isExistInDb(String subObject) {
+    public Boolean isExistInDb(String subObject, String subscriber) {
         QueryWrapper<Subscription> wrapper = new QueryWrapper<>();
-        wrapper.eq("sub_object", subObject);
+        wrapper.eq("sub_object", subObject)
+                .eq("subscriber", subscriber);
         Subscription subscription = subscriptionMapper.selectOne(wrapper);
         return subscription != null;
     }

@@ -7,6 +7,8 @@ import com.kanguan.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author ZSS
  * @date 2020/3/25 22:47
@@ -35,5 +37,21 @@ public class RequestServiceImpl implements RequestService {
                 .like("name", name);
         Request request = requestMapper.selectOne(wrapper);
         return request != null;
+    }
+
+    @Override
+    public List<Request> getRequestByRequester(String requester) {
+        QueryWrapper<Request> wrapper = new QueryWrapper<>();
+        wrapper.eq("requester", requester);
+        return requestMapper.selectList(wrapper);
+    }
+
+    @Override
+    public Boolean deleteRequest(String requester, String requestId) {
+        QueryWrapper<Request> wrapper = new QueryWrapper<>();
+        wrapper.eq("requester", requester)
+                .eq("request_id", requestId);
+        int delete = requestMapper.delete(wrapper);
+        return delete == 1;
     }
 }

@@ -42,7 +42,7 @@ public class Request extends Model<Request> implements Serializable {
     private String name;
 
     /**
-     * 是否存在：不存在为0，未收录; 存在这将地址放在这里
+     * 是否存在：不存在为0，未收录; 存在则将地址放在这里
      */
     private String exist;
 

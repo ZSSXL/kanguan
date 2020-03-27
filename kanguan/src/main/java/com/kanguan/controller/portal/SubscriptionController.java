@@ -48,11 +48,11 @@ public class SubscriptionController extends BaseController {
         if (StringUtils.isEmpty(subObject)) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.PARAMETER_ERROR.getCode(), ResponseCode.PARAMETER_ERROR.getDesc());
         } else {
-            Boolean existInDb = subscriptionService.isExistInDb(subObject);
+            String subscriber = tokenUtil.getClaim(token, "userId").asString();
+            Boolean existInDb = subscriptionService.isExistInDb(subObject, subscriber);
             if (existInDb) {
                 return ServerResponse.createByErrorMessage("已经订阅了,去个人中心查看");
             } else {
-                String subscriber = tokenUtil.getClaim(token, "userId").asString();
                 Subscription build = Subscription.builder()
                         .subId(UUIDUtil.getId())
                         .subscriber(subscriber)

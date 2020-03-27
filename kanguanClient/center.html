@@ -1,3 +1,187 @@
 <!-- 个人中心 -->
 <h6 class="text-uppercase">personal center</h6>
 <hr>
+
+<!-- 个人信息 -->
+<div class="card">
+    <div class="card-header">
+        <h5>个人信息</h5>
+    </div>
+    <div class="card-body">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-12 col-xl-12">
+                <div class="form-group row">
+                    <label for="personal-email" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" readonly="readonly" id="personal-email">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-12 col-xl-12">
+                <div class="form-group row">
+                    <label for="personal-username" class="col-sm-2 col-form-label">username</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="personal-username">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-12 col-xl-12">
+                <div class="form-group row">
+                    <label for="personal-password" class="col-sm-2 col-form-label">password</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="personal-password">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-8 col-xl-6">
+                <button class="btn btn-lg btn-outline-warning btn-round">修改个人信息</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 个人订阅 -->
+<div class="card">
+    <div class="card-header">
+        <h5>个人订阅</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hide table-striped table-hover table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">名称</th>
+                    <th scope="col">最近更新</th>
+                    <th scope="col">查看</th>
+                </tr>
+                </thead>
+                <tbody id="show-subscription-area">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- 资源请求 -->
+<div class="card">
+    <div class="card-header">
+        <h5>资源请求</h5>
+    </div>
+    <div class="card-body">
+        <h5>资源请求 。。。</h5>
+    </div>
+</div>
+
+<!-- 反馈情况 todo 这个后面再做 -->
+<div class="card" style="display: none;">
+    <div class="card-header">
+        <h5>资源请求</h5>
+    </div>
+    <div class="card-body">
+        <h5>资源请求 。。。</h5>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        let accountId = $("#personal-center").attr("account-id");
+        let email = $("#personal-center").attr("email");
+        let username = $("#personal-name").text();
+
+        $("#personal-username").val(username);
+        $("#personal-email").val(email);
+
+        getSubscription();
+    });
+
+    /**
+     * 获取个人订阅信息
+     */
+    function getSubscription() {
+        $.ajax({
+            url: baseUrl + "/subscription",
+            contentType: "application/json;charset=utf-8",
+            type: "get",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("token", token);
+            },
+            success: function (result) {
+                if (result.status === 0) {
+                    showSubscription(result.data);
+                } else {
+                    Notiflix.Notify.Warning(result.msg);
+                }
+            }
+        });
+    }
+
+    /**
+     * 展示订阅信息
+     * @param data 数据
+     */
+    function showSubscription(data) {
+        $("#show-subscription-area").empty();
+        $.each(data, function (index, item) {
+            let numTd = $("<td></td>").append(index + 1);
+            let nameTd = $("<td></td>").append(item.name);
+            let timeTd = $("<td></td>");
+            if (item.updateTime === "null") {
+                timeTd.append("-- : --");
+            } else {
+                timeTd.append(printTimeFormatComplete(parseInt(item.updateTime)));
+            }
+            let btnTd = $("<td></td>")
+                .append($("<button class='btn btn-sm btn-outline-info check-resource-in-sub btn-round'>查看</button>").attr("movie-id", item.subObject))
+                .append($("<button class='btn btn-sm btn-outline-warning delete-sub btn-round'>删除</button>").attr("sub-id", item.subId));
+            $("<tr></tr>").append(numTd)
+                .append(nameTd)
+                .append(timeTd)
+                .append(btnTd)
+                .appendTo("#show-subscription-area");
+        });
+    }
+
+    /**
+     * 查看资源
+     */
+    $(document).on("click", ".check-resource-in-sub", function () {
+        let movieId = $(this).attr("movie-id");
+        $.ajax({
+            url: baseUrl + "/movies/" + movieId,
+            type: "get",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("token", token);
+            },
+            success: function (result) {
+                sessionStorage.setItem("kanguan-resource-data", JSON.stringify(result.data));
+                $("#page-load-area").load("resource.html");
+            }
+        });
+    });
+
+    /**
+     * 删除订阅
+     */
+    $(document).on("click", ".delete-sub", function () {
+        let subId = $(this).attr("sub-id");
+        $.ajax({
+            url: baseUrl + "/subscription/" + subId,
+            type: "delete",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("token", token);
+            },
+            success: function (result) {
+                console.log(result);
+                if (result.status === 0) {
+                    Notiflix.Notify.Success("删除成功");
+                    getSubscription();
+                } else {
+                    Notiflix.Notify.Warning(result.msg);
+                }
+            }
+        });
+    });
+
+</script>
+

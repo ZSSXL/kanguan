@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author ZSS
@@ -74,6 +75,42 @@ public class RequestController extends BaseController {
                     return ServerResponse.createByErrorMessage("发生未知异常, 反馈给站主");
                 }
             }
+        }
+    }
+
+    /**
+     * 获取资源请求信息
+     *
+     * @param token 用户token
+     * @return ServerResponse<List < Request>>
+     */
+    @GetMapping
+    @RequiredPermission
+    public ServerResponse<List<Request>> getRequest(@RequestHeader("token") String token) {
+        String requester = tokenUtil.getClaim(token, "userId").asString();
+        List<Request> requestByRequester = requestService.getRequestByRequester(requester);
+        if (requestByRequester == null) {
+            return ServerResponse.createByErrorMessage("查询失败，请更新重试...");
+        } else {
+            return ServerResponse.createBySuccess(requestByRequester);
+        }
+    }
+
+    /**
+     * 获取资源请求信息
+     *
+     * @param token 用户token
+     * @return ServerResponse<List < Request>>
+     */
+    @DeleteMapping("/{requestId}")
+    @RequiredPermission
+    public ServerResponse<String> getRequest(@RequestHeader("token") String token, @PathVariable("requestId") String requestId) {
+        String requester = tokenUtil.getClaim(token, "userId").asString();
+        Boolean result = requestService.deleteRequest(requester, requestId);
+        if (result) {
+            return ServerResponse.createBySuccessMessage("删除成功");
+        } else {
+            return ServerResponse.createByErrorMessage("删除失败");
         }
     }
 }

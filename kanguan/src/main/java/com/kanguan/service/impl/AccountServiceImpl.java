@@ -49,4 +49,9 @@ public class AccountServiceImpl implements AccountService {
         // 如果为空，return true;
         return result == 1;
     }
+
+    @Override
+    public Account getUserInfo(String accountId) {
+        return accountMapper.selectById(accountId);
+    }
 }

@@ -37,8 +37,17 @@ public interface AccountService {
 
     /**
      * 查询邮箱是否被使用
+     *
      * @param email email
      * @return Boolean
      */
     Boolean emailUsed(String email);
+
+    /**
+     * 获取个人信息
+     *
+     * @param accountId 用户Id
+     * @return Account
+     */
+    Account getUserInfo(String accountId);
 }

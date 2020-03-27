@@ -3,25 +3,22 @@ package com.kanguan.controller.portal;
 import com.kanguan.common.Const;
 import com.kanguan.common.ResponseCode;
 import com.kanguan.common.ServerResponse;
+import com.kanguan.common.annotation.RequiredPermission;
 import com.kanguan.entity.po.Account;
 import com.kanguan.entity.po.UserInfo;
 import com.kanguan.entity.vo.RegisterVo;
 import com.kanguan.service.AccountService;
 import com.kanguan.service.UserInfoService;
-import com.kanguan.util.EncryptionUtil;
-import com.kanguan.util.IdUtil;
-import com.kanguan.util.RedisPoolUtil;
-import com.kanguan.util.TimeUtil;
+import com.kanguan.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author ZSS
@@ -35,11 +32,13 @@ public class UserController extends BaseController {
 
     private final AccountService accountService;
     private final UserInfoService userInfoService;
+    private final TokenUtil tokenUtil;
 
     @Autowired
-    public UserController(AccountService accountService, UserInfoService userInfoService) {
+    public UserController(AccountService accountService, UserInfoService userInfoService, TokenUtil tokenUtil) {
         this.accountService = accountService;
         this.userInfoService = userInfoService;
+        this.tokenUtil = tokenUtil;
     }
 
     /**
@@ -87,6 +86,28 @@ public class UserController extends BaseController {
             } else {
                 return ServerResponse.createByErrorMessage("验证码校验失败, 请重新输入！");
             }
+        }
+    }
+
+    /**
+     * 获取个人信息
+     *
+     * @param token 用户token
+     * @return ServerResponse<Map < String, String>>
+     */
+    @GetMapping
+    @RequiredPermission
+    public ServerResponse<Map<String, String>> getUserInfo(@RequestHeader("token") String token) {
+        String accountId = tokenUtil.getClaim(token, "userId").asString();
+        Account userInfo = accountService.getUserInfo(accountId);
+        if (userInfo == null) {
+            return ServerResponse.createByErrorMessage("获取个人信息失败");
+        } else {
+            Map<String, String> map = new HashMap<>(3);
+            map.put("email", userInfo.getEmail());
+            map.put("username", userInfo.getUsername());
+            map.put("accountId", userInfo.getAccountId());
+            return ServerResponse.createBySuccess(map);
         }
     }
 }

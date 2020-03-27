@@ -21,7 +21,8 @@
                 <div class="row">
                     <!-- id="resource-download-link"-->
                     <div class="col-12 bg-inverse-primary">
-                        <div class="m-2" id="resource-download-link" style="word-break: break-all;" onclick="selectArea();">
+                        <div class="m-2" id="resource-download-link" style="word-break: break-all;"
+                             onclick="selectArea();">
 
                         </div>
                     </div>
@@ -269,5 +270,29 @@
         range.selectNodeContents(document.getElementById("resource-download-link")); // 需要选中的dom节点
         selection.addRange(range);
     }
+
+    /**
+     * 添加订阅
+     */
+    $("#add-subscription").click(function () {
+        let subObject = $(this).attr("movie-id");
+        $.ajax({
+            url: baseUrl + "/subscription",
+            contentType: "application/json;charset=utf-8",
+            type: "POST",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("token", token);
+            },
+            dataType: "json",
+            data: subObject,
+            success: function (result) {
+                if (result.status === 0) {
+                    Notiflix.Notify.Success("订阅成功");
+                } else {
+                    Notiflix.Notify.Warning(result.msg);
+                }
+            }
+        });
+    });
 
 </script>

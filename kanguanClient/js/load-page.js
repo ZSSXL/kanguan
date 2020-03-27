@@ -74,6 +74,7 @@ function sideBarActive(pageName) {
  */
 function currentPage() {
     let item = localStorage.getItem("kanguan-current-page");
+    getPersonalInfo();
     console.log(item);
     if (item === null) {
         loadPage("home");

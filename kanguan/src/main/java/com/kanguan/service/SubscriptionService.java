@@ -23,10 +23,11 @@ public interface SubscriptionService {
     /**
      * 已经订阅
      *
-     * @param subObject 订阅对象
+     * @param subObject  订阅对象
+     * @param subscriber 订阅者
      * @return Boolean
      */
-    Boolean isExistInDb(String subObject);
+    Boolean isExistInDb(String subObject, String subscriber);
 
     /**
      * 获取个人订阅
