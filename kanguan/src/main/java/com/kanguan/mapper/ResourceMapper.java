@@ -13,4 +13,12 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface ResourceMapper extends BaseMapper<Resource> {
+
+    /**
+     * 获取最近更新时间
+     *
+     * @param object 资源对象
+     * @return String
+     */
+    String getUpdateTimeByObject(String object);
 }

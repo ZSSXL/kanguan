@@ -1,6 +1,9 @@
 package com.kanguan.service;
 
 import com.kanguan.entity.po.Subscription;
+import com.kanguan.entity.vo.SubResourceVo;
+
+import java.util.List;
 
 /**
  * @author ZSS
@@ -24,4 +27,21 @@ public interface SubscriptionService {
      * @return Boolean
      */
     Boolean isExistInDb(String subObject);
+
+    /**
+     * 获取个人订阅
+     *
+     * @param subscriber 订阅人
+     * @return List<SubResourceVo>
+     */
+    List<SubResourceVo> getSubBySubscriber(String subscriber);
+
+    /**
+     * 删除订阅
+     *
+     * @param subId      订阅Id
+     * @param subscriber 订阅人
+     * @return Boolean
+     */
+    Boolean deleteSubById(String subId, String subscriber);
 }

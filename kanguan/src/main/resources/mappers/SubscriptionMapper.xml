@@ -11,9 +11,25 @@
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
     </resultMap>
+    <resultMap id="Subscription_Resource_Movies" type="com.kanguan.entity.vo.SubResourceVo">
+        <result property="subId" column="sub_id"/>
+        <result property="subObject" column="sub_object"/>
+        <result property="name" column="name"/>
+    </resultMap>
 
     <sql id="Base_Column_List">
         sub_id, subscriber, sub_content, create_time, update_time
     </sql>
+    <sql id="Sub_Resource_Movies_List">
+        ks.sub_id, ks.sub_object, km.name
+    </sql>
+    <select id="selectSubBySubscriber" resultType="com.kanguan.entity.vo.SubResourceVo"
+            parameterType="java.lang.String">
+        select
+        <include refid="Sub_Resource_Movies_List"/>
+        from KG_MOVIES km, KG_SUBSCRIPTION ks
+        where km.movie_id = ks.sub_object
+        and ks.subscriber = #{subscriber}
+    </select>
 
 </mapper>

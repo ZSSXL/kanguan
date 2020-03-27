@@ -19,5 +19,16 @@
     <sql id="Base_Column_List">
         resource_id, bigness, name, download_link, episode, format, object, create_time, update_time
     </sql>
+    <select id="getUpdateTimeByObject" resultType="java.lang.String" parameterType="java.lang.String">
+        select update_time
+        from (
+             select kr.update_time
+             from kg_resource kr
+             where kr.object = #{object}
+            order by update_time desc
+        ) where rownum &lt;= 1
+
+    </select>
+
 
 </mapper>
