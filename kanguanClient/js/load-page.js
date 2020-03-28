@@ -9,21 +9,21 @@ $("#home").click(function () {
 // 影视剧查看页面加载
 $("#movie").click(function () {
     loadPage("movie");
-    getAllMovie(1, 20);
+    getAllMovie(1, 24);
     sideBarActive("movie");
 });
 
 // 字幕查看页面加载
 $("#tv").click(function () {
     loadPage("tv");
-    getAllTv(1, 20);
+    getAllTv(1, 24);
     sideBarActive("tv");
 });
 
 // 检索页面
 $("#select").click(function () {
     loadPage("select");
-    getAllTv(1, 20);
+    getAllTv(1, 24);
     sideBarActive("select");
 });
 
@@ -83,9 +83,9 @@ function currentPage() {
         loadPage(item);
         sideBarActive(item);
         if (item === "movie") {
-            getAllMovie(1, 20);
+            getAllMovie(1, 24);
         } else if (item === "tv") {
-            getAllTv(1, 20);
+            getAllTv(1, 24);
         } else if (item === "home") {
             getAllHotMovies();
         }

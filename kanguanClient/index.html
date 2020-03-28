@@ -211,6 +211,8 @@
 <script src="js/home.js"></script>
 <!-- date util js -->
 <script src="js/dateUtil.js"></script>
+<!-- center js -->
+<script src="js/center.js"></script>
 
 <!-- 内部方法 -->
 <script type="text/javascript">
@@ -219,6 +221,12 @@
     /* 初始化 notiflix */
     Notiflix.Notify.Init({
         timeout: 3000
+    });
+
+    Notiflix.Confirm.Init({
+        titleColor: "#fc0000",
+        okButtonBackground: "#f81010",
+        messageColor: "#ea1d32"
     });
 
     // 初始加载页面

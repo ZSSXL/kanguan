@@ -1,10 +1,10 @@
 package com.kanguan.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.kanguan.entity.po.Account;
 import com.kanguan.mapper.AccountMapper;
 import com.kanguan.service.AccountService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,12 +46,28 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Boolean emailUsed(String email) {
         Integer result = accountMapper.selectByEmail(email);
-        // 如果为空，return true;
         return result == 1;
     }
 
     @Override
     public Account getUserInfo(String accountId) {
         return accountMapper.selectById(accountId);
+    }
+
+    @Override
+    public Boolean isSameAsOld(String password, String accountId) {
+        QueryWrapper<Account> wrapper = new QueryWrapper<>();
+        wrapper.eq("account_id", accountId).eq("password", password);
+        Account account = accountMapper.selectOne(wrapper);
+        return account != null;
+    }
+
+    @Override
+    public Boolean updatePassword(String newPassword, String accountId) {
+        UpdateWrapper<Account> wrapper = new UpdateWrapper<>();
+        wrapper.eq("account_id", accountId)
+                .set("password", newPassword);
+        int update = accountMapper.update(null, wrapper);
+        return update == 1;
     }
 }

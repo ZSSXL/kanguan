@@ -50,4 +50,22 @@ public interface AccountService {
      * @return Account
      */
     Account getUserInfo(String accountId);
+
+    /**
+     * 新密码是否和新密码相同
+     *
+     * @param password  新密码
+     * @param accountId 账户Id
+     * @return Boolean
+     */
+    Boolean isSameAsOld(String password, String accountId);
+
+    /**
+     * 修改密码
+     *
+     * @param newPassword 新密码
+     * @param accountId   账户Id
+     * @return Boolean
+     */
+    Boolean updatePassword(String newPassword, String accountId);
 }

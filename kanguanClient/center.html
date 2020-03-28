@@ -21,7 +21,7 @@
                 <div class="form-group row">
                     <label for="personal-username" class="col-sm-2 col-form-label">username</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="personal-username">
+                        <input type="text" class="form-control" disabled="disabled" id="personal-username">
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="col-12 col-lg-8 col-xl-6">
-                <button class="btn btn-lg btn-outline-warning btn-round">修改个人信息</button>
+                <button class="btn btn-lg btn-outline-warning btn-round" id="modify-password">修改密码</button>
             </div>
         </div>
     </div>
@@ -69,17 +69,21 @@
         <h5>资源请求</h5>
     </div>
     <div class="card-body">
-        <h5>资源请求 。。。</h5>
-    </div>
-</div>
-
-<!-- 反馈情况 todo 这个后面再做 -->
-<div class="card" style="display: none;">
-    <div class="card-header">
-        <h5>资源请求</h5>
-    </div>
-    <div class="card-body">
-        <h5>资源请求 。。。</h5>
+        <div class="table-responsive">
+            <table class="table table-hide table-striped table-hover table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">名称</th>
+                    <th scope="col">豆瓣地址</th>
+                    <th scope="col">资源情况</th>
+                    <th scope="col">操作</th>
+                </tr>
+                </thead>
+                <tbody id="show-request-area">
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -93,6 +97,7 @@
         $("#personal-email").val(email);
 
         getSubscription();
+        getPersonRequest();
     });
 
     /**
@@ -142,46 +147,91 @@
         });
     }
 
+
     /**
-     * 查看资源
+     * 获取个人请求
      */
-    $(document).on("click", ".check-resource-in-sub", function () {
-        let movieId = $(this).attr("movie-id");
+    function getPersonRequest() {
         $.ajax({
-            url: baseUrl + "/movies/" + movieId,
+            url: baseUrl + "/request",
+            contentType: "application/json;charset=utf-8",
             type: "get",
             beforeSend: function (XMLHttpRequest) {
                 XMLHttpRequest.setRequestHeader("token", token);
             },
             success: function (result) {
-                sessionStorage.setItem("kanguan-resource-data", JSON.stringify(result.data));
-                $("#page-load-area").load("resource.html");
-            }
-        });
-    });
-
-    /**
-     * 删除订阅
-     */
-    $(document).on("click", ".delete-sub", function () {
-        let subId = $(this).attr("sub-id");
-        $.ajax({
-            url: baseUrl + "/subscription/" + subId,
-            type: "delete",
-            beforeSend: function (XMLHttpRequest) {
-                XMLHttpRequest.setRequestHeader("token", token);
-            },
-            success: function (result) {
-                console.log(result);
                 if (result.status === 0) {
-                    Notiflix.Notify.Success("删除成功");
-                    getSubscription();
+                    console.log(result.data);
+                    showRequest(result.data);
                 } else {
                     Notiflix.Notify.Warning(result.msg);
                 }
             }
         });
-    });
+    }
 
+    /**
+     * 展示请求情况
+     * @param data 求资源数据
+     */
+    function showRequest(data) {
+        $("#show-request-area").empty();
+        $.each(data, function (index, item) {
+            let numTd = $("<td></td>").append(index + 1);
+            let nameTd = $("<td></td>").append(item.name);
+            let douTd = $("<td></td>").append(item.doubanAddress);
+            let existTd = $("<td></td>");
+            if (item.exist === "0") {
+                existTd.append("暂无资源");
+            } else {
+                existTd.append($("<button class='btn btn-sm btn-outline-info check-resource-in-sub btn-round'>查看</button>").attr("movie-id", item.exist));
+            }
+            let btnTd = $("<td></td>")
+                .append($("<button class='btn btn-sm btn-outline-warning delete-request btn-round'>删除</button>").attr("request-id", item.requestId));
+            $("<tr></tr>").append(numTd)
+                .append(nameTd)
+                .append(douTd)
+                .append(existTd)
+                .append(btnTd)
+                .appendTo("#show-request-area");
+        });
+    }
+
+
+    /**
+     * 修改密码
+     */
+    $("#modify-password").click(function () {
+        let newPassword = $("#personal-password").val();
+        if (newPassword === "") {
+            Notiflix.Notify.Warning("密码不能为空");
+        } else {
+            Notiflix.Confirm.Show(
+                '[警告]',
+                '确定修改密码？',
+                '确定',
+                '取消',
+                function () {
+                    $.ajax({
+                        url: baseUrl + "/account",
+                        contentType: "application/json; charset=utf-8",
+                        type: "put",
+                        beforeSend: function (XMLHttpRequest) {
+                            XMLHttpRequest.setRequestHeader("token", token);
+                        },
+                        data: newPassword,
+                        success: function (result) {
+                            if (result.status === 0) {
+                                Notiflix.Notify.Success("修改成功");
+                                window.location.href = "./login.html";
+                            } else {
+                                Notiflix.Notify.Warning(result.msg);
+                            }
+                        }
+                    })
+                }
+            );
+        }
+    });
 </script>
 

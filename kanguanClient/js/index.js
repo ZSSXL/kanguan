@@ -70,7 +70,6 @@ $("#send-request").click(function () {
  */
 $("#send-feedback").click(function () {
     let content = $("#feedback-content").val();
-    console.log(content);
     $.ajax({
         url: baseUrl + "/feedback",
         contentType: "application/json;charset=utf-8",
@@ -79,7 +78,7 @@ $("#send-feedback").click(function () {
             XMLHttpRequest.setRequestHeader("token", token);
         },
         dataType: "json",
-        data: JSON.stringify(content),
+        data: content,
         success: function (result) {
             if (result.status === 0) {
                 Notiflix.Notify.Success("提交成功");

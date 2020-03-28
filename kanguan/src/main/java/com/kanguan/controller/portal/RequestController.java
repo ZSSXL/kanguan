@@ -59,6 +59,7 @@ public class RequestController extends BaseController {
                         .requestId(UUIDUtil.getId())
                         .requester(requester)
                         .name(requestVo.getName())
+                        .exist("0")
                         .doubanAddress(requestVo.getDoubanAddress())
                         .createTime(TimeUtil.getTimestamp())
                         .updateTime(TimeUtil.getTimestamp())
@@ -97,7 +98,7 @@ public class RequestController extends BaseController {
     }
 
     /**
-     * 获取资源请求信息
+     * 删除资源请求
      *
      * @param token 用户token
      * @return ServerResponse<List < Request>>
