@@ -2,6 +2,7 @@ package com.kanguan.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kanguan.entity.po.Movies;
+import com.kanguan.entity.vo.SelectVo;
 
 import java.util.List;
 
@@ -61,4 +62,13 @@ public interface MoviesService {
      * @return List<Movies>
      */
     List<Movies> searchMoviesByName(String name);
+
+    /**
+     * 检索影视剧
+     *
+     * @param select     检索田间
+     * @param moviesPage 分页信息
+     * @return IPage<Movies>
+     */
+    IPage<Movies> selectMovies(SelectVo select, IPage<Movies> moviesPage);
 }

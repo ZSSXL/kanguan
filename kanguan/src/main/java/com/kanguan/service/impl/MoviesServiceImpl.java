@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kanguan.common.Const;
 import com.kanguan.entity.po.Movies;
+import com.kanguan.entity.vo.SelectVo;
 import com.kanguan.mapper.MoviesMapper;
 import com.kanguan.service.MoviesService;
 import org.apache.commons.lang3.StringUtils;
@@ -71,6 +72,23 @@ public class MoviesServiceImpl implements MoviesService {
         QueryWrapper<Movies> wrapper = new QueryWrapper<>();
         wrapper.like("name", name);
         return moviesMapper.selectList(wrapper);
+    }
+
+    @Override
+    public IPage<Movies> selectMovies(SelectVo select, IPage<Movies> moviesPage) {
+        QueryWrapper<Movies> wrapper = new QueryWrapper<>();
+        if (StringUtils.isNotEmpty(select.getSelectType())) {
+            wrapper.eq("type", select.getSelectType());
+        } else if (StringUtils.isNotEmpty(select.getSelectStyle())) {
+            wrapper.like("style", select.getSelectStyle());
+        } else if (StringUtils.isNotEmpty(select.getSelectRegion())) {
+            wrapper.like("country_region", select.getSelectRegion());
+        } else if (StringUtils.isNotEmpty(select.getSelectPremiere())) {
+            wrapper.eq("premiere", select.getSelectPremiere());
+            // todo 明天首先完成年代的筛选
+        }
+        wrapper.orderByDesc("create_time");
+        return moviesMapper.selectPage(moviesPage, wrapper);
     }
 
 }

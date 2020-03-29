@@ -1,6 +1,7 @@
 package com.kanguan.controller.portal;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kanguan.common.Const;
 import com.kanguan.common.ResponseCode;
 import com.kanguan.common.ServerResponse;
@@ -8,6 +9,7 @@ import com.kanguan.common.annotation.RequiredPermission;
 import com.kanguan.entity.po.Movies;
 import com.kanguan.entity.po.Resource;
 import com.kanguan.entity.vo.MoviesResourceVo;
+import com.kanguan.entity.vo.SelectVo;
 import com.kanguan.service.MoviesService;
 import com.kanguan.service.ResourceService;
 import lombok.extern.slf4j.Slf4j;
@@ -92,6 +94,40 @@ public class MoviesController extends BaseController {
                     return ServerResponse.createBySuccess(build);
                 }
             }
+        }
+    }
+
+
+    /**
+     * 筛选获取影视剧
+     *
+     * @param selectType     电影/电视剧
+     * @param selectStyle    影视剧类型
+     * @param selectRegion   国家/地区
+     * @param selectPremiere 年份
+     * @return ServerResponse<IPage < Movies>>
+     */
+    @GetMapping("/select")
+    @RequiredPermission
+    public ServerResponse<IPage<Movies>> selectMovies(@RequestParam(value = "selectType", defaultValue = "") String selectType,
+                                                      @RequestParam(value = "selectStyle", defaultValue = "") String selectStyle,
+                                                      @RequestParam(value = "selectRegion", defaultValue = "") String selectRegion,
+                                                      @RequestParam(value = "selectPremiere", defaultValue = "") String selectPremiere,
+                                                      @RequestParam(value = "page", defaultValue = Const.DEFAULT_PAGE_NUMBER) Integer page,
+                                                      @RequestParam(value = "size", defaultValue = Const.DEFAULT_PAGE_SIZE) Integer size) {
+        IPage<Movies> moviesPage = new Page<>(page, size);
+        SelectVo select = SelectVo.builder()
+                .selectType(selectType)
+                .selectStyle(selectStyle)
+                .selectRegion(selectRegion)
+                .selectPremiere(selectPremiere)
+                .build();
+        System.out.println("select [" + select + " ]");
+        IPage<Movies> iPage = moviesService.selectMovies(select, moviesPage);
+        if (iPage == null) {
+            return ServerResponse.createByErrorMessage("检索失败，请刷新重试");
+        } else {
+            return ServerResponse.createBySuccess(iPage);
         }
     }
 
