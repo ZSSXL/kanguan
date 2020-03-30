@@ -3,6 +3,10 @@
     cursor: pointer;
 }
 
+.finger:hover {
+    border-bottom: 4px solid #3ba5f9;
+}
+
 /* 超出字符省略 */
 .omit-9 {
     overflow: hidden;

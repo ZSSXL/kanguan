@@ -96,7 +96,6 @@
 
 <!-- Bootstrap core JavaScript-->
 <script th:src="@{assets/js/jquery.min.js}"></script>
-<script th:src="@{assets/js/popper.min.js}"></script>
 <script th:src="@{assets/js/bootstrap.min.js}"></script>
 
 <!-- sidebar-menu js -->
@@ -113,6 +112,7 @@
     window.onload = function () {
         // todo 完成退出登录
         console.log("log out");
+        logout();
     };
 
     Notiflix.Notify.Init({
@@ -127,6 +127,7 @@
         login(data);
     });
 
+    /* 登录 */
     function login(data) {
         $.ajax({
             url: "/backend/admin",
@@ -137,6 +138,14 @@
             success: function (result) {
                 analysisResult(result);
             }
+        });
+    }
+
+    /* 退出登录 */
+    function logout() {
+        $.ajax({
+            url: "/backend/admin/logout",
+            type: "post",
         });
     }
 

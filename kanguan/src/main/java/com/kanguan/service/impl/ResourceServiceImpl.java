@@ -43,7 +43,8 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public List<Resource> getResourceByObject(String object) {
         QueryWrapper<Resource> wrapper = new QueryWrapper<>();
-        wrapper.eq("object", object);
+        wrapper.eq("object", object)
+                .orderByAsc("episode");
         return resourceMapper.selectList(wrapper);
     }
 

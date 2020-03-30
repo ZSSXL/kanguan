@@ -57,4 +57,16 @@ public class AdminController {
             }
         }
     }
+
+    /**
+     * 退出登录
+     *
+     * @param session 用户session
+     * @return ServerResponse
+     */
+    @PostMapping("/logout")
+    public ServerResponse<String> adminLogout(HttpSession session) {
+        session.removeAttribute(Const.CURRENT_ADMIN);
+        return ServerResponse.createBySuccess();
+    }
 }

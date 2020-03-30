@@ -165,7 +165,7 @@
                 index = i;
             }
             $("<li class='list-inline-item'></li>")
-                .append($("<a class='finger'></a>").attr("tag-id", "E" + index).append("E" + index)).appendTo("#show-episode-area");
+                .append($("<a class='finger'></a>").attr("tag-id", index).append("E" + index)).appendTo("#show-episode-area");
         }
         $("<li class='list-inline-item'></li>")
             .append($("<a class='finger'></a>").attr("tag-id", "").append("全部")).appendTo("#show-episode-area");
@@ -197,7 +197,16 @@
             let nameTd = $("<td></td>").append(resource.name);
             let bignessTd = $("<td></td>").append(resource.bigness);
             let formatTd = $("<td></td>").append(resource.format);
-            let episodeTd = $("<td></td>").append(resource.episode);
+            let episodeTd = $("<td></td>");
+            if(resource.episode !== null){
+                let number = resource.episode.indexOf("E");
+                if (number >= 0) {
+                    episodeTd.append(resource.episode.replace("E", ""));
+                } else {
+                    episodeTd.append(resource.episode);
+                }
+            }
+
             let resourceTd = $("<td></td>")
                 .append($("<button class='btn btn-sm btn-outline-info btn-round resource-btn'></button>")
                     .append("资源").attr("resource-id", resource.resourceId));
