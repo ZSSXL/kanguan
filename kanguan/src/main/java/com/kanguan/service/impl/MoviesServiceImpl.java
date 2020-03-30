@@ -79,13 +79,45 @@ public class MoviesServiceImpl implements MoviesService {
         QueryWrapper<Movies> wrapper = new QueryWrapper<>();
         if (StringUtils.isNotEmpty(select.getSelectType())) {
             wrapper.eq("type", select.getSelectType());
-        } else if (StringUtils.isNotEmpty(select.getSelectStyle())) {
+        }
+        if (StringUtils.isNotEmpty(select.getSelectStyle())) {
             wrapper.like("style", select.getSelectStyle());
-        } else if (StringUtils.isNotEmpty(select.getSelectRegion())) {
+        }
+        if (StringUtils.isNotEmpty(select.getSelectRegion())) {
             wrapper.like("country_region", select.getSelectRegion());
-        } else if (StringUtils.isNotEmpty(select.getSelectPremiere())) {
-            wrapper.eq("premiere", select.getSelectPremiere());
-            // todo 明天首先完成年代的筛选
+        }
+        if (StringUtils.isNotEmpty(select.getSelectPremiere())) {
+            // 多年代筛选
+            switch (select.getSelectPremiere()) {
+                case "2020":
+                case "2019":
+                    wrapper.like("premiere", select.getSelectPremiere());
+                    break;
+                case "2010年代":
+                    wrapper.between("premiere", "2010", "2019");
+                    break;
+                case "2000年代":
+                    wrapper.between("premiere", "2000", "2009");
+                    break;
+                case "90年代":
+                    System.out.println("1990 - 1999");
+                    wrapper.between("premiere", "1990", "1999");
+                    break;
+                case "80年代":
+                    wrapper.between("premiere", "1980", "1989");
+                    break;
+                case "70年代":
+                    wrapper.between("premiere", "1970", "1979");
+                    break;
+                case "60年代":
+                    wrapper.between("premiere", "1960", "1969");
+                    break;
+                case "50年代":
+                    wrapper.between("premiere", "1950", "1959");
+                    break;
+                default:
+                    wrapper.like("premiere", "");
+            }
         }
         wrapper.orderByDesc("create_time");
         return moviesMapper.selectPage(moviesPage, wrapper);

@@ -122,7 +122,6 @@ public class MoviesController extends BaseController {
                 .selectRegion(selectRegion)
                 .selectPremiere(selectPremiere)
                 .build();
-        System.out.println("select [" + select + " ]");
         IPage<Movies> iPage = moviesService.selectMovies(select, moviesPage);
         if (iPage == null) {
             return ServerResponse.createByErrorMessage("检索失败，请刷新重试");

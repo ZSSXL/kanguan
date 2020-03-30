@@ -23,7 +23,7 @@ $("#tv").click(function () {
 // 检索页面
 $("#select").click(function () {
     loadPage("select");
-    getAllTv(1, 24);
+    selectMovies(1, 30);
     sideBarActive("select");
 });
 
@@ -87,6 +87,8 @@ function currentPage() {
             getAllTv(1, 24);
         } else if (item === "home") {
             getAllHotMovies();
+        } else if (item === "select") {
+            selectMovies(1, 30);
         }
     }
 }
