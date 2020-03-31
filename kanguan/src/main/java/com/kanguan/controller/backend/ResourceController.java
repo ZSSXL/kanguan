@@ -2,22 +2,23 @@ package com.kanguan.controller.backend;
 
 import com.kanguan.common.ResponseCode;
 import com.kanguan.common.ServerResponse;
+import com.kanguan.common.annotation.AdminExamine;
+import com.kanguan.entity.po.Movies;
 import com.kanguan.entity.po.Resource;
+import com.kanguan.entity.vo.MoviesResourceVo;
 import com.kanguan.entity.vo.ResourceVo;
+import com.kanguan.service.MoviesService;
 import com.kanguan.service.ResourceService;
-import com.kanguan.util.SessionUtil;
 import com.kanguan.util.TimeUtil;
 import com.kanguan.util.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author ZSS
@@ -30,25 +31,25 @@ import javax.validation.Valid;
 public class ResourceController {
 
     private final ResourceService resourceService;
+    private final MoviesService moviesService;
 
     @Autowired
-    public ResourceController(ResourceService resourceService) {
+    public ResourceController(ResourceService resourceService, MoviesService moviesService) {
         this.resourceService = resourceService;
+        this.moviesService = moviesService;
     }
 
     /**
      * 添加资源
      *
-     * @param session    用户session
      * @param resourceVo 资源实体Vo
      * @param result     错误结果
      * @return ServerResponse<String>
      */
     @PostMapping
-    public ServerResponse<String> addResource(HttpSession session, @RequestBody @Valid ResourceVo resourceVo, BindingResult result) {
-        if (SessionUtil.checkSession(session)) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
-        } else if (result.hasErrors()) {
+    @AdminExamine
+    public ServerResponse<String> addResource(@RequestBody @Valid ResourceVo resourceVo, BindingResult result) {
+        if (result.hasErrors()) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.PARAMETER_ERROR.getCode(), ResponseCode.PARAMETER_ERROR.getDesc());
         } else {
             Boolean existInDbByName = resourceService.isExistInDbByName(resourceVo.getName());
@@ -77,6 +78,36 @@ public class ResourceController {
                 } catch (Exception e) {
                     log.error("add resource has unknown error " + e);
                     return ServerResponse.createByErrorMessage("添加资源失败,发生未知异常...");
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取影视剧资源详情
+     *
+     * @param movieId 影视剧Id
+     * @return ServerResponse<MoviesResourceVo>
+     */
+    @GetMapping("/{movieId}")
+    @AdminExamine
+    public ServerResponse<MoviesResourceVo> getMoviesById(@PathVariable("movieId") String movieId) {
+        if (StringUtils.isEmpty(movieId)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.PARAMETER_ERROR.getCode(), ResponseCode.PARAMETER_ERROR.getDesc());
+        } else {
+            Movies movies = moviesService.getMoviesById(movieId);
+            if (movies == null) {
+                return ServerResponse.createByErrorMessage("查询失败, 请重新尝试...");
+            } else {
+                List<Resource> resourceList = resourceService.getResourceByObject(movieId);
+                if (resourceList == null) {
+                    return ServerResponse.createByErrorMessage("查询失败, 请重新尝试...");
+                } else {
+                    MoviesResourceVo build = MoviesResourceVo.builder()
+                            .movies(movies)
+                            .resourceList(resourceList)
+                            .build();
+                    return ServerResponse.createBySuccess(build);
                 }
             }
         }

@@ -2,16 +2,13 @@ package com.kanguan.controller.backend;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kanguan.common.Const;
-import com.kanguan.common.ResponseCode;
 import com.kanguan.common.ServerResponse;
+import com.kanguan.common.annotation.AdminExamine;
 import com.kanguan.entity.po.Feedback;
 import com.kanguan.service.FeedbackService;
-import com.kanguan.util.SessionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
 
 /**
  * @author ZSS
@@ -31,45 +28,55 @@ public class FeedbackController {
     }
 
     /**
-     * 获取未读反馈
+     * 获取未读的反馈数量
      *
-     * @param session 用户session
-     * @return ServerResponse
+     * @return ServerResponse<Integer>
      */
     @GetMapping
-    public ServerResponse<IPage<Feedback>> getUnreadFeedback(HttpSession session
-            , @RequestParam(value = "page", defaultValue = Const.DEFAULT_PAGE_NUMBER) Integer page
-            , @RequestParam(value = "size", defaultValue = Const.DEFAULT_PAGE_SIZE) Integer size) {
-        if (SessionUtil.checkSession(session)) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+    @AdminExamine
+    public ServerResponse<Integer> getUnreadFeedbackCount() {
+        Integer count = feedbackService.getUnreadFeedbackCount();
+        if (count == null) {
+            return ServerResponse.createByErrorMessage("查询出错");
         } else {
-            IPage<Feedback> unreadFeedback = feedbackService.getUnreadFeedback(page, size);
-            if (unreadFeedback == null) {
-                return ServerResponse.createByErrorMessage("获取反馈失败，请刷新重试");
-            } else {
-                return ServerResponse.createBySuccess(unreadFeedback);
-            }
+            return ServerResponse.createBySuccess(count);
+        }
+    }
+
+    /**
+     * 获取未读反馈
+     *
+     * @param page 当前页
+     * @param size 每页大小
+     * @return ServerResponse<IPage < Feedback>>
+     */
+    @GetMapping("/{read}")
+    @AdminExamine
+    public ServerResponse<IPage<Feedback>> getFeedback(@PathVariable("read") String read,
+                                                       @RequestParam(value = "page", defaultValue = Const.DEFAULT_PAGE_NUMBER) Integer page,
+                                                       @RequestParam(value = "size", defaultValue = Const.DEFAULT_PAGE_SIZE) Integer size) {
+        IPage<Feedback> unreadFeedback = feedbackService.getUnreadFeedback(read, page, size);
+        if (unreadFeedback == null) {
+            return ServerResponse.createByErrorMessage("获取反馈失败，请刷新重试");
+        } else {
+            return ServerResponse.createBySuccess(unreadFeedback);
         }
     }
 
     /**
      * 改变反馈状态
      *
-     * @param session    用户session
      * @param feedbackId 反馈Id
      * @return ServerResponse<String>
      */
     @PutMapping
-    public ServerResponse<String> changeUnreadStatus(HttpSession session, @RequestBody String feedbackId) {
-        if (SessionUtil.checkSession(session)) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+    @AdminExamine
+    public ServerResponse<String> changeUnreadStatus(@RequestBody String feedbackId) {
+        Boolean result = feedbackService.changeFeedbackReadById(feedbackId);
+        if (result) {
+            return ServerResponse.createBySuccess();
         } else {
-            Boolean result = feedbackService.changeFeedbackReadById(feedbackId);
-            if (result) {
-                return ServerResponse.createBySuccess();
-            } else {
-                return ServerResponse.createByError();
-            }
+            return ServerResponse.createByError();
         }
     }
 

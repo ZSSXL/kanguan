@@ -23,11 +23,12 @@ public interface FeedbackService {
     /**
      * 获取未读反馈
      *
+     * @param read 阅读状态
      * @param page 当前页
      * @param size 每页大小
      * @return IPage<Feedback>P
      */
-    IPage<Feedback> getUnreadFeedback(Integer page, Integer size);
+    IPage<Feedback> getUnreadFeedback(String read, Integer page, Integer size);
 
     /**
      * 改变反馈已读状态
@@ -44,4 +45,11 @@ public interface FeedbackService {
      * @return List<Feedback>
      */
     List<Feedback> getFeedbackByPersonal(String person);
+
+    /**
+     * 获取未读的反馈数量
+     *
+     * @return Integer
+     */
+    Integer getUnreadFeedbackCount();
 }

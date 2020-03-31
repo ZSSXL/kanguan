@@ -2,12 +2,12 @@
  * 获取所有热门影视剧
  */
 function getAllHotMovies() {
-    getAllHotTv(1, 20);
-    getAllHotMovie(1, 20);
+    getAllHotTv();
+    getAllHotMovie();
 }
 
 /* 分页获取电影 */
-function getAllHotMovie(page, size) {
+function getAllHotMovie() {
     $.ajax({
         url: "/backend/hot/movie",
         type: "get",
@@ -20,7 +20,7 @@ function getAllHotMovie(page, size) {
 /**
  * 分页获取电视剧
  */
-function getAllHotTv(page, size) {
+function getAllHotTv() {
     $.ajax({
         url: "/backend/hot/tv",
         type: "get",

@@ -83,17 +83,17 @@
             </li>
             <li class="sidebar-header">LABELS</li>
             <li id="sidebar-4">
-                <a href="javaScript:void();" class="waves-effect">
+                <a class="finger waves-effect" id="feedback">
                     <i class="fa fa-edit"></i>
                     <span>用户反馈</span>
-                    <small class="badge float-right badge-warning">12</small>
+                    <small class="badge float-right badge-warning" id="feedback-count">12</small>
                 </a>
             </li>
             <li id="sidebar-5">
-                <a href="javaScript:void();" class="waves-effect">
+                <a class="finger xwaves-effect" id="request">
                     <i class="fa fa-question-circle"></i>
                     <span>资源请求</span>
-                    <small class="badge float-right badge-info">12</small>
+                    <small class="badge float-right badge-info" id="request-count">12</small>
                 </a>
             </li>
         </ul>
@@ -123,7 +123,9 @@
                 <li class="nav-item">
                     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
                         <span class="user-profile mt-2">
-                            <p class="text-uppercase" id="admin-name">admin</p>
+                            <p class="text-uppercase" id="admin-name"
+                               th:if="${session.currentAdmin != null}"
+                               th:text="${session.currentAdmin.adminName}">test</p>
                         </span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
@@ -189,6 +191,8 @@
 <script th:src="@{js/movies.js}"></script>
 <!-- hot -->
 <script th:src="@{js/hot.js}"></script>
+<!-- index js -->
+<script th:src="@{js/index.js}"></script>
 
 <!-- 内部方法 -->
 <script th:inline="javascript" type="text/javascript">
@@ -200,12 +204,20 @@
             window.location.href = "/login";
         } else {
             currentPage();
+            getUnreadFeedbackCount();
+            getUnansweredCount()
         }
     };
 
     /* 初始化 notiflix */
     Notiflix.Notify.Init({
         timeout: 3000
+    });
+
+    Notiflix.Confirm.Init({
+        titleColor: "#fc0000",
+        okButtonBackground: "#f81010",
+        messageColor: "#ea1d32"
     });
 
     $("#logout-btn").click(function () {

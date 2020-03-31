@@ -75,6 +75,7 @@ public class MoviesController extends BaseController {
      * @return ServerResponse<Movies>
      */
     @GetMapping("/{movieId}")
+    @RequiredPermission
     public ServerResponse<MoviesResourceVo> getMoviesById(@PathVariable("movieId") String movieId) {
         if (StringUtils.isEmpty(movieId)) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.PARAMETER_ERROR.getCode(), ResponseCode.PARAMETER_ERROR.getDesc());

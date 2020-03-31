@@ -54,4 +54,11 @@ public class RequestServiceImpl implements RequestService {
         int delete = requestMapper.delete(wrapper);
         return delete == 1;
     }
+
+    @Override
+    public Integer getUnansweredCount() {
+        QueryWrapper<Request> wrapper = new QueryWrapper<>();
+        wrapper.eq("exist", "0");
+        return requestMapper.selectCount(wrapper);
+    }
 }

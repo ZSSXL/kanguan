@@ -3,10 +3,12 @@ package com.kanguan.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.kanguan.common.Const;
 import com.kanguan.entity.po.Feedback;
 import com.kanguan.mapper.FeedbackMapper;
 import com.kanguan.service.FeedbackService;
 import com.kanguan.util.TimeUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,11 +36,15 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public IPage<Feedback> getUnreadFeedback(Integer page, Integer size) {
+    public IPage<Feedback> getUnreadFeedback(String read, Integer page, Integer size) {
         IPage<Feedback> feedbackPage = new Page<>(page, size);
         QueryWrapper<Feedback> wrapper = new QueryWrapper<>();
-        wrapper.eq("read", 0)
-                .orderByDesc("create_time");
+        if (StringUtils.equals(read, Const.read.YES)) {
+            wrapper.eq("read", Const.read.YES);
+        } else if (StringUtils.equals(read, Const.read.NO)) {
+            wrapper.eq("read", Const.read.NO);
+        }
+        wrapper.orderByDesc("create_time");
         return feedbackMapper.selectPage(feedbackPage, wrapper);
     }
 
@@ -60,5 +66,12 @@ public class FeedbackServiceImpl implements FeedbackService {
         QueryWrapper<Feedback> wrapper = new QueryWrapper<>();
         wrapper.eq("feedback_person", person);
         return feedbackMapper.selectList(wrapper);
+    }
+
+    @Override
+    public Integer getUnreadFeedbackCount() {
+        QueryWrapper<Feedback> wrapper = new QueryWrapper<>();
+        wrapper.eq("read", Const.read.NO);
+        return feedbackMapper.selectCount(wrapper);
     }
 }

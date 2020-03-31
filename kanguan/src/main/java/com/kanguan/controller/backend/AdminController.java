@@ -3,6 +3,7 @@ package com.kanguan.controller.backend;
 import com.kanguan.common.Const;
 import com.kanguan.common.ResponseCode;
 import com.kanguan.common.ServerResponse;
+import com.kanguan.common.annotation.AdminExamine;
 import com.kanguan.entity.po.Admin;
 import com.kanguan.entity.vo.LoginVo;
 import com.kanguan.service.AdminService;
@@ -61,12 +62,11 @@ public class AdminController {
     /**
      * 退出登录
      *
-     * @param session 用户session
      * @return ServerResponse
      */
     @PostMapping("/logout")
-    public ServerResponse<String> adminLogout(HttpSession session) {
-        session.removeAttribute(Const.CURRENT_ADMIN);
+    @AdminExamine
+    public ServerResponse<String> adminLogout() {
         return ServerResponse.createBySuccess();
     }
 }

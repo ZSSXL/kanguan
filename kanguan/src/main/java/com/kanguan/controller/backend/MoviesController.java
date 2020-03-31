@@ -4,12 +4,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kanguan.common.Const;
 import com.kanguan.common.ResponseCode;
 import com.kanguan.common.ServerResponse;
+import com.kanguan.common.annotation.AdminExamine;
 import com.kanguan.common.config.FtpProperties;
 import com.kanguan.entity.po.Movies;
 import com.kanguan.entity.vo.MoviesVo;
 import com.kanguan.service.FileService;
 import com.kanguan.service.MoviesService;
-import com.kanguan.util.SessionUtil;
 import com.kanguan.util.TimeUtil;
 import com.kanguan.util.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 /**
@@ -49,18 +48,15 @@ public class MoviesController {
      * @param cover    封面
      * @param result   错误结果
      * @param request  request
-     * @param session  session
      * @return ServerResponse
      */
     @PostMapping
+    @AdminExamine
     public ServerResponse<String> addMovies(@Valid MoviesVo moviesVo
             , @RequestParam(value = "cover", required = false) MultipartFile cover
             , BindingResult result
-            , HttpServletRequest request
-            , HttpSession session) {
-        if (SessionUtil.checkSession(session)) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
-        } else if (result.hasErrors()) {
+            , HttpServletRequest request) {
+        if (result.hasErrors()) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.PARAMETER_ERROR.getCode(), ResponseCode.PARAMETER_ERROR.getDesc());
         } else {
             Boolean existInDb = moviesService.isExistInDb(moviesVo.getName());
@@ -92,55 +88,43 @@ public class MoviesController {
     /**
      * 获取所有的电影资源
      *
-     * @param session 用户session
-     * @param page    第几页
-     * @param size    每页大小
+     * @param page 第几页
+     * @param size 每页大小
      * @return ServerResponse<IPage < Movies>>
      */
     @GetMapping("/movie")
-    public ServerResponse<IPage<Movies>> getAllMovie(HttpSession session
-            , @RequestParam(value = "page", defaultValue = Const.DEFAULT_PAGE_NUMBER) Integer page
+    @AdminExamine
+    public ServerResponse<IPage<Movies>> getAllMovie(@RequestParam(value = "page", defaultValue = Const.DEFAULT_PAGE_NUMBER) Integer page
             , @RequestParam(value = "size", defaultValue = Const.DEFAULT_PAGE_SIZE) Integer size) {
-        if (SessionUtil.checkSession(session)) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
-        } else {
-            IPage<Movies> allMovies = moviesService.getAllMovies(Const.type.MOVIE, page, size);
-            return ServerResponse.createBySuccess(allMovies);
-        }
+        IPage<Movies> allMovies = moviesService.getAllMovies(Const.type.MOVIE, page, size);
+        return ServerResponse.createBySuccess(allMovies);
     }
 
     /**
      * 获取所有的电视剧资源
      *
-     * @param session 用户session
-     * @param page    第几页
-     * @param size    每页大小
+     * @param page 第几页
+     * @param size 每页大小
      * @return ServerResponse<IPage < Movies>>
      */
     @GetMapping("/tv")
-    public ServerResponse<IPage<Movies>> getAllTv(HttpSession session
-            , @RequestParam(value = "page", defaultValue = Const.DEFAULT_PAGE_NUMBER) Integer page
+    @AdminExamine
+    public ServerResponse<IPage<Movies>> getAllTv(@RequestParam(value = "page", defaultValue = Const.DEFAULT_PAGE_NUMBER) Integer page
             , @RequestParam(value = "size", defaultValue = Const.DEFAULT_PAGE_SIZE) Integer size) {
-        if (SessionUtil.checkSession(session)) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
-        } else {
-            IPage<Movies> allMovies = moviesService.getAllMovies(Const.type.TV, page, size);
-            return ServerResponse.createBySuccess(allMovies);
-        }
+        IPage<Movies> allMovies = moviesService.getAllMovies(Const.type.TV, page, size);
+        return ServerResponse.createBySuccess(allMovies);
     }
 
     /**
      * 删除影视剧
      *
-     * @param session 用户session
      * @param movieId 影视剧Id
      * @return ServerResponse<String>
      */
     @DeleteMapping("/{movieId}")
-    public ServerResponse<String> deleteMoviesById(HttpSession session, @PathVariable(value = "movieId") String movieId) {
-        if (SessionUtil.checkSession(session)) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
-        } else if (StringUtils.isEmpty(movieId)) {
+    @AdminExamine
+    public ServerResponse<String> deleteMoviesById(@PathVariable(value = "movieId") String movieId) {
+        if (StringUtils.isEmpty(movieId)) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.PARAMETER_ERROR.getCode(), ResponseCode.PARAMETER_ERROR.getDesc());
         } else {
             Boolean result = moviesService.deleteMoviesById(movieId);

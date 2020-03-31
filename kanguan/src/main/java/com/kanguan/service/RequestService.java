@@ -44,4 +44,11 @@ public interface RequestService {
      * @return Boolean
      */
     Boolean deleteRequest(String requester, String requestId);
+
+    /**
+     * 获取未回复的请求的数量
+     *
+     * @return Integer
+     */
+    Integer getUnansweredCount();
 }

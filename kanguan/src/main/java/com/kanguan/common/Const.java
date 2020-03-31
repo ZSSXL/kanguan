@@ -67,4 +67,15 @@ public class Const {
          */
         String TV = "0";
     }
+
+    public interface read {
+        /**
+         * 已读
+         */
+        String YES = "1";
+        /**
+         * 未读
+         */
+        String NO = "0";
+    }
 }

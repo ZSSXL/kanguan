@@ -32,6 +32,19 @@ $("#add-subtitle").click(function () {
     sideBarActive("subtitle", "add-subtitle");
 });
 
+$("#feedback").click(function () {
+    console.log("feedback");
+    loadPage("feedback");
+    $("#sidebar-4").addClass("active");
+});
+
+$("#request").click(function () {
+    console.log("request");
+    loadPage("request");
+    $("#sidebar-5").addClass("active");
+});
+
+
 /**
  * 加载页面
  * @param idName id名
@@ -94,7 +107,7 @@ function currentPage() {
         if (item.indexOf("movies") >= 0) {
             if (item === "movies") {
                 getAllMovies();
-            } else if(item === "hot-movies"){
+            } else if (item === "hot-movies") {
                 getAllHotMovies();
             }
             sideBarActive("movies", item);
