@@ -12,9 +12,27 @@
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
     </resultMap>
+    <resultMap id="FeedbackAccountVo" type="com.kanguan.entity.vo.FeedbackAccountVo">
+        <result property="feedbackId" column="feedback_id"/>
+        <result property="content" column="content"/>
+        <result property="username" column="username"/>
+        <result property="email" column="email"/>
+    </resultMap>
 
     <sql id="Base_Column_List">
         feedback_id, feedback_person, content, create_time, update_time
     </sql>
+    <sql id="Feedback_Account">
+        kf.feedback_id, kf.content, ka.username, ka.email
+    </sql>
+
+    <select id="selectFeedbackAndAccountById" resultType="com.kanguan.entity.vo.FeedbackAccountVo"
+            parameterType="java.lang.String">
+        select
+        <include refid="Feedback_Account"/>
+        from kg_feedback kf, kg_account ka
+        where kf.feedback_person = ka.account_id
+        and kf.feedback_id = #{feedbackId}
+    </select>
 
 </mapper>

@@ -56,7 +56,7 @@ public interface MoviesService {
     Movies getMoviesById(String movieId);
 
     /**
-     * 检索影视剧
+     * 模糊检索影视剧
      *
      * @param name 影视剧名称
      * @return List<Movies>
@@ -71,4 +71,12 @@ public interface MoviesService {
      * @return IPage<Movies>
      */
     IPage<Movies> selectMovies(SelectVo select, IPage<Movies> moviesPage);
+
+    /**
+     * 通过电影名精确查找电影
+     *
+     * @param movieName 电影名称
+     * @return Movies
+     */
+    Movies getMoviesByName(String movieName);
 }

@@ -1,3 +1,157 @@
 <!-- 用户请求 -->
+
+<!-- Modal -->
+<!-- 添加请求反馈 -->
+<div class="modal fade" id="add-response-request-modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">反馈用户请求</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <div class="form-group row">
+                            <label for="movies-response-name" class="col-sm-2 col-form-label">资源名称</label>
+                            <div class="col-sm-10">
+                                <input id="movies-response-name" type="text" class="form-control"
+                                       placeholder="请输入该资源的名称...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark btn-square" data-dismiss="modal"><i class="fa fa-times"></i>
+                    取消
+                </button>
+                <button type="button" class="btn btn-primary btn-square" id="send-response"><i
+                        class="fa fa-check-square-o"></i> 保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <h6 class="text-uppercase">user request</h6>
 <hr>
+<div class="card">
+    <div class="card-header">
+        <button class="btn btn-outline-info btn-round" id="get-request-all">全部</button>
+        <button class="btn btn-outline-secondary btn-round" id="get-request-yes">已反馈</button>
+        <button class="btn btn-outline-warning btn-round" id="get-request-no">未反馈</button>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hide table-striped table-hover table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">名称</th>
+                    <th scope="col">豆瓣地址</th>
+                    <th scope="col">资源情况</th>
+                    <th scope="col">时间</th>
+                </tr>
+                </thead>
+                <tbody id="show-request-area">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        getAllRequest("-1");
+    });
+
+    /**
+     * 获取所有的请求
+     */
+    function getAllRequest(exist) {
+        $.ajax({
+            url: "/backend/request/" + exist,
+            type: "get",
+            success: function (result) {
+                if (result.status === 0) {
+                    showAllRequest(result.data);
+                } else {
+                    Notiflix.Notify.Warning(result.msg);
+                }
+            }
+        });
+    }
+
+    /**
+     * 展示获取到的请求
+     * @param data 数据
+     */
+    function showAllRequest(data) {
+        $("#show-request-area").empty();
+        $.each(data, function (index, item) {
+            let numTd = $("<td></td>").append(index + 1);
+            let nameTd = $("<td></td>").append(item.name);
+            let douTd = $("<td></td>").append(item.doubanAddress);
+            let existTd = $("<td></td>");
+            if (item.exist === "0") {
+                existTd.append($("<button class='btn btn-sm btn-outline-secondary response-request'>反馈</button>").attr("request-id", item.requestId));
+            } else {
+                existTd.append($("<button class='btn btn-sm btn-outline-info check-resource-in-sub btn-round'>查看</button>").attr("movie-id", item.exist));
+            }
+            let timeTd = $("<td></td>")
+                .append(printTimeFormat(parseInt(item.createTime)));
+            $("<tr></tr>").append(numTd)
+                .append(nameTd)
+                .append(douTd)
+                .append(existTd)
+                .append(timeTd)
+                .appendTo("#show-request-area");
+        });
+    }
+
+    /* 发送响应 */
+    $("#send-response").click(function () {
+        let requestId = $(this).attr("request-id");
+        let moviesName = $("#movies-response-name").val();
+        let data = {requestId, moviesName};
+        $.ajax({
+            url: "/backend/request",
+            contentType: "application/json;charset=utf-8",
+            type: "put",
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.status === 0) {
+                    Notiflix.Notify.Success("反馈成功");
+                    getAllRequest("-1");
+                } else {
+                    Notiflix.Notify.Warning(result.msg);
+                }
+            }
+        });
+    });
+
+    /**
+     * 获取所有用户请求
+     */
+    $("#get-request-all").click(function () {
+        getAllRequest("-1");
+    });
+
+    /**
+     * 获取已反馈的用户请求
+     */
+    $("#get-request-yes").click(function () {
+        getAllRequest("1");
+    });
+
+    /**
+     * 获取未反馈的用户请求
+     */
+    $("#get-request-no").click(function () {
+        getAllRequest("0");
+    });
+</script>

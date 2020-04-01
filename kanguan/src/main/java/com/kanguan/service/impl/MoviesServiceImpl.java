@@ -123,4 +123,11 @@ public class MoviesServiceImpl implements MoviesService {
         return moviesMapper.selectPage(moviesPage, wrapper);
     }
 
+    @Override
+    public Movies getMoviesByName(String movieName) {
+        QueryWrapper<Movies> wrapper = new QueryWrapper<>();
+        wrapper.eq("name", movieName);
+        return moviesMapper.selectOne(wrapper);
+    }
+
 }

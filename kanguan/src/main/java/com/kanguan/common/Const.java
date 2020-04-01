@@ -68,6 +68,9 @@ public class Const {
         String TV = "0";
     }
 
+    /**
+     * 反馈阅读状态
+     */
     public interface read {
         /**
          * 已读
@@ -75,6 +78,21 @@ public class Const {
         String YES = "1";
         /**
          * 未读
+         */
+        String NO = "0";
+    }
+
+
+    /**
+     * 反馈请求状态
+     */
+    public interface exist {
+        /**
+         * 已反馈
+         */
+        String YES = "1";
+        /**
+         * 未反馈
          */
         String NO = "0";
     }

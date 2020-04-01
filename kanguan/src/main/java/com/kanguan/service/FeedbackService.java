@@ -2,6 +2,7 @@ package com.kanguan.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kanguan.entity.po.Feedback;
+import com.kanguan.entity.vo.FeedbackAccountVo;
 
 import java.util.List;
 
@@ -52,4 +53,12 @@ public interface FeedbackService {
      * @return Integer
      */
     Integer getUnreadFeedbackCount();
+
+    /**
+     * 获取反馈&用户信息
+     *
+     * @param feedbackId 反馈Id
+     * @return FeedbackAccountVo
+     */
+    FeedbackAccountVo getFeedbackAccountById(String feedbackId);
 }

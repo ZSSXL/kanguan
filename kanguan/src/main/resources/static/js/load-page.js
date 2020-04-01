@@ -33,15 +33,15 @@ $("#add-subtitle").click(function () {
 });
 
 $("#feedback").click(function () {
-    console.log("feedback");
     loadPage("feedback");
     $("#sidebar-4").addClass("active");
+    $("#sidebar-5").removeClass("active");
 });
 
 $("#request").click(function () {
-    console.log("request");
     loadPage("request");
     $("#sidebar-5").addClass("active");
+    $("#sidebar-4").removeClass("active");
 });
 
 
@@ -87,9 +87,6 @@ function sideBarActive(pageName, idName) {
         // sidebar-3
     } else if (pageName === "user") {
         console.log("active: user");
-    } else {
-        $("#" + pageName).attr("class", "active");
-        console.log("active: other");
     }
 }
 
@@ -111,8 +108,14 @@ function currentPage() {
                 getAllHotMovies();
             }
             sideBarActive("movies", item);
-        } else {
+        } else if (item.indexOf("subtitle") >= 0) {
             sideBarActive("subtitle", item);
+        } else {
+            if (item === "feedback") {
+                $("#sidebar-4").attr("class", "active");
+            } else if (item === "request") {
+                $("#sidebar-5").attr("class", "active");
+            }
         }
     }
 }

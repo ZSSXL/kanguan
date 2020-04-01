@@ -1,3 +1,27 @@
 <!-- user feedback -->
 <h6 class="text-uppercase">user feedback</h6>
 <hr>
+<div class="card">
+    <div class="card-header">
+        <button class="btn btn-outline-info btn-round" id="get-request-all">全部</button>
+        <button class="btn btn-outline-secondary btn-round" id="get-read">已读</button>
+        <button class="btn btn-outline-warning btn-round" id="get-no-read">未读</button>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hide table-striped table-hover table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">名称</th>
+                    <th scope="col">豆瓣地址</th>
+                    <th scope="col">资源情况</th>
+                    <th scope="col">时间</th>
+                </tr>
+                </thead>
+                <tbody id="show-request-area">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,9 +1,12 @@
 package com.kanguan.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.kanguan.common.Const;
 import com.kanguan.entity.po.Request;
 import com.kanguan.mapper.RequestMapper;
 import com.kanguan.service.RequestService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,5 +63,31 @@ public class RequestServiceImpl implements RequestService {
         QueryWrapper<Request> wrapper = new QueryWrapper<>();
         wrapper.eq("exist", "0");
         return requestMapper.selectCount(wrapper);
+    }
+
+    @Override
+    public List<Request> getAllRequest(String exist) {
+        QueryWrapper<Request> wrapper = new QueryWrapper<>();
+        if (StringUtils.equals(exist, Const.exist.NO)) {
+            wrapper.eq("exist", Const.exist.NO);
+        } else if (StringUtils.equals(exist, Const.exist.YES)) {
+            wrapper.ne("exist", Const.exist.NO);
+        }
+        return requestMapper.selectList(wrapper);
+    }
+
+    @Override
+    public Boolean isExistInDbById(String requestId) {
+        Request request = requestMapper.selectById(requestId);
+        return request != null;
+    }
+
+    @Override
+    public Boolean updateRequestExist(String requestId, String movieId) {
+        UpdateWrapper<Request> wrapper = new UpdateWrapper<>();
+        wrapper.eq("request_id", requestId)
+                .set("exist", movieId);
+        int update = requestMapper.update(null, wrapper);
+        return update == 1;
     }
 }

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kanguan.common.Const;
 import com.kanguan.entity.po.Feedback;
+import com.kanguan.entity.vo.FeedbackAccountVo;
 import com.kanguan.mapper.FeedbackMapper;
 import com.kanguan.service.FeedbackService;
 import com.kanguan.util.TimeUtil;
@@ -73,5 +74,10 @@ public class FeedbackServiceImpl implements FeedbackService {
         QueryWrapper<Feedback> wrapper = new QueryWrapper<>();
         wrapper.eq("read", Const.read.NO);
         return feedbackMapper.selectCount(wrapper);
+    }
+
+    @Override
+    public FeedbackAccountVo getFeedbackAccountById(String feedbackId) {
+        return null;
     }
 }

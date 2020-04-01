@@ -2,11 +2,14 @@ package com.kanguan.controller.backend;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kanguan.common.Const;
+import com.kanguan.common.ResponseCode;
 import com.kanguan.common.ServerResponse;
 import com.kanguan.common.annotation.AdminExamine;
 import com.kanguan.entity.po.Feedback;
+import com.kanguan.entity.vo.FeedbackAccountVo;
 import com.kanguan.service.FeedbackService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,6 +63,27 @@ public class FeedbackController {
             return ServerResponse.createByErrorMessage("获取反馈失败，请刷新重试");
         } else {
             return ServerResponse.createBySuccess(unreadFeedback);
+        }
+    }
+
+    /**
+     * 通过反馈Id获取反馈&用户信息
+     *
+     * @param feedbackId 反馈Id
+     * @return ServerResponse<FeedbackAccountVo>
+     */
+    @GetMapping("/detail/{feedbackId}")
+    @AdminExamine
+    public ServerResponse<FeedbackAccountVo> getFeedbackAccountByFeedbackId(@PathVariable("feedbackId") String feedbackId) {
+        if (StringUtils.isEmpty(feedbackId)) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.PARAMETER_ERROR.getCode(), ResponseCode.PARAMETER_ERROR.getDesc());
+        } else {
+            FeedbackAccountVo feedbackAccountVo = feedbackService.getFeedbackAccountById(feedbackId);
+            if (feedbackAccountVo == null) {
+                return ServerResponse.createByErrorMessage("出错了, 请刷新重试");
+            } else {
+                return ServerResponse.createBySuccess(feedbackAccountVo);
+            }
         }
     }
 
