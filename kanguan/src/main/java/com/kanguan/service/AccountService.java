@@ -1,6 +1,8 @@
 package com.kanguan.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kanguan.entity.po.Account;
+import com.kanguan.entity.vo.UserVo;
 
 /**
  * @author ZSS
@@ -68,4 +70,15 @@ public interface AccountService {
      * @return Boolean
      */
     Boolean updatePassword(String newPassword, String accountId);
+
+    /**
+     * 多条件多表分页查询用户
+     *
+     * @param page   当前页
+     * @param size   每页大小
+     * @param member 是否会员
+     * @param order  排序
+     * @return IPage<UserVo>
+     */
+    IPage<UserVo> getUserVo(Integer page, Integer size, String member, String order);
 }

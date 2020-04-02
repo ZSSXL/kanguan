@@ -12,13 +12,36 @@
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
     </resultMap>
+    <resultMap id="AccountUserInfoVo" type="com.kanguan.entity.vo.UserVo">
+        <result property="userId" column="account_id"/>
+        <result property="email" column="email"/>
+        <result property="username" column="username"/>
+        <result property="member" column="member"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
 
     <sql id="Base_Column_List">
         account_id, username, password, email, create_time, update_time
     </sql>
+    <sql id="Account_User_Info">
+        ka.account_id, ka.email, ka.username, ka.create_time, ku.member
+    </sql>
 
     <select id="selectByEmail" resultType="java.lang.Integer" parameterType="java.lang.String">
          select count(*) from kg_account where email = #{email}
+    </select>
+    <select id="selectUserVoByMemberAndOrder" resultMap="AccountUserInfoVo" parameterType="map">
+        select
+        <include refid="Account_User_Info"/>
+        from kg_account ka, kg_user_info ku
+        where ka.account_id = ku.info_id
+        and ku.member = #{member}
+        <if test="order == 'desc'">
+            order by ka.create_time desc
+        </if>
+        <if test="order == 'asc'">
+            order by ka.create_time asc
+        </if>
     </select>
 
 </mapper>

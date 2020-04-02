@@ -1,8 +1,13 @@
 package com.kanguan.account;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kanguan.BaseTest;
+import com.kanguan.common.Const;
 import com.kanguan.entity.po.Account;
+import com.kanguan.entity.po.Feedback;
+import com.kanguan.entity.vo.UserVo;
 import com.kanguan.mapper.AccountMapper;
 import com.kanguan.service.AccountService;
 import com.kanguan.util.EncryptionUtil;
@@ -44,7 +49,7 @@ public class AccountTest extends BaseTest {
     public void updateTest() {
         UpdateWrapper<Account> wrapper = new UpdateWrapper<>();
         wrapper.eq("account_id", "2c211cabe58f4d349b8dcfc11d343a9a")
-                .set("password", EncryptionUtil.encrypt("654321"));
+                .set("password", EncryptionUtil.encrypt("123456"));
         int update = accountMapper.update(null, wrapper);
         System.out.println(update);
     }
@@ -60,5 +65,23 @@ public class AccountTest extends BaseTest {
 
     }
 
+    /**
+     * 多表分页多条件分页查询用户
+     */
+    @Test
+    public void userVoTest() {
+        long page = 1L;
+        long size = 30L;
+        String member = Const.member.YES;
+        String order = "asc";
+        IPage<UserVo> userPage = new Page<>(page, size);
+        IPage<UserVo> userVoIPage = accountMapper.selectUserVoByMemberAndOrder(userPage, member, order);
+        System.out.println("total : " + userVoIPage.getTotal());
+        System.out.println("current : " + userVoIPage.getCurrent());
+        List<UserVo> records = userVoIPage.getRecords();
+        for (UserVo user : records) {
+            System.out.println("user : " + user);
+        }
+    }
 
 }

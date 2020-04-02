@@ -96,4 +96,18 @@ public class Const {
          */
         String NO = "0";
     }
+
+    /**
+     * 会员状态
+     */
+    public interface member {
+        /**
+         * 是会员
+         */
+        String YES = "1";
+        /**
+         * 不是会员
+         */
+        String NO = "0";
+    }
 }

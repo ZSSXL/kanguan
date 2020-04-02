@@ -2,7 +2,11 @@ package com.kanguan.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kanguan.entity.po.Account;
+import com.kanguan.entity.po.Feedback;
+import com.kanguan.entity.vo.UserVo;
 import com.kanguan.mapper.AccountMapper;
 import com.kanguan.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,5 +73,11 @@ public class AccountServiceImpl implements AccountService {
                 .set("password", newPassword);
         int update = accountMapper.update(null, wrapper);
         return update == 1;
+    }
+
+    @Override
+    public IPage<UserVo> getUserVo(Integer page, Integer size, String member, String order) {
+        IPage<UserVo> userVoPage = new Page<>(page, size);
+        return accountMapper.selectUserVoByMemberAndOrder(userVoPage, member, order);
     }
 }

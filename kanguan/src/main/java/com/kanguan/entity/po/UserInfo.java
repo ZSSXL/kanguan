@@ -27,7 +27,7 @@ public class UserInfo extends Model<UserInfo> implements Serializable {
     private String infoId;
 
     /**
-     * 是否会员
+     * 是否会员 1 是会员， 0 不是会员
      */
     private String member;
 

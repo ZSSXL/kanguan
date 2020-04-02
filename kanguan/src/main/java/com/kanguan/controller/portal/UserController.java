@@ -71,7 +71,7 @@ public class UserController extends BaseController {
                         .updateTime(TimeUtil.getTimestamp()).build();
                 UserInfo userInfo = UserInfo.builder()
                         .infoId(userId)
-                        .member("no")
+                        .member(Const.member.NO)
                         .createTime(TimeUtil.getTimestamp())
                         .updateTime(TimeUtil.getTimestamp())
                         .build();
