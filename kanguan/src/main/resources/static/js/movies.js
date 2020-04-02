@@ -1,11 +1,11 @@
 /* 影视剧专用js */
-// 当前电影页数
+// 电影总页数
 let moviePages;
 // 当前页
 let currentMoviePage;
-// 当前电影页数
+// 电视剧总页数
 let tvPages;
-// 当前页
+// 电视剧当前页
 let currentTvPage;
 
 /**

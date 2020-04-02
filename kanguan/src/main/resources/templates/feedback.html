@@ -1,9 +1,64 @@
 <!-- user feedback -->
+
+<!-- Modal -->
+<!-- 添加请求反馈 -->
+<div class="modal fade" id="feedback-detail-modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">反馈用户请求</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <div class="form-group row">
+                            <label for="feedback-email" class="col-sm-2 col-form-label">反馈者邮箱</label>
+                            <div class="col-sm-10">
+                                <h5 id="feedback-email" type="text"
+                                    class="form-control"></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <div class="form-group row">
+                            <label for="feedback-username" class="col-sm-2 col-form-label">反馈者姓名</label>
+                            <div class="col-sm-10">
+                                <h5 id="feedback-username" type="text"
+                                    class="form-control"></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <div class="form-group row">
+                            <label for="user-feedback-content" class="col-sm-2 col-form-label">资源名称</label>
+                            <div class="col-sm-10">
+                                <textarea rows="5" id="user-feedback-content" type="text"
+                                          class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark btn-square" data-dismiss="modal"><i class="fa fa-times"></i>
+                    取消
+                </button>
+                <button type="button" class="btn btn-primary btn-square" id="read-feedback"><i
+                        class="fa fa-check-square-o"></i> 已读
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <h6 class="text-uppercase">user feedback</h6>
 <hr>
 <div class="card">
     <div class="card-header">
-        <button class="btn btn-outline-info btn-round" id="get-request-all">全部</button>
+        <button class="btn btn-outline-info btn-round" id="get-feedback-all">全部</button>
         <button class="btn btn-outline-secondary btn-round" id="get-read">已读</button>
         <button class="btn btn-outline-warning btn-round" id="get-no-read">未读</button>
     </div>
@@ -13,15 +68,63 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">名称</th>
-                    <th scope="col">豆瓣地址</th>
-                    <th scope="col">资源情况</th>
                     <th scope="col">时间</th>
+                    <th scope="col">状态</th>
+                    <th scope="col">操作</th>
                 </tr>
                 </thead>
-                <tbody id="show-request-area">
+                <tbody id="show-feedback-area">
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-4 col-xl-4 mt-1" id="feedback-page-message">
+        <p>当前第 <strong>1</strong> 页, 共42页, 1008条数据</p>
+    </div>
+    <div class="col-12 col-lg-6 col-xl-6" id="feedback-page-ul">
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        getFeedback("-1", 1, 30);
+    });
+
+    /**
+     * 反馈已读
+     */
+    $("#read-feedback").click(function () {
+        let feedbackId = $(this).attr("feedback-id");
+        $.ajax({
+            url: "/backend/feedback",
+            contentType: "application/json;charset=utf-8",
+            type: "put",
+            dataType: "json",
+            data: feedbackId,
+            success: function (result) {
+                if (result.status === 0) {
+                    $("#feedback-detail-modal").modal("hide");
+                    getFeedback("-1", 1, 30);
+                    getUnreadFeedbackCount();
+                } else {
+                    Notiflix.Notify.Warning(result.msg);
+                }
+            }
+        });
+    });
+
+    $("#get-feedback-all").click(function () {
+        readStatus = "-1";
+        getFeedback(readStatus, 1, 30);
+    });
+    $("#get-read").click(function () {
+        readStatus = "1";
+        getFeedback(readStatus, 1, 30);
+    });
+    $("#get-no-read").click(function () {
+        readStatus = "0";
+        getFeedback(readStatus, 1, 30);
+    });
+</script>

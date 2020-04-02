@@ -127,6 +127,7 @@
                 if (result.status === 0) {
                     Notiflix.Notify.Success("反馈成功");
                     getAllRequest("-1");
+                    getUnansweredCount();
                 } else {
                     Notiflix.Notify.Warning(result.msg);
                 }

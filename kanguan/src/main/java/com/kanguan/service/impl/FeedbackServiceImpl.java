@@ -78,6 +78,6 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public FeedbackAccountVo getFeedbackAccountById(String feedbackId) {
-        return null;
+        return feedbackMapper.selectFeedbackAndAccountById(feedbackId);
     }
 }
