@@ -1,0 +1,106 @@
+<!-- 用户管理界面 -->
+<h6 class="text-uppercase">user</h6>
+<hr>
+<div class="row">
+    <div class="col-12 col-lg-4 col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="media align-items-center">
+                    <div class="media-body">
+                        <p class="mb-0">注册用户总数</p>
+                        <h5 class="mt-2" id="total-user-count">8647</h5>
+                    </div>
+                    <div class="icon-box float-right rounded-circle bg-inverse-info">
+                        <i class="fa fa-users text-info"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-4 col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="media align-items-center">
+                    <div class="media-body">
+                        <p class="mb-0">普通用户</p>
+                        <h5 class="mt-2" id="user-count">6584</h5>
+                    </div>
+                    <div class="icon-box float-right rounded-circle bg-inverse-warning">
+                        <i class="fa fa-user-circle text-warning"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-4 col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="media align-items-center">
+                    <div class="media-body">
+                        <p class="mb-0">会员</p>
+                        <h5 class="mt-2" id="member-user-count">2063</h5>
+                    </div>
+                    <div class="icon-box float-right rounded-circle bg-inverse-secondary">
+                        <i class="fa fa-diamond text-secondary"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <button class="btn btn-outline-warning btn-lg" id="set-order" order="desc">排序</button>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hide table-striped table-hover table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">用户名</th>
+                    <th scope="col">邮箱</th>
+                    <th scope="col">会员</th>
+                    <th scope="col">注册时间</th>
+                    <th scope="col">操作</th>
+                </tr>
+                </thead>
+                <tbody id="show-user-area">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-4 col-xl-4 mt-1" id="user-page-message">
+        <p>当前第 <strong>1</strong> 页, 共42页, 1008条数据</p>
+    </div>
+    <div class="col-12 col-lg-6 col-xl-6" id="user-page-ul">
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        getRegisterCount();
+        getAllUser("-1", "desc", 1, 30);
+    });
+
+    /**
+     * 排序
+     */
+    $("#set-order").click(function () {
+        let orderTemp = $(this).attr("order");
+        if (orderTemp === "desc") {
+            order = "asc";
+            $(this).attr("order", "asc").text("正序");
+            getAllUser(member, order, 1, 30);
+        } else if (orderTemp === "asc") {
+            order = "desc";
+            $(this).attr("order", "desc").text("逆序");
+            getAllUser(member, order, 1, 30);
+        }
+    });
+</script>

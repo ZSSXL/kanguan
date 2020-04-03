@@ -15,4 +15,11 @@ public interface UserInfoService {
      * @return Boolean
      */
     Boolean createUserInfo(UserInfo userInfo);
+
+    /**
+     * 获取会员用户数量
+     *
+     * @return Integer
+     */
+    Integer getMemberCount();
 }

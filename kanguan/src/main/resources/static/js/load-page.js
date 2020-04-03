@@ -32,12 +32,34 @@ $("#add-subtitle").click(function () {
     sideBarActive("subtitle", "add-subtitle");
 });
 
+/**
+ * 用户管理
+ */
+$("#user").click(function () {
+    loadPage("user");
+    sideBarActive("user", "user");
+});
+
+/**
+ * 会员管理
+ */
+$("#member-user").click(function () {
+    loadPage("member-user");
+    sideBarActive("user", "member-user");
+});
+
+/**
+ * 反馈页面加载
+ */
 $("#feedback").click(function () {
     loadPage("feedback");
     $("#sidebar-4").addClass("active");
     $("#sidebar-5").removeClass("active");
 });
 
+/**
+ * 请求页面加载
+ */
 $("#request").click(function () {
     loadPage("request");
     $("#sidebar-5").addClass("active");
@@ -87,6 +109,13 @@ function sideBarActive(pageName, idName) {
         // sidebar-3
     } else if (pageName === "user") {
         console.log("active: user");
+        $("#sidebar-3").attr("class", "active");
+        $("#" + idName).attr("class", "active finger");
+        if (idName === "user") {
+            $("#member-user").removeClass("active");
+        } else {
+            $("#user").removeClass("active");
+        }
     }
 }
 
@@ -110,6 +139,8 @@ function currentPage() {
             sideBarActive("movies", item);
         } else if (item.indexOf("subtitle") >= 0) {
             sideBarActive("subtitle", item);
+        } else if (item.indexOf("user") >= 0) {
+            sideBarActive("user", item);
         } else {
             if (item === "feedback") {
                 $("#sidebar-4").attr("class", "active");

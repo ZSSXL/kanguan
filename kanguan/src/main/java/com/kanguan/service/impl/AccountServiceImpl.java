@@ -80,4 +80,9 @@ public class AccountServiceImpl implements AccountService {
         IPage<UserVo> userVoPage = new Page<>(page, size);
         return accountMapper.selectUserVoByMemberAndOrder(userVoPage, member, order);
     }
+
+    @Override
+    public Integer getRegisterUserCount() {
+        return accountMapper.selectCount(null);
+    }
 }

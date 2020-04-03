@@ -4,9 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kanguan.BaseTest;
-import com.kanguan.common.Const;
 import com.kanguan.entity.po.Account;
-import com.kanguan.entity.po.Feedback;
 import com.kanguan.entity.vo.UserVo;
 import com.kanguan.mapper.AccountMapper;
 import com.kanguan.service.AccountService;
@@ -72,8 +70,8 @@ public class AccountTest extends BaseTest {
     public void userVoTest() {
         long page = 1L;
         long size = 30L;
-        String member = Const.member.YES;
-        String order = "asc";
+        String member = "-1";
+        String order = "desc";
         IPage<UserVo> userPage = new Page<>(page, size);
         IPage<UserVo> userVoIPage = accountMapper.selectUserVoByMemberAndOrder(userPage, member, order);
         System.out.println("total : " + userVoIPage.getTotal());

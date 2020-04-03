@@ -89,7 +89,7 @@ function showAllFeedback(data) {
 }
 
 /**
- * 构建电影分页信息
+ * 构建反馈分页信息
  * @param data
  */
 function buildFeedbackPageMessage(data) {
@@ -103,7 +103,7 @@ function buildFeedbackPageMessage(data) {
 }
 
 /**
- * 构建电影分页
+ * 构建反馈分页
  * @param data 数据
  */
 function buildFeedbackPageUl(data) {
@@ -191,7 +191,7 @@ function buildFeedbackPageUl(data) {
         .appendTo("#feedback-page-ul");
 }
 
-/* 电影页面跳转 */
+/* 分页跳转 */
 $(document).on("click", ".feedback-page-jump", function () {
     let page = $(this).text();
     getFeedback(readStatus, page, 30);

@@ -35,7 +35,9 @@
         <include refid="Account_User_Info"/>
         from kg_account ka, kg_user_info ku
         where ka.account_id = ku.info_id
-        and ku.member = #{member}
+        <if test="member != '-1'">
+            and ku.member = #{member}
+        </if>
         <if test="order == 'desc'">
             order by ka.create_time desc
         </if>

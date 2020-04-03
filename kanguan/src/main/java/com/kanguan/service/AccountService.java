@@ -81,4 +81,11 @@ public interface AccountService {
      * @return IPage<UserVo>
      */
     IPage<UserVo> getUserVo(Integer page, Integer size, String member, String order);
+
+    /**
+     * 获取已经注册的用户的数量
+     *
+     * @return Integer
+     */
+    Integer getRegisterUserCount();
 }

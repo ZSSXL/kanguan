@@ -1,5 +1,7 @@
 package com.kanguan.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.kanguan.common.Const;
 import com.kanguan.entity.po.UserInfo;
 import com.kanguan.mapper.UserInfoMapper;
 import com.kanguan.service.UserInfoService;
@@ -24,6 +26,13 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public Boolean createUserInfo(UserInfo userInfo) {
         int insert = userInfoMapper.insert(userInfo);
-        return  insert == 1;
+        return insert == 1;
+    }
+
+    @Override
+    public Integer getMemberCount() {
+        QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
+        wrapper.eq("member", Const.member.YES);
+        return userInfoMapper.selectCount(wrapper);
     }
 }
