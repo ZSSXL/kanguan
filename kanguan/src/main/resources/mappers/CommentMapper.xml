@@ -8,13 +8,29 @@
         <id property="commentId" column="comment_id"/>
         <result property="commentator" column="commentator"/>
         <result property="content" column="content"/>
-        <result property="object" column="object"/>
+        <result property="targetId" column="target_id"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
     </resultMap>
+    <resultMap id="CommentUserVo" type="com.kanguan.entity.vo.CommentUserVo">
+        <result property="commentId" column="comment_id"/>
+        <result property="commentName" column="username"/>
+        <result property="content" column="content"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
 
     <sql id="Base_Column_List">
-        comment_id, commentator, content, object, create_time, update_time
+        comment_id, commentator, content, target_id, create_time, update_time
     </sql>
+    <sql id="Comment_User_List">
+        kc.comment_id, ka.username, kc.content, kc.create_time
+    </sql>
+    <select id="getCommentUserVoByTargetId" resultMap="CommentUserVo" parameterType="java.lang.String">
+        select
+        <include refid="Comment_User_List"/>
+        from kg_comment kc, kg_account ka
+        where kc.commentator = ka.account_id
+        and kc.target_id = #{targetId}
+    </select>
 
 </mapper>

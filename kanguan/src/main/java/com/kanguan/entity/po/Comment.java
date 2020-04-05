@@ -37,9 +37,9 @@ public class Comment extends Model<Comment> implements Serializable {
     private String content;
 
     /**
-     * 评论对象
+     * 评论对象Id
      */
-    private String object;
+    private String targetId;
 
     /**
      * 创建时间

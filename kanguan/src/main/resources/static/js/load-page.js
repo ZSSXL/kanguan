@@ -108,7 +108,6 @@ function sideBarActive(pageName, idName) {
         }
         // sidebar-3
     } else if (pageName === "user") {
-        console.log("active: user");
         $("#sidebar-3").attr("class", "active");
         $("#" + idName).attr("class", "active finger");
         if (idName === "user") {

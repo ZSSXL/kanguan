@@ -107,10 +107,38 @@
     </div>
 </div>
 
+
+<!-- 评论列表 -->
+<h6 class="text-uppercase" id="comment">comment</h6>
+<hr>
+<div class="card">
+    <div class="card-header">
+        <div class="comment-list m-5" id="comment-list">
+        </div>
+        <div id="no-comments" style="display: none;">
+            <h4>暂无评论，我来抢个沙发!!!</h4>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="form-group row">
+            <label for="comment-content" class="col-sm-12 col-form-label">我要评论</label>
+            <div class="col-sm-12">
+                <textarea rows="5" class="form-control" id="comment-content"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-12 col-xl-12">
+                <button class="btn btn-outline-secondary btn-round float-right" id="send-comment">发表评论</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         let data = sessionStorage.getItem("kanguan-resource-data");
         showMoviesDetail(JSON.parse(data));
+        getComments();
     });
 
     /**
@@ -198,7 +226,7 @@
             let bignessTd = $("<td></td>").append(resource.bigness);
             let formatTd = $("<td></td>").append(resource.format);
             let episodeTd = $("<td></td>");
-            if(resource.episode !== null){
+            if (resource.episode !== null) {
                 let number = resource.episode.indexOf("E");
                 if (number >= 0) {
                     episodeTd.append(resource.episode.replace("E", ""));
@@ -233,6 +261,56 @@
     function filterTable(val) {
         $("table tbody tr").hide()
             .filter(":contains('" + (val) + "')").show();//filter和contains共同来实现了这个功能。
+    }
+
+    /**
+     * 获取评论
+     */
+    function getComments() {
+        let targetId = $("#add-subscription").attr("movie-id");
+        $.ajax({
+            url: baseUrl + "/comment/" + targetId,
+            type: "get",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("token", token);
+            },
+            success: function (result) {
+                if (result.status === 0) {
+                    if (result.data.length === 0) {
+                        $("#no-comments").attr("style", "");
+                        $("#comment-list").css("display", "none");
+                    } else {
+                        $("#no-comments").css("display", "none");
+                        $("#comment-list").attr("style", "");
+                        showComments(result.data);
+                    }
+                } else {
+                    Notiflix.Notify.Warning(result.msg);
+                }
+            }
+        });
+    }
+
+    /**
+     * 展示评论
+     * @param data 评论数据
+     */
+    function showComments(data) {
+        $("#comment-list").empty();
+        $.each(data, function (index, item) {
+            let headerDiv = $("<div class='comment-header'></div>")
+                .append($("<div class='row'></div>")
+                    .append($("<div class='col-6'></div>")
+                        .append($("<h5 class='float-left text-secondary ml-2'></h5>").append(item.commentName)))
+                    .append($("<div class='col-6'></div>")
+                        .append($("<span class='float-right'></span>").append(printTimeFormatComplete(parseInt(item.createTime))))));
+            let bodyDiv = $("<div class='comment-body'></div>")
+                .append($("<p class='comment-content p-2'></p>").append(item.content));
+            $("<div class='comment-item'></div>")
+                .append(headerDiv)
+                .append(bodyDiv)
+                .appendTo("#comment-list");
+        })
     }
 </script>
 <script type="text/javascript">
@@ -304,4 +382,31 @@
         });
     });
 
+    /**
+     * 发表评论
+     */
+    $("#send-comment").click(function () {
+        let targetId = $("#add-subscription").attr("movie-id");
+        let content = $("#comment-content").val();
+        let data = {targetId, content};
+        $.ajax({
+            url: baseUrl + "/comment",
+            contentType: "application/json;charset=utf-8",
+            type: "POST",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("token", token);
+            },
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.status === 0) {
+                    Notiflix.Notify.Success("评论成功");
+                    $("#comment-content").val("");
+                    getComments();
+                } else {
+                    Notiflix.Notify.Warning(result.msg);
+                }
+            }
+        });
+    });
 </script>

@@ -19,6 +19,15 @@
     color: #888888;
 }
 
+.comment-body {
+    margin-top: 0.8rem !important;
+    background-color: #f9f9f9;
+}
+
+.comment-item {
+    margin-top: 1.3rem !important;
+    border-bottom: 1px dotted #e0e0e0;
+}
 
 /* 超出字符省略 */
 .omit-6 {

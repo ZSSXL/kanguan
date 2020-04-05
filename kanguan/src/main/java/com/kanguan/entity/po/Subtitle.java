@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * @author ZSS
  * @date 2020/3/16 15:38
- * @description 字母表
+ * @description 字幕表
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -52,9 +52,9 @@ public class Subtitle extends Model<Subtitle> implements Serializable {
     private String download;
 
     /**
-     * 字幕对象
+     * 目标Id
      */
-    private String object;
+    private String targetId;
 
     /**
      * 创建时间
