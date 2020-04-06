@@ -5,7 +5,6 @@ function getRegisterCount() {
         type: "get",
         success: function (result) {
             if (result.status === 0) {
-                console.log(result.data);
                 showRegisterCount(result.data);
             } else {
                 Notiflix.Notify.Warning(result.msg);

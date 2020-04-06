@@ -15,9 +15,22 @@
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
     </resultMap>
+    <resultMap id="SubtitleMoviesVo" type="com.kanguan.entity.vo.SubtitleMoviesVo">
+        <result property="count" column="count" jdbcType="NUMBER"/>
+        <result property="targetId" column="movie_id"/>
+        <result property="moviesName" column="name"/>
+    </resultMap>
 
     <sql id="Base_Column_List">
         subtitle_id, name, episode, format, download, language, target_id, create_time, update_time
     </sql>
+    <sql id="Subtitle_Movies_Vo">
+        /* todo 明天继续吧 */
+    </sql>
+
+    <select id="selectSubtitleMainMessageByMoviesType" resultMap="SubtitleMoviesVo"
+            parameterType="java.lang.String">
+
+    </select>
 
 </mapper>

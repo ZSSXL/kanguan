@@ -120,7 +120,6 @@ $(document).on("click", ".recommend-resource", function () {
 /* 显示影视剧详情 */
 $(document).on("click", ".show-detail-movies", function () {
     let movieId = $(this).attr("movie-id");
-    console.log("movieId " + movieId);
     $.ajax({
         url: "/backend/resource/" + movieId,
         type: "get",
