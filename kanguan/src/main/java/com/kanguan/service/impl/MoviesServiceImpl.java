@@ -100,7 +100,6 @@ public class MoviesServiceImpl implements MoviesService {
                     wrapper.between("premiere", "2000", "2009");
                     break;
                 case "90年代":
-                    System.out.println("1990 - 1999");
                     wrapper.between("premiere", "1990", "1999");
                     break;
                 case "80年代":

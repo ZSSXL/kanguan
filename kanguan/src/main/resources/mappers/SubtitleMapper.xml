@@ -16,7 +16,7 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
     <resultMap id="SubtitleMoviesVo" type="com.kanguan.entity.vo.SubtitleMoviesVo">
-        <result property="count" column="count" jdbcType="NUMBER"/>
+        <result property="count" column="count(ks.subtitle_id)" jdbcType="INTEGER"/>
         <result property="targetId" column="movie_id"/>
         <result property="moviesName" column="name"/>
     </resultMap>
@@ -24,13 +24,21 @@
     <sql id="Base_Column_List">
         subtitle_id, name, episode, format, download, language, target_id, create_time, update_time
     </sql>
+
     <sql id="Subtitle_Movies_Vo">
-        /* todo 明天继续吧 */
+        km.movie_id, km.name, count(ks.subtitle_id)
     </sql>
-
-    <select id="selectSubtitleMainMessageByMoviesType" resultMap="SubtitleMoviesVo"
-            parameterType="java.lang.String">
-
+    <select id="selectSubtitleMainMessageByMoviesType" resultMap="SubtitleMoviesVo" parameterType="java.lang.String">
+        select
+        <include refid="Subtitle_Movies_Vo"/>
+        from kg_movies km
+        left join kg_subtitle ks
+        on km.movie_id = ks.target_id
+        <if test="type != '-1'">
+            where km.type = #{type}
+        </if>
+        group by km.movie_id, km.name, km.create_time
+        order by km.create_time desc
     </select>
 
 </mapper>

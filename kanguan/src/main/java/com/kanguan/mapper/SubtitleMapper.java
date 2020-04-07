@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kanguan.entity.po.Subtitle;
 import com.kanguan.entity.vo.SubtitleMoviesVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,5 +17,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SubtitleMapper extends BaseMapper<Subtitle> {
 
-    IPage<SubtitleMoviesVo> selectSubtitleMainMessageByMoviesType(IPage<SubtitleMoviesVo> page, String type);
+    /**
+     * 获取字幕信息
+     *
+     * @param page 分页信息
+     * @param type 影视剧类型
+     * @return IPage<SubtitleMoviesVo>
+     */
+    IPage<SubtitleMoviesVo> selectSubtitleMainMessageByMoviesType(IPage<SubtitleMoviesVo> page, @Param("type") String type);
 }

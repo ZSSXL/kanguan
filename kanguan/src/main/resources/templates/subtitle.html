@@ -1,20 +1,44 @@
 <!-- 字幕页面 -->
-
 <div class="row">
-    <div class="col-12 col-lg-12 col-xl-12">
-        <div class="card">
-            <!-- header -->
-            <div class="card-header border-0">
-                <div class="row align-items-center">
-                    <div class="col text-left">
-                        <p class="mb-0">查看字幕</p>
-                    </div>
-                </div>
-            </div>
-            <!-- body -->
-            <div class="card-body">
-                <h2>展示字幕</h2>
+    <div class="col-12 col-lg-4 col-xl-4">
+        <h6 class="text-uppercase">subtitle area</h6>
+    </div>
+    <div class="col-12 col-lg-8 col-xl-8">
+        <div class="input-group float-right col-12 col-lg-6">
+            <input type="text" class="form-control" placeholder="输入影视剧名">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button"><i class="zmdi zmdi-search"></i></button>
             </div>
         </div>
     </div>
 </div>
+<hr>
+
+
+<div class="row" id="movie-subtitle-main-message">
+    <div class="col-12 col-lg-3 col-xl-3">
+        <div class="card bg-info">
+            <div class="card-body">
+                <div class="media align-items-center">
+                    <div class="media-body">
+                        <h5 class="mb-0 text-white">0</h5>
+                        <p class="mb-0 text-white">人间烟火</p>
+                    </div>
+                    <div class="w-icon"><i class="zmdi zmdi-shopping-cart-plus text-white"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<div class="row" id="tv-subtitle-main-message">
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        getSubtitleMainMessage("1", 1, 40);
+        getSubtitleMainMessage("0", 1, 40);
+    });
+</script>
