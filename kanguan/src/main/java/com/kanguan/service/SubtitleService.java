@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kanguan.entity.po.Subtitle;
 import com.kanguan.entity.vo.SubtitleMoviesVo;
 
+import java.util.List;
+
 /**
  * @author ZSS
  * @date 2020/4/7 0:12
@@ -35,4 +37,12 @@ public interface SubtitleService {
      * @return Boolean
      */
     Boolean deleteSubtitleById(String subtitleId);
+
+    /**
+     * 获取字幕数据
+     *
+     * @param targetId 目标对象
+     * @return List<Subtitle>
+     */
+    List<Subtitle> getSubtitleByTargetId(String targetId);
 }

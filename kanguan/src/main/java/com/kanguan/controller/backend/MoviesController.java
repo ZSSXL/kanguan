@@ -148,7 +148,7 @@ public class MoviesController {
     private String uploadCoverImg(MultipartFile file, HttpServletRequest request) {
         String path = request.getSession().getServletContext().getRealPath("upload");
         if (file != null) {
-            String targetFileName = fileService.uploadFile(file, Const.path.COVER_PATH, path);
+            String targetFileName = fileService.uploadFile(file, Const.path.COVER_PATH, path, false);
             log.info("上传封面成功:" + targetFileName);
             return FtpProperties.HTTP_PREFIX + Const.path.COVER_PATH + "/" + targetFileName;
         } else {

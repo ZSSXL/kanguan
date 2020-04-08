@@ -12,10 +12,11 @@ public interface FileService {
     /**
      * 上传文件
      *
-     * @param file    文件
-     * @param dirPath 文件夹路径
-     * @param path    路径
+     * @param file         文件
+     * @param dirPath      文件夹路径
+     * @param path         路径
+     * @param originalName 是否原名 true为原名，false重命名
      * @return String
      */
-    String uploadFile(MultipartFile file, String dirPath, String path);
+    String uploadFile(MultipartFile file, String dirPath, String path, Boolean originalName);
 }

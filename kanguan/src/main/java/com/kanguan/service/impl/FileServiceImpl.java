@@ -21,7 +21,7 @@ import java.io.IOException;
 public class FileServiceImpl implements FileService {
 
     @Override
-    public String uploadFile(MultipartFile file, String dirPath, String path) {
+    public String uploadFile(MultipartFile file, String dirPath, String path, Boolean originalName) {
         // 获取原始文件的文件名
         String fileName = file.getOriginalFilename();
         if (fileName == null) {
@@ -30,7 +30,12 @@ public class FileServiceImpl implements FileService {
         // 获取扩展名
         String fileExtensionName = fileName.substring(fileName.lastIndexOf(".") + 1);
         // 组装上传的文件名
-        String uploadFileName = IdUtil.getId() + "." + fileExtensionName;
+        String uploadFileName;
+        if (originalName) {
+            uploadFileName = fileName;
+        } else {
+            uploadFileName = IdUtil.getId() + "." + fileExtensionName;
+        }
         log.info("开始上传文件,上传文件的源文件名是:{},上传的路径是:{},上传后的文件名:{}", fileName, path, uploadFileName);
 
         File fileDir = new File(path);
@@ -39,7 +44,7 @@ public class FileServiceImpl implements FileService {
             fileDir.mkdirs();
         }
 
-        File targetFile = new File(path, uploadFileName);
+        File targetFile = new File(path, fileName);
         try {
             file.transferTo(targetFile);
             FileInputStream fileInputStream = new FileInputStream(targetFile);

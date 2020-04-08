@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author ZSS
@@ -63,6 +64,23 @@ public class SubtitleController extends BaseController {
             return ServerResponse.createByErrorMessage("获取数据失败，请刷新重试");
         } else {
             return ServerResponse.createBySuccess(smVoPage);
+        }
+    }
+
+    /**
+     * 获取字幕
+     *
+     * @param targetId 字幕对象
+     * @return List<Subtitle>
+     */
+    @GetMapping("/list/{targetId}")
+    @AdminExamine
+    public ServerResponse<List<Subtitle>> getSubtitleByTargetId(@PathVariable("targetId") String targetId) {
+        List<Subtitle> subtitleList = subtitleService.getSubtitleByTargetId(targetId);
+        if (subtitleList == null) {
+            return ServerResponse.createByErrorMessage("获取数据失败，请刷新重试");
+        } else {
+            return ServerResponse.createBySuccess(subtitleList);
         }
     }
 
@@ -141,7 +159,7 @@ public class SubtitleController extends BaseController {
     private String uploadSubtitle(MultipartFile file, HttpServletRequest request) {
         String path = request.getSession().getServletContext().getRealPath("upload");
         if (file != null) {
-            String targetFileName = fileService.uploadFile(file, Const.path.SUBTITLE_PATH, path);
+            String targetFileName = fileService.uploadFile(file, Const.path.SUBTITLE_PATH, path, true);
             log.info("上传字幕成功: " + targetFileName);
             return FtpProperties.HTTP_PREFIX + Const.path.SUBTITLE_PATH + "/" + targetFileName;
         } else {

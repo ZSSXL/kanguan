@@ -1,5 +1,6 @@
 package com.kanguan.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.kanguan.entity.po.Subtitle;
 import com.kanguan.entity.vo.SubtitleMoviesVo;
@@ -7,6 +8,8 @@ import com.kanguan.mapper.SubtitleMapper;
 import com.kanguan.service.SubtitleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author ZSS
@@ -38,5 +41,12 @@ public class SubtitleServiceImpl implements SubtitleService {
     public Boolean deleteSubtitleById(String subtitleId) {
         int i = subtitleMapper.deleteById(subtitleId);
         return i == 1;
+    }
+
+    @Override
+    public List<Subtitle> getSubtitleByTargetId(String targetId) {
+        QueryWrapper<Subtitle> wrapper = new QueryWrapper<>();
+        wrapper.eq("target_id", targetId);
+        return subtitleMapper.selectList(wrapper);
     }
 }

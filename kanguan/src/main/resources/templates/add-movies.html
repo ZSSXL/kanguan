@@ -176,7 +176,6 @@
         let formData = getBaseMessage();
         let file = $("#f")[0].files[0];
         formData.append("cover", file);
-        console.log(formData);
         $.ajax({
             url: "/backend/movies",
             type: "post",
