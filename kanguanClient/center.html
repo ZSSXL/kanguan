@@ -161,7 +161,6 @@
             },
             success: function (result) {
                 if (result.status === 0) {
-                    console.log(result.data);
                     showRequest(result.data);
                 } else {
                     Notiflix.Notify.Warning(result.msg);

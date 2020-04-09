@@ -10,7 +10,6 @@ $(document).on("click", ".delete-request", function () {
             XMLHttpRequest.setRequestHeader("token", token);
         },
         success: function (result) {
-            console.log(result);
             if (result.status === 0) {
                 Notiflix.Notify.Success("删除成功");
                 getPersonRequest();
@@ -33,7 +32,6 @@ $(document).on("click", ".delete-sub", function () {
             XMLHttpRequest.setRequestHeader("token", token);
         },
         success: function (result) {
-            console.log(result);
             if (result.status === 0) {
                 Notiflix.Notify.Success("删除成功");
                 getSubscription();

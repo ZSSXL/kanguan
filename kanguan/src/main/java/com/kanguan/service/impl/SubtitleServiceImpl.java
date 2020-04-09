@@ -46,7 +46,8 @@ public class SubtitleServiceImpl implements SubtitleService {
     @Override
     public List<Subtitle> getSubtitleByTargetId(String targetId) {
         QueryWrapper<Subtitle> wrapper = new QueryWrapper<>();
-        wrapper.eq("target_id", targetId);
+        wrapper.eq("target_id", targetId)
+                .orderByAsc("episode");
         return subtitleMapper.selectList(wrapper);
     }
 

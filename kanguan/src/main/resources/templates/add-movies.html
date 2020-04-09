@@ -186,7 +186,6 @@
             mimeType: "multipart/form-data",
             data: formData,
             success: function (result) {
-                console.log(result);
                 if (result.status === 0) {
                     Notiflix.Notify.Info("上传成功");
                     resetAll();
@@ -225,7 +224,7 @@
         let anotherName = $("#another-name").val();
         let introduction = $("#introduction").val();
         let score = $("#score").val();
-        let data = {
+        /*let data = {
             name,
             director,
             scenarist,
@@ -239,8 +238,7 @@
             anotherName,
             introduction,
             score
-        };
-        console.log(data);
+        };*/
 
         let formData = new FormData();
         formData.append("name", name);

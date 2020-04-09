@@ -31,7 +31,6 @@ function getAllHotTv() {
             XMLHttpRequest.setRequestHeader("token", token);
         },
         success: function (result) {
-            console.log(result);
             showHotTv(result.data);
         }
     });

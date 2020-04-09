@@ -72,11 +72,19 @@
         </div>
     </div>
 </div>
+
 <!-- 资源列表 -->
-<h6 class="text-uppercase" id="resource">RESOURCE</h6>
+<h6 class="text-uppercase">resource</h6>
 <hr>
 <div class="card">
-    <div class="card-body">
+    <div class="card-header">
+        <div class="row ml-3">
+            <h5 id="show-resources" class="text-secondary finger">资源</h5>
+            <h5 class="ml-2">|</h5>
+            <h5 id="show-subtitles" class="finger ml-2">字幕</h5>
+        </div>
+    </div>
+    <div class="card-body" id="show-resources-card">
         <div id="select-episode">
             <h5 class="float-left mr-2">分集筛选</h5>
             <ul class="list-unstyled list-inline" id="show-episode-area">
@@ -102,6 +110,29 @@
         <div class="row justify-content-center mt-3" id="no-resources" style="display: none;">
             <div class="col-4 col-4 col-4 text-center">
                 <h5>暂无资源，敬请期待，何不添加订阅！</h5>
+            </div>
+        </div>
+    </div>
+    <div class="card-body" id="show-subtitles-card" style="display: none;">
+        <div class="table-responsive">
+            <table class="table table-hide table-striped table-hover table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">名称</th>
+                    <th scope="col">语言</th>
+                    <th scope="col">格式</th>
+                    <th scope="col">集数</th>
+                    <th scope="col">链接</th>
+                </tr>
+                </thead>
+                <tbody id="show-subtitles-area">
+                </tbody>
+            </table>
+        </div>
+        <div class="row justify-content-center mt-3" id="no-subtitles" style="display: none;">
+            <div class="col-4 col-4 col-4 text-center">
+                <h5>暂无字幕资源！</h5>
             </div>
         </div>
     </div>
@@ -409,4 +440,84 @@
             }
         });
     });
+
+    /**
+     * 展示资源
+     */
+    $("#show-resources").click(function () {
+        $(this).addClass("text-secondary");
+        $("#show-subtitles").removeClass("text-secondary");
+        $("#show-resources-card").attr("style", "");
+        $("#show-subtitles-card").css("display", "none");
+        let data = sessionStorage.getItem("kanguan-resource-data");
+        showResources(JSON.parse(data).resourceList);
+    });
+
+    /**
+     * 展示字幕
+     */
+    $("#show-subtitles").click(function () {
+        $(this).addClass("text-secondary");
+        $("#show-resources").removeClass("text-secondary");
+        $("#show-resources-card").css("display", "none");
+        $("#show-subtitles-card").attr("style", "");
+
+        let targetId = $("#add-subscription").attr("movie-id");
+        getSubtitles(targetId);
+    });
+
+    /**
+     * 获取字幕资源
+     * @param targetId
+     */
+    function getSubtitles(targetId) {
+        $.ajax({
+            url: baseUrl + "/subtitle/" + targetId,
+            type: "get",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("token", token);
+            },
+            success: function (result) {
+                if (result.status === 0) {
+                    showSubtitles(result.data);
+                } else {
+                    Notiflix.Notify.Warning(result.msg);
+                }
+            }
+        });
+    }
+
+    /**
+     * 展示字幕资源
+     * @param data 数据
+     */
+    function showSubtitles(data) {
+        $("#show-subtitles-area").empty();
+        if (data.length === 0) {
+            $("#no-subtitles").attr("style", "");
+        }
+        $.each(data, function (index, subtitle) {
+            let numTd = $("<td></td>").append(index + 1);
+            let nameTd = $("<td></td>").append(subtitle.name);
+            let languageTd = $("<td></td>").append(subtitle.language);
+            let formatTd = $("<td></td>").append(subtitle.format);
+            let episodeTd = $("<td></td>");
+            if (subtitle.episode === null) {
+                episodeTd.append("——");
+            } else {
+                episodeTd.append(subtitle.episode);
+            }
+            let downloadTd = $("<td></td>")
+                .append($("<a class='btn btn-sm btn-outline-info btn-round'>下载</a>").attr("href", subtitle.download));
+            $("<tr></tr>")
+                .append(numTd)
+                .append(nameTd)
+                .append(languageTd)
+                .append(formatTd)
+                .append(episodeTd)
+                .append(downloadTd)
+                .appendTo("#show-subtitles-area");
+        });
+    }
+
 </script>
