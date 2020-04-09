@@ -45,4 +45,12 @@ public interface SubtitleService {
      * @return List<Subtitle>
      */
     List<Subtitle> getSubtitleByTargetId(String targetId);
+
+    /**
+     * 是否已存在
+     *
+     * @param subtitleName 字幕名称
+     * @return Boolean
+     */
+    Boolean existInDb(String subtitleName);
 }

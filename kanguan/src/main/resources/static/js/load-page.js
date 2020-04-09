@@ -123,7 +123,6 @@ function sideBarActive(pageName, idName) {
  */
 function currentPage() {
     let item = localStorage.getItem("kanguan-current-page");
-    console.log(item);
     if (item === null) {
         loadPage("movies");
         getAllMovies();

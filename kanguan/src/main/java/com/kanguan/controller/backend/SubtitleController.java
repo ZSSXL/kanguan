@@ -102,28 +102,33 @@ public class SubtitleController extends BaseController {
             if (originalFilename == null) {
                 return ServerResponse.createByErrorMessage("获取文件名失败...");
             } else {
-                // 获取扩展名
-                String fileExtensionName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
-                String uploadSubtitle = uploadSubtitle(subtitle, request);
-                if (uploadSubtitle == null) {
-                    return ServerResponse.createByErrorMessage("上传文件出错...");
+                Boolean existInDb = subtitleService.existInDb(originalFilename);
+                if (existInDb) {
+                    return ServerResponse.createByErrorMessage("该字幕资源已上传");
                 } else {
-                    Subtitle build = Subtitle.builder()
-                            .subtitleId(UUIDUtil.getId())
-                            .name(originalFilename)
-                            .format(fileExtensionName)
-                            .download(uploadSubtitle)
-                            .language(subtitleVo.getLanguage())
-                            .targetId(subtitleVo.getTargetId())
-                            .episode(subtitleVo.getEpisode())
-                            .createTime(TimeUtil.getTimestamp())
-                            .updateTime(TimeUtil.getTimestamp())
-                            .build();
-                    Boolean insertResult = subtitleService.addSubtitleToTarget(build);
-                    if (insertResult) {
-                        return ServerResponse.createBySuccessMessage("添加成功");
+                    // 获取扩展名
+                    String fileExtensionName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+                    String uploadSubtitle = uploadSubtitle(subtitle, request);
+                    if (uploadSubtitle == null) {
+                        return ServerResponse.createByErrorMessage("上传文件出错...");
                     } else {
-                        return ServerResponse.createByErrorMessage("添加失败");
+                        Subtitle build = Subtitle.builder()
+                                .subtitleId(UUIDUtil.getId())
+                                .name(originalFilename)
+                                .format(fileExtensionName)
+                                .download(uploadSubtitle)
+                                .language(subtitleVo.getLanguage())
+                                .targetId(subtitleVo.getTargetId())
+                                .episode(subtitleVo.getEpisode())
+                                .createTime(TimeUtil.getTimestamp())
+                                .updateTime(TimeUtil.getTimestamp())
+                                .build();
+                        Boolean insertResult = subtitleService.addSubtitleToTarget(build);
+                        if (insertResult) {
+                            return ServerResponse.createBySuccessMessage("添加成功");
+                        } else {
+                            return ServerResponse.createByErrorMessage("添加失败");
+                        }
                     }
                 }
             }

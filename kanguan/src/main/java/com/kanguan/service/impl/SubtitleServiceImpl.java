@@ -49,4 +49,12 @@ public class SubtitleServiceImpl implements SubtitleService {
         wrapper.eq("target_id", targetId);
         return subtitleMapper.selectList(wrapper);
     }
+
+    @Override
+    public Boolean existInDb(String subtitleName) {
+        QueryWrapper<Subtitle> wrapper = new QueryWrapper<>();
+        wrapper.eq("name", subtitleName);
+        Subtitle subtitle = subtitleMapper.selectOne(wrapper);
+        return subtitle != null;
+    }
 }
