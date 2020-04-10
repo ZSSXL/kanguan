@@ -2,4 +2,4 @@
  * 基地
  * @type {string}
  */
-const baseUrl = "http://localhost:8080";
+const baseUrl = "http://60.205.179.156:8080";

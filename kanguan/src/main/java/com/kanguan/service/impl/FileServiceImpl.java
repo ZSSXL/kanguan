@@ -53,6 +53,6 @@ public class FileServiceImpl implements FileService {
         } catch (IOException e) {
             log.error("上传文件失败，发生未知异常 ", e);
         }
-        return targetFile.getName();
+        return uploadFileName;
     }
 }
