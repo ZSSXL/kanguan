@@ -219,12 +219,12 @@
         for (i = 1; i <= number; i++) {
             let index = "";
             if (i <= 9) {
-                index = "0" + i;
+                index = "E0" + i;
             } else {
-                index = i;
+                index = "E" + i;
             }
             $("<li class='list-inline-item'></li>")
-                .append($("<a class='finger'></a>").attr("tag-id", index).append("E" + index)).appendTo("#show-episode-area");
+                .append($("<a class='finger'></a>").attr("tag-id", index).append(index)).appendTo("#show-episode-area");
         }
         $("<li class='list-inline-item'></li>")
             .append($("<a class='finger'></a>").attr("tag-id", "").append("全部")).appendTo("#show-episode-area");
@@ -260,9 +260,9 @@
             if (resource.episode !== null) {
                 let number = resource.episode.indexOf("E");
                 if (number >= 0) {
-                    episodeTd.append(resource.episode.replace("E", ""));
-                } else {
                     episodeTd.append(resource.episode);
+                } else {
+                    episodeTd.append("E" + resource.episode);
                 }
             }
 
